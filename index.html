@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spell Bee</title>
+    <!-- SEO Best Practices -->
+    <meta name="description" content="A gamified application to test your spelling skills. Listen, spell, and score points! Features increasing difficulty and a 10-life survival mode.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Start Screen -->
+        <main id="start-screen" class="screen active">
+            <h1>Spell Bee</h1>
+            <p>Listen to the word, spell it correctly.</p>
+            <p>10 Lives. Increasing Difficulty. Can you survive?</p>
+            <button id="start-btn" class="primary-btn">Start Game</button>
+        </main>
+
+        <!-- Game Interface -->
+        <section id="game-screen" class="screen hidden" aria-live="polite">
+            <header class="header">
+                <div class="lives" aria-label="Lives remaining">
+                    Lives: <span id="lives-count">10</span>
+                </div>
+                <div class="score" aria-label="Current score">Score: <span id="score">0</span></div>
+            </header>
+            
+            <div class="game-container">
+                <div class="difficulty-badge" id="difficulty-badge">Easy</div>
+                
+                <button id="listen-btn" class="secondary-btn" aria-label="Listen to word again">
+                    <!-- Speaker Icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    Listen Again
+                </button>
+                
+                <div id="feedback" class="feedback-toast hidden" role="alert">Correct!</div>
+                
+                <form id="answer-form">
+                    <label for="answer-input" class="sr-only">Type word spelling</label>
+                    <input type="text" id="answer-input" autocomplete="off" placeholder="Type spelling here..." autofocus>
+                    <button type="submit" id="submit-btn" class="primary-btn">Submit</button>
+                </form>
+                
+                <div id="options-container" class="options-container hidden">
+                    <p class="instruction">Choose the correct spelling:</p>
+                    <div id="options-grid" class="options-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Over Screen -->
+        <section id="game-over-screen" class="screen hidden">
+            <h2 id="game-over-title">Game Over</h2>
+            <p>Your Final Score: <span id="final-score">0</span></p>
+            <p id="game-over-message">Better luck next time!</p>
+            <button id="restart-btn" class="primary-btn">Play Again</button>
+        </section>
+    </div>
+    <script src="words.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
