@@ -8,9 +8,10 @@ try:
     # Get top 3000 distinct words with len >= 3
     words = []
     seen = set()
-    for line in response.read().decode('utf-8').splitlines():
+    for i, line in enumerate(response.read().decode('utf-8').splitlines()):
         w = line.strip().lower()
-        if w.isalpha() and len(w) >= 3 and w not in seen:
+        is_common_short = len(w) == 3 and i < 1000
+        if w.isalpha() and (len(w) >= 4 or is_common_short) and w not in seen:
             words.append(w)
             seen.add(w)
         if len(words) >= 3000:

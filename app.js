@@ -5,6 +5,14 @@ let currentDifficulty = "easy";
 let wordsPool = [];
 let usedWords = new Set();
 let synthMessage = null;
+let speakTimeout = null;
+let selectedVoiceName = "";
+let selectedWordListType = "default";
+let rightAnswersCount = 0;
+let wrongWordsSet = new Set();
+let currentWordDefinition = "";
+let currentWordSentence = "";
+let currentWordPartOfSpeech = "";
 
 const synth = window.speechSynthesis;
 
@@ -15,7 +23,10 @@ const UI = {
     
     startBtn: document.getElementById('start-btn'),
     listenBtn: document.getElementById('listen-btn'),
+    listenSlowBtn: document.getElementById('listen-slow-btn'),
     restartBtn: document.getElementById('restart-btn'),
+    voiceSelect: document.getElementById('voice-select'),
+    wordListSelect: document.getElementById('word-list-select'),
     
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
@@ -29,12 +40,22 @@ const UI = {
     difficultyBadge: document.getElementById('difficulty-badge'),
     feedback: document.getElementById('feedback'),
     finalScore: document.getElementById('final-score'),
-    gameOverTitle: document.getElementById('game-over-title')
+    rightAnswersDisplay: document.getElementById('right-answers'),
+    wrongWordsList: document.getElementById('wrong-words-list'),
+    gameOverTitle: document.getElementById('game-over-title'),
+    defineBtn: document.getElementById('define-btn'),
+    sentenceBtn: document.getElementById('sentence-btn'),
+    hintContainer: document.getElementById('hint-container'),
+    hintDisplay: document.getElementById('hint-display'),
+    hintBadge: document.getElementById('hint-badge'),
+    hintText: document.getElementById('hint-text')
 };
 
 function initGame() {
     currentLives = 10;
     score = 0;
+    rightAnswersCount = 0;
+    wrongWordsSet.clear();
     usedWords.clear();
     updateDifficulty();
     updateUI();
@@ -65,8 +86,15 @@ function determineDifficulty() {
 
 function updateDifficulty() {
     currentDifficulty = determineDifficulty();
-    // WORD_LIST is defined in words.js
-    wordsPool = WORD_LIST.filter(w => w.difficulty === currentDifficulty);
+    // WORD_LIST and WORD_LIST_11PLUS are defined in words.js
+    const activeList = (selectedWordListType === "11plus") ? WORD_LIST_11PLUS : WORD_LIST;
+    wordsPool = activeList.filter(w => w.difficulty === currentDifficulty);
+    
+    // Fallback: if the filtered list is empty (e.g. no easy words in the selected list),
+    // fall back to using any available word from the list
+    if (wordsPool.length === 0 && activeList.length > 0) {
+        wordsPool = activeList;
+    }
 }
 
 function nextTurn() {
@@ -89,27 +117,68 @@ function nextTurn() {
     usedWords.add(currentWordObj.word);
     
     updateBadge();
+    
+    // Reset and hide hint card and buttons for the new turn
+    if (UI.hintContainer) UI.hintContainer.classList.add('hidden');
+    if (UI.hintDisplay) UI.hintDisplay.classList.add('hidden');
+    if (UI.defineBtn) UI.defineBtn.disabled = true;
+    if (UI.sentenceBtn) UI.sentenceBtn.disabled = true;
+    if (UI.hintText) UI.hintText.textContent = '';
+    
     speakWord(currentWordObj.word);
+    
+    // Fetch definition and example sentence asynchronously
+    fetchWordDetails(currentWordObj.word);
 }
 
-function speakWord(word) {
-    if (synth.speaking) {
-        synth.cancel();
+function speakWord(word, slow = false) {
+    if (speakTimeout) {
+        clearTimeout(speakTimeout);
     }
+    synth.cancel();
+    
     synthMessage = new SpeechSynthesisUtterance(word);
     const voices = synth.getVoices();
     const enVoices = voices.filter(v => v.lang.startsWith('en'));
     
-    if (enVoices.length > 0) {
-        // Find Google US/UK English or default to first en voice
-        synthMessage.voice = enVoices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) || 
-                             enVoices.find(v => v.lang === 'en-US' || v.lang === 'en-GB') || 
-                             enVoices[0];
+    let chosenVoice = null;
+    if (selectedVoiceName) {
+        chosenVoice = voices.find(v => v.name === selectedVoiceName);
     }
-    synthMessage.rate = 0.85; // slightly slower
     
-    // Add brief delay so it feels natural
-    setTimeout(() => synth.speak(synthMessage), 100);
+    if (!chosenVoice && enVoices.length > 0) {
+        // Automatically select the best local/native English voice that is fully responsive 
+        // (excluding Enhanced, Siri, and Google voices which ignore rate changes on macOS Chrome/Safari)
+        const responsiveVoices = enVoices.filter(v => 
+            (v.localService || v.localService === undefined) && 
+            !v.name.includes('Enhanced') && 
+            !v.name.includes('Siri') &&
+            !v.name.includes('Google')
+        );
+        
+        if (responsiveVoices.length > 0) {
+            chosenVoice = 
+                responsiveVoices.find(v => v.name.includes('Alex')) ||
+                responsiveVoices.find(v => v.name.includes('Samantha')) ||
+                responsiveVoices.find(v => v.name.includes('Daniel')) ||
+                responsiveVoices[0];
+        } else {
+            chosenVoice = 
+                enVoices.find(v => (v.localService || v.localService === undefined) && v.name.includes('Samantha')) ||
+                enVoices.find(v => (v.localService || v.localService === undefined) && v.name.includes('Alex')) ||
+                enVoices.find(v => v.localService) ||
+                enVoices[0];
+        }
+    }
+    
+    if (chosenVoice) {
+        synthMessage.voice = chosenVoice;
+    }
+    
+    synthMessage.rate = slow ? 0.45 : 0.85;
+
+    // Speak synchronously to preserve the active user gesture/activation context.
+    synth.speak(synthMessage);
 }
 
 function updateBadge() {
@@ -205,6 +274,7 @@ function handleOptionSelect(selected, btnNode) {
     buttons.forEach(b => b.disabled = true);
     
     if (isCorrect) {
+        rightAnswersCount++;
         btnNode.classList.add('correct');
         showFeedback(true, 5); // 5 points for second chance
         score += 5;
@@ -212,6 +282,7 @@ function handleOptionSelect(selected, btnNode) {
         setTimeout(nextTurn, 1000);
     } else {
         currentLives--;
+        wrongWordsSet.add(currentWordObj.valid[0]);
         btnNode.classList.add('wrong');
         buttons.forEach(b => {
             if (currentWordObj.valid.includes(b.textContent)) {
@@ -237,6 +308,7 @@ function handleAnswer(e) {
     
     if (currentWordObj.valid.includes(userAnswer)) {
         // Correct
+        rightAnswersCount++;
         let points = 10;
         if (currentDifficulty === 'medium') points = 20;
         if (currentDifficulty === 'hard') points = 30;
@@ -256,6 +328,7 @@ function handleAnswer(e) {
         setTimeout(nextTurn, 1000);
     } else {
         // Incorrect on first try
+        wrongWordsSet.add(currentWordObj.valid[0]);
         currentLives--;
         
         UI.answerInput.classList.remove('error-shake', 'success-pop');
@@ -286,8 +359,137 @@ function handleAnswer(e) {
 function gameOver() {
     UI.answerInput.style.color = ''; // reset style
     UI.finalScore.textContent = score;
+    UI.rightAnswersDisplay.textContent = rightAnswersCount;
+    
+    UI.wrongWordsList.innerHTML = '';
+    wrongWordsSet.forEach(word => {
+        const li = document.createElement('li');
+        li.textContent = word;
+        UI.wrongWordsList.appendChild(li);
+    });
+    
     UI.gameOverTitle.textContent = score > 200 ? "Amazing Job!" : "Game Over";
     switchScreen(UI.gameScreen, UI.gameOverScreen);
+}
+
+function populateVoiceList() {
+    if (!UI.voiceSelect) return;
+    UI.voiceSelect.innerHTML = '<option value="">Auto-Detect Best Local Voice</option>';
+    
+    const voices = synth.getVoices();
+    const enVoices = voices.filter(v => v.lang.startsWith('en'));
+    
+    enVoices.forEach(voice => {
+        const option = document.createElement('option');
+        // Filter out Enhanced, Siri, and Google voices as unresponsive to rate settings
+        const isResponsive = !voice.name.includes('Enhanced') && !voice.name.includes('Siri') && !voice.name.includes('Google');
+        const isLocal = voice.localService || voice.localService === undefined;
+        
+        let label = "Cloud/Unresponsive";
+        if (isLocal) {
+            label = isResponsive ? "Local/Responsive" : "Local/Unresponsive (Siri/Enhanced)";
+        }
+        
+        option.textContent = `${voice.name} (${voice.lang}) [${label}]`;
+        option.value = voice.name;
+        UI.voiceSelect.appendChild(option);
+    });
+}
+
+async function fetchWordDetails(word) {
+    currentWordDefinition = "";
+    currentWordSentence = "";
+    currentWordPartOfSpeech = "";
+    
+    try {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        if (!data || data.length === 0) return;
+        
+        const firstEntry = data[0];
+        
+        if (firstEntry.meanings && firstEntry.meanings.length > 0) {
+            // Find a meaning with a definition
+            for (const meaning of firstEntry.meanings) {
+                if (meaning.definitions && meaning.definitions.length > 0) {
+                    currentWordDefinition = meaning.definitions[0].definition || "";
+                    currentWordPartOfSpeech = meaning.partOfSpeech || "";
+                    break;
+                }
+            }
+            
+            // Find an example sentence from any definition in any meaning
+            for (const meaning of firstEntry.meanings) {
+                for (const definition of meaning.definitions) {
+                    if (definition.example) {
+                        currentWordSentence = definition.example;
+                        break;
+                    }
+                }
+                if (currentWordSentence) break;
+            }
+        }
+        
+        // Show/enable buttons
+        let hasHints = false;
+        if (currentWordDefinition) {
+            if (UI.defineBtn) UI.defineBtn.disabled = false;
+            hasHints = true;
+        }
+        if (currentWordSentence) {
+            if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
+            hasHints = true;
+        }
+        
+        if (hasHints && UI.hintContainer) {
+            UI.hintContainer.classList.remove('hidden');
+        }
+    } catch (err) {
+        console.error("Error fetching word details:", err);
+    }
+}
+
+function speakAnnouncement(phrase) {
+    if (speakTimeout) {
+        clearTimeout(speakTimeout);
+    }
+    synth.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(phrase);
+    let chosenVoice = null;
+    if (selectedVoiceName) {
+        chosenVoice = synth.getVoices().find(v => v.name === selectedVoiceName);
+    }
+    if (!chosenVoice) {
+        const enVoices = synth.getVoices().filter(v => v.lang.startsWith('en'));
+        const responsiveVoices = enVoices.filter(v => 
+            (v.localService || v.localService === undefined) && 
+            !v.name.includes('Enhanced') && 
+            !v.name.includes('Siri') &&
+            !v.name.includes('Google')
+        );
+        
+        if (responsiveVoices.length > 0) {
+            chosenVoice = 
+                responsiveVoices.find(v => v.name.includes('Alex')) ||
+                responsiveVoices.find(v => v.name.includes('Samantha')) ||
+                responsiveVoices.find(v => v.name.includes('Daniel')) ||
+                responsiveVoices[0];
+        } else {
+            chosenVoice = enVoices[0];
+        }
+    }
+    
+    if (chosenVoice) {
+        utterance.voice = chosenVoice;
+    }
+    
+    utterance.rate = 0.85;
+
+    // Speak synchronously to preserve the active user gesture/activation context
+    synth.speak(utterance);
 }
 
 // Event Listeners
@@ -295,13 +497,63 @@ UI.startBtn.addEventListener('click', initGame);
 UI.restartBtn.addEventListener('click', initGame);
 UI.listenBtn.addEventListener('click', () => {
     if (currentWordObj) {
-        speakWord(currentWordObj.word);
+        speakWord(currentWordObj.word, false);
+        UI.answerInput.focus();
+    }
+});
+UI.listenSlowBtn.addEventListener('click', () => {
+    if (currentWordObj) {
+        speakWord(currentWordObj.word, true);
         UI.answerInput.focus();
     }
 });
 UI.answerForm.addEventListener('submit', handleAnswer);
 
+if (UI.defineBtn) {
+    UI.defineBtn.addEventListener('click', () => {
+        if (currentWordDefinition) {
+            speakAnnouncement(`The definition is: ${currentWordDefinition}`);
+            if (UI.hintDisplay && UI.hintBadge && UI.hintText) {
+                UI.hintDisplay.classList.remove('hidden');
+                UI.hintBadge.textContent = currentWordPartOfSpeech ? `Definition (${currentWordPartOfSpeech})` : "Definition";
+                UI.hintText.textContent = currentWordDefinition;
+            }
+        }
+    });
+}
+
+if (UI.sentenceBtn) {
+    UI.sentenceBtn.addEventListener('click', () => {
+        if (currentWordSentence) {
+            speakAnnouncement(`Sentence: ${currentWordSentence}`);
+            if (UI.hintDisplay && UI.hintBadge && UI.hintText && currentWordObj) {
+                const regex = new RegExp(`\\b${currentWordObj.word}\\b`, 'gi');
+                const maskedSentence = currentWordSentence.replace(regex, '______');
+                
+                UI.hintDisplay.classList.remove('hidden');
+                UI.hintBadge.textContent = "Sentence";
+                UI.hintText.textContent = maskedSentence;
+            }
+        }
+    });
+}
+
+if (UI.voiceSelect) {
+    UI.voiceSelect.addEventListener('change', (e) => {
+        selectedVoiceName = e.target.value;
+    });
+}
+
+if (UI.wordListSelect) {
+    UI.wordListSelect.addEventListener('change', (e) => {
+        selectedWordListType = e.target.value;
+    });
+}
+
 // Initialize Voices on Load
-window.speechSynthesis.onvoiceschanged = () => {
-    synth.getVoices();
-};
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = () => {
+        populateVoiceList();
+    };
+}
+populateVoiceList();
