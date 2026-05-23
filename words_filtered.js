@@ -1,2975 +1,3 @@
-const WORD_LIST_11PLUS = [
-    {
-        "word": "accommodate",
-        "valid": [
-            "accommodate"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "accompany",
-        "valid": [
-            "accompany"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "according",
-        "valid": [
-            "according"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "achieve",
-        "valid": [
-            "achieve"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "delicious",
-        "valid": [
-            "delicious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "infectious",
-        "valid": [
-            "infectious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "partial",
-        "valid": [
-            "partial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "artificial",
-        "valid": [
-            "artificial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "audacious",
-        "valid": [
-            "audacious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "ambitious",
-        "valid": [
-            "ambitious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "spatial",
-        "valid": [
-            "spatial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "beneficial",
-        "valid": [
-            "beneficial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "auspicious",
-        "valid": [
-            "auspicious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "cautious",
-        "valid": [
-            "cautious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "martial",
-        "valid": [
-            "martial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "commercial",
-        "valid": [
-            "commercial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "aggressive",
-        "valid": [
-            "aggressive"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "amateur",
-        "valid": [
-            "amateur"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "ancient",
-        "valid": [
-            "ancient"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "apparent",
-        "valid": [
-            "apparent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "atrocious",
-        "valid": [
-            "atrocious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "conscientious",
-        "valid": [
-            "conscientious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "initial",
-        "valid": [
-            "initial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "facial",
-        "valid": [
-            "facial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "avaricious",
-        "valid": [
-            "avaricious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "contentious",
-        "valid": [
-            "contentious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "palatial",
-        "valid": [
-            "palatial"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "glacial",
-        "valid": [
-            "glacial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "conscious",
-        "valid": [
-            "conscious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "facetious",
-        "valid": [
-            "facetious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "essential",
-        "valid": [
-            "essential"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "official",
-        "valid": [
-            "official"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "appreciate",
-        "valid": [
-            "appreciate"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "attached",
-        "valid": [
-            "attached"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "available",
-        "valid": [
-            "available"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "average",
-        "valid": [
-            "average"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "ferocious",
-        "valid": [
-            "ferocious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "fictitious",
-        "valid": [
-            "fictitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "potential",
-        "valid": [
-            "potential"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "provincial",
-        "valid": [
-            "provincial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "gracious",
-        "valid": [
-            "gracious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "flirtatious",
-        "valid": [
-            "flirtatious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "impartial",
-        "valid": [
-            "impartial"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "racial",
-        "valid": [
-            "racial"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "luscious",
-        "valid": [
-            "luscious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "fractious",
-        "valid": [
-            "fractious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "celestial",
-        "valid": [
-            "celestial"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "sacrificial",
-        "valid": [
-            "sacrificial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "awkward",
-        "valid": [
-            "awkward"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "bargain",
-        "valid": [
-            "bargain"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "bruise",
-        "valid": [
-            "bruise"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "category",
-        "valid": [
-            "category"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "judicious",
-        "valid": [
-            "judicious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "nutritious",
-        "valid": [
-            "nutritious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "sequential",
-        "valid": [
-            "sequential"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "special",
-        "valid": [
-            "special"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "malicious",
-        "valid": [
-            "malicious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "ostentatious",
-        "valid": [
-            "ostentatious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "influential",
-        "valid": [
-            "influential"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "social",
-        "valid": [
-            "social"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "officious",
-        "valid": [
-            "officious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "pretentious",
-        "valid": [
-            "pretentious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "residential",
-        "valid": [
-            "residential"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "superficial",
-        "valid": [
-            "superficial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "precious",
-        "valid": [
-            "precious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "repetitious",
-        "valid": [
-            "repetitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "precocious",
-        "valid": [
-            "precocious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "scrumptious",
-        "valid": [
-            "scrumptious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "pugnacious",
-        "valid": [
-            "pugnacious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "seditious",
-        "valid": [
-            "seditious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "spacious",
-        "valid": [
-            "spacious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "superstitious",
-        "valid": [
-            "superstitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "suspicious",
-        "valid": [
-            "suspicious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "surreptitious",
-        "valid": [
-            "surreptitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "vicious",
-        "valid": [
-            "vicious"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "unambitious",
-        "valid": [
-            "unambitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "vivacious",
-        "valid": [
-            "vivacious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "voracious",
-        "valid": [
-            "voracious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "unconscious",
-        "valid": [
-            "unconscious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "incautious",
-        "valid": [
-            "incautious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "pernicious",
-        "valid": [
-            "pernicious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "vexatious",
-        "valid": [
-            "vexatious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "overambitious",
-        "valid": [
-            "overambitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "tenacious",
-        "valid": [
-            "tenacious"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "propitious",
-        "valid": [
-            "propitious"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "cemetery",
-        "valid": [
-            "cemetery"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "extravagant",
-        "valid": [
-            "extravagant"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "abundance",
-        "valid": [
-            "abundance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "accountancy",
-        "valid": [
-            "accountancy"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "committee",
-        "valid": [
-            "committee"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "ornament",
-        "valid": [
-            "ornament"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "absence",
-        "valid": [
-            "absence"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "agency",
-        "valid": [
-            "agency"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "communicate",
-        "valid": [
-            "communicate"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "believable",
-        "valid": [
-            "believable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "adorable",
-        "valid": [
-            "adorable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "accessible",
-        "valid": [
-            "accessible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "community",
-        "valid": [
-            "community"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "sociably",
-        "valid": [
-            "sociably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "reliably",
-        "valid": [
-            "reliably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "forcibly",
-        "valid": [
-            "forcibly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "competition",
-        "valid": [
-            "competition"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "significant",
-        "valid": [
-            "significant"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "defiance",
-        "valid": [
-            "defiance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "buoyancy",
-        "valid": [
-            "buoyancy"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "conscience",
-        "valid": [
-            "conscience"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "argument",
-        "valid": [
-            "argument"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "belligerence",
-        "valid": [
-            "belligerence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "complacency",
-        "valid": [
-            "complacency"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "inflammable",
-        "valid": [
-            "inflammable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "considerable",
-        "valid": [
-            "considerable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "compatible",
-        "valid": [
-            "compatible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "controversy",
-        "valid": [
-            "controversy"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "arguably",
-        "valid": [
-            "arguably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "comfortably",
-        "valid": [
-            "comfortably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "convenience",
-        "valid": [
-            "convenience"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "triumphant",
-        "valid": [
-            "triumphant"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "extravagance",
-        "valid": [
-            "extravagance"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "flippancy",
-        "valid": [
-            "flippancy"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "correspond",
-        "valid": [
-            "correspond"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "diligent",
-        "valid": [
-            "diligent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "confidence",
-        "valid": [
-            "confidence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "consistency",
-        "valid": [
-            "consistency"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "criticise",
-        "valid": [
-            "criticise"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "inflatable",
-        "valid": [
-            "inflatable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "tolerable",
-        "valid": [
-            "tolerable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "digestible",
-        "valid": [
-            "digestible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "curiosity",
-        "valid": [
-            "curiosity"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "miserably",
-        "valid": [
-            "miserably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "reasonably",
-        "valid": [
-            "reasonably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "flexibly",
-        "valid": [
-            "flexibly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "definite",
-        "valid": [
-            "definite"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "indignant",
-        "valid": [
-            "indignant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "fragrance",
-        "valid": [
-            "fragrance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "infancy",
-        "valid": [
-            "infancy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "desperate",
-        "valid": [
-            "desperate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "repellent",
-        "valid": [
-            "repellent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "diligence",
-        "valid": [
-            "diligence"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "efficiency",
-        "valid": [
-            "efficiency"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "determined",
-        "valid": [
-            "determined"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "laughable",
-        "valid": [
-            "laughable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "changeable",
-        "valid": [
-            "changeable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "eligible",
-        "valid": [
-            "eligible"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "develop",
-        "valid": [
-            "develop"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "inevitably",
-        "valid": [
-            "inevitably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "enjoyably",
-        "valid": [
-            "enjoyably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "responsibly",
-        "valid": [
-            "responsibly"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "transplant",
-        "valid": [
-            "transplant"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "ignorance",
-        "valid": [
-            "ignorance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "redundancy",
-        "valid": [
-            "redundancy"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "congruent",
-        "valid": [
-            "congruent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "excellence",
-        "valid": [
-            "excellence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fluency",
-        "valid": [
-            "fluency"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "variable",
-        "valid": [
-            "variable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "reliable",
-        "valid": [
-            "reliable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "gullible",
-        "valid": [
-            "gullible"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "unbearably",
-        "valid": [
-            "unbearably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "possibly",
-        "valid": [
-            "possibly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "reluctant",
-        "valid": [
-            "reluctant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "tolerance",
-        "valid": [
-            "tolerance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "tenancy",
-        "valid": [
-            "tenancy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "assignment",
-        "valid": [
-            "assignment"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "impudence",
-        "valid": [
-            "impudence"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "frequency",
-        "valid": [
-            "frequency"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "despicable",
-        "valid": [
-            "despicable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "comfortable",
-        "valid": [
-            "comfortable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "invincible",
-        "valid": [
-            "invincible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "sensibly",
-        "valid": [
-            "sensibly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "tolerant",
-        "valid": [
-            "tolerant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "radiance",
-        "valid": [
-            "radiance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "truancy",
-        "valid": [
-            "truancy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "government",
-        "valid": [
-            "government"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "magnificence",
-        "valid": [
-            "magnificence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "decency",
-        "valid": [
-            "decency"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "durable",
-        "valid": [
-            "durable"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "permissible",
-        "valid": [
-            "permissible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "understandably",
-        "valid": [
-            "understandably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "visibly",
-        "valid": [
-            "visibly"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "immigrant",
-        "valid": [
-            "immigrant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "significance",
-        "valid": [
-            "significance"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "vacancy",
-        "valid": [
-            "vacancy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "malevolent",
-        "valid": [
-            "malevolent"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "persistence",
-        "valid": [
-            "persistence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "urgency",
-        "valid": [
-            "urgency"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "responsible",
-        "valid": [
-            "responsible"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "irritably",
-        "valid": [
-            "irritably"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "noticeably",
-        "valid": [
-            "noticeably"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "audibly",
-        "valid": [
-            "audibly"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "dictionary",
-        "valid": [
-            "dictionary"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "referring",
-        "valid": [
-            "referring"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "accident-prone",
-        "valid": [
-            "accident-prone",
-            "accident prone",
-            "accidentprone"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "mother-in-law",
-        "valid": [
-            "mother-in-law",
-            "mother in law",
-            "motherinlaw"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "disastrous",
-        "valid": [
-            "disastrous"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "preferring",
-        "valid": [
-            "preferring"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fine-tune",
-        "valid": [
-            "fine-tune",
-            "fine tune",
-            "finetune"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "embarrass",
-        "valid": [
-            "embarrass"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "transference",
-        "valid": [
-            "transference"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "up-to-date",
-        "valid": [
-            "up-to-date",
-            "up to date",
-            "uptodate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "environment",
-        "valid": [
-            "environment"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "deferral",
-        "valid": [
-            "deferral"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "all-inclusive",
-        "valid": [
-            "all-inclusive",
-            "all inclusive",
-            "allinclusive"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "equipped",
-        "valid": [
-            "equipped"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "referred",
-        "valid": [
-            "referred"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "power-driven",
-        "valid": [
-            "power-driven",
-            "power driven",
-            "powerdriven"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "cross-reference",
-        "valid": [
-            "cross-reference",
-            "cross reference",
-            "crossreference"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "equipment",
-        "valid": [
-            "equipment"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "preferred",
-        "valid": [
-            "preferred"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "custom-built",
-        "valid": [
-            "custom-built",
-            "custom built",
-            "custombuilt"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "especially",
-        "valid": [
-            "especially"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "offering",
-        "valid": [
-            "offering"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "good-looking",
-        "valid": [
-            "good-looking",
-            "good looking",
-            "goodlooking"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "twenty-three",
-        "valid": [
-            "twenty-three",
-            "twenty three",
-            "twentythree"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "exaggerate",
-        "valid": [
-            "exaggerate"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "conferring",
-        "valid": [
-            "conferring"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "quick-thinking",
-        "valid": [
-            "quick-thinking",
-            "quick thinking",
-            "quickthinking"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "excellent",
-        "valid": [
-            "excellent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "referral",
-        "valid": [
-            "referral"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "bad-tempered",
-        "valid": [
-            "bad-tempered",
-            "bad tempered",
-            "badtempered"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "re-elect",
-        "valid": [
-            "re-elect",
-            "re elect",
-            "reelect"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "existence",
-        "valid": [
-            "existence"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "transferring",
-        "valid": [
-            "transferring"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fair-haired",
-        "valid": [
-            "fair-haired",
-            "fair haired",
-            "fairhaired"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "well-intentioned",
-        "valid": [
-            "well-intentioned",
-            "well intentioned",
-            "wellintentioned"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "explanation",
-        "valid": [
-            "explanation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "deferring",
-        "valid": [
-            "deferring"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "conference",
-        "valid": [
-            "conference"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "eye-opener",
-        "valid": [
-            "eye-opener",
-            "eye opener",
-            "eyeopener"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "well-to-do",
-        "valid": [
-            "well-to-do",
-            "well to do",
-            "welltodo"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "foreign",
-        "valid": [
-            "foreign"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "preference",
-        "valid": [
-            "preference"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "check-in",
-        "valid": [
-            "check-in",
-            "check in",
-            "checkin"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "light-green",
-        "valid": [
-            "light-green",
-            "light green",
-            "lightgreen"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "forty",
-        "valid": [
-            "forty"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "transferred",
-        "valid": [
-            "transferred"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "free-for-all",
-        "valid": [
-            "free-for-all",
-            "free for all",
-            "freeforall"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "x-ray",
-        "valid": [
-            "x-ray",
-            "x ray",
-            "xray"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "frequently",
-        "valid": [
-            "frequently"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "first-class",
-        "valid": [
-            "first-class",
-            "first class",
-            "firstclass"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "co-operate",
-        "valid": [
-            "co-operate",
-            "co operate",
-            "cooperate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "guarantee",
-        "valid": [
-            "guarantee"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "harass",
-        "valid": [
-            "harass"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "co-ordinate",
-        "valid": [
-            "co-ordinate",
-            "co ordinate",
-            "coordinate"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "re-enter",
-        "valid": [
-            "re-enter",
-            "re enter",
-            "reenter"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "representative",
-        "valid": [
-            "representative"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "direction",
-        "valid": [
-            "direction"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "principal",
-        "valid": [
-            "principal"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "principle",
-        "valid": [
-            "principle"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "extension",
-        "valid": [
-            "extension"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "imitation",
-        "valid": [
-            "imitation"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "opportunity",
-        "valid": [
-            "opportunity"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "optimistic",
-        "valid": [
-            "optimistic"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "indispensable",
-        "valid": [
-            "indispensable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "elastic",
-        "valid": [
-            "elastic"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "confident",
-        "valid": [
-            "confident"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "gigantic",
-        "valid": [
-            "gigantic"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "convert",
-        "valid": [
-            "convert"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "instantly",
-        "valid": [
-            "instantly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "annoy",
-        "valid": [
-            "annoy"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "conductor",
-        "valid": [
-            "conductor"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "festival",
-        "valid": [
-            "festival"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "dependent",
-        "valid": [
-            "dependent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "satisfaction",
-        "valid": [
-            "satisfaction"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "domestic",
-        "valid": [
-            "domestic"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "continually",
-        "valid": [
-            "continually"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "invalid",
-        "valid": [
-            "invalid"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "abrupt",
-        "valid": [
-            "abrupt"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "misunderstanding",
-        "valid": [
-            "misunderstanding"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "miserable",
-        "valid": [
-            "miserable"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "energy",
-        "valid": [
-            "energy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "enterprise",
-        "valid": [
-            "enterprise"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "attachment",
-        "valid": [
-            "attachment"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "consent",
-        "valid": [
-            "consent"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "skilful",
-        "valid": [
-            "skilful"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "exported",
-        "valid": [
-            "exported"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "colony",
-        "valid": [
-            "colony"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "abolish",
-        "valid": [
-            "abolish"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "proportion",
-        "valid": [
-            "proportion"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "protection",
-        "valid": [
-            "protection"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "multiplication",
-        "valid": [
-            "multiplication"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "independence",
-        "valid": [
-            "independence"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "manufacturing",
-        "valid": [
-            "manufacturing"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "latitude",
-        "valid": [
-            "latitude"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "observation",
-        "valid": [
-            "observation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "altitude",
-        "valid": [
-            "altitude"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "relative",
-        "valid": [
-            "relative"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "prominent",
-        "valid": [
-            "prominent"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "witness",
-        "valid": [
-            "witness"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "command",
-        "valid": [
-            "command"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "experiment",
-        "valid": [
-            "experiment"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "ignorant",
-        "valid": [
-            "ignorant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "citizen",
-        "valid": [
-            "citizen"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "temperature",
-        "valid": [
-            "temperature"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "evidence",
-        "valid": [
-            "evidence"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "influence",
-        "valid": [
-            "influence"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "numerous",
-        "valid": [
-            "numerous"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "length",
-        "valid": [
-            "length"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "benefit",
-        "valid": [
-            "benefit"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "signalled",
-        "valid": [
-            "signalled"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "expense",
-        "valid": [
-            "expense"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "procedure",
-        "valid": [
-            "procedure"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "appearance",
-        "valid": [
-            "appearance"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "jewellery",
-        "valid": [
-            "jewellery"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "buried",
-        "valid": [
-            "buried"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "machinery",
-        "valid": [
-            "machinery"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "deceitful",
-        "valid": [
-            "deceitful"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "efficient",
-        "valid": [
-            "efficient"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "disappearance",
-        "valid": [
-            "disappearance"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "ceremony",
-        "valid": [
-            "ceremony"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "luxury",
-        "valid": [
-            "luxury"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "treaty",
-        "valid": [
-            "treaty"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "decrease",
-        "valid": [
-            "decrease"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "decent",
-        "valid": [
-            "decent"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "proceed",
-        "valid": [
-            "proceed"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "evaporate",
-        "valid": [
-            "evaporate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "conversation",
-        "valid": [
-            "conversation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "persuade",
-        "valid": [
-            "persuade"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "flavour",
-        "valid": [
-            "flavour"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "separation",
-        "valid": [
-            "separation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "plague",
-        "valid": [
-            "plague"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "portrait",
-        "valid": [
-            "portrait"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "determination",
-        "valid": [
-            "determination"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "sustain",
-        "valid": [
-            "sustain"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "courageous",
-        "valid": [
-            "courageous"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "favourite",
-        "valid": [
-            "favourite"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "radioactive",
-        "valid": [
-            "radioactive"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "companion",
-        "valid": [
-            "companion"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "interfere",
-        "valid": [
-            "interfere"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "demonstration",
-        "valid": [
-            "demonstration"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "estimate",
-        "valid": [
-            "estimate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "interruption",
-        "valid": [
-            "interruption"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "reputation",
-        "valid": [
-            "reputation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "invisible",
-        "valid": [
-            "invisible"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "majority",
-        "valid": [
-            "majority"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "description",
-        "valid": [
-            "description"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "reservoir",
-        "valid": [
-            "reservoir"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "possession",
-        "valid": [
-            "possession"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "conclusion",
-        "valid": [
-            "conclusion"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "weigh",
-        "valid": [
-            "weigh"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "promotion",
-        "valid": [
-            "promotion"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "sympathetic",
-        "valid": [
-            "sympathetic"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "emotion",
-        "valid": [
-            "emotion"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "neighbourhood",
-        "valid": [
-            "neighbourhood"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "shallow",
-        "valid": [
-            "shallow"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "profession",
-        "valid": [
-            "profession"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "suggestion",
-        "valid": [
-            "suggestion"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "roughly",
-        "valid": [
-            "roughly"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "association",
-        "valid": [
-            "association"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "occasionally",
-        "valid": [
-            "occasionally"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fundamental",
-        "valid": [
-            "fundamental"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "minority",
-        "valid": [
-            "minority"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "sacrifice",
-        "valid": [
-            "sacrifice"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "combination",
-        "valid": [
-            "combination"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "controversial",
-        "valid": [
-            "controversial"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "communion",
-        "valid": [
-            "communion"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "illustration",
-        "valid": [
-            "illustration"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fortunate",
-        "valid": [
-            "fortunate"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "vegetation",
-        "valid": [
-            "vegetation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "rhythm",
-        "valid": [
-            "rhythm"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "nuisance",
-        "valid": [
-            "nuisance"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "encouragement",
-        "valid": [
-            "encouragement"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "secretary",
-        "valid": [
-            "secretary"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "compulsory",
-        "valid": [
-            "compulsory"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "rhyme",
-        "valid": [
-            "rhyme"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "symbol",
-        "valid": [
-            "symbol"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "congratulations",
-        "valid": [
-            "congratulations"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "vegetarian",
-        "valid": [
-            "vegetarian"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "forbidden",
-        "valid": [
-            "forbidden"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "thoroughly",
-        "valid": [
-            "thoroughly"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "necessary",
-        "valid": [
-            "necessary"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "particular",
-        "valid": [
-            "particular"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "wonderful",
-        "valid": [
-            "wonderful"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "shoulder",
-        "valid": [
-            "shoulder"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "individual",
-        "valid": [
-            "individual"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "interrupt",
-        "valid": [
-            "interrupt"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "parliament",
-        "valid": [
-            "parliament"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "prejudice",
-        "valid": [
-            "prejudice"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "relevant",
-        "valid": [
-            "relevant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "programme",
-        "valid": [
-            "programme"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "sufficient",
-        "valid": [
-            "sufficient"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "privilege",
-        "valid": [
-            "privilege"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "language",
-        "valid": [
-            "language"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "occupy",
-        "valid": [
-            "occupy"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "vehicle",
-        "valid": [
-            "vehicle"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "twelfth",
-        "valid": [
-            "twelfth"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "restaurant",
-        "valid": [
-            "restaurant"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "embroidery",
-        "valid": [
-            "embroidery"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "signature",
-        "valid": [
-            "signature"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "occupant",
-        "valid": [
-            "occupant"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "yacht",
-        "valid": [
-            "yacht"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "stomach",
-        "valid": [
-            "stomach"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "familiar",
-        "valid": [
-            "familiar"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "parachute",
-        "valid": [
-            "parachute"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "marvellous",
-        "valid": [
-            "marvellous"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "preparation",
-        "valid": [
-            "preparation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "awkwardly",
-        "valid": [
-            "awkwardly"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "embarrassed",
-        "valid": [
-            "embarrassed"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "fascinating",
-        "valid": [
-            "fascinating"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "sincerely",
-        "valid": [
-            "sincerely"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "identity",
-        "valid": [
-            "identity"
-        ],
-        "difficulty": "hard"
-    },
-    {
-        "word": "convenient",
-        "valid": [
-            "convenient"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "systematically",
-        "valid": [
-            "systematically"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "professionally",
-        "valid": [
-            "professionally"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "mathematical",
-        "valid": [
-            "mathematical"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "knowledgeable",
-        "valid": [
-            "knowledgeable"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "environmentally",
-        "valid": [
-            "environmentally"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "automatically",
-        "valid": [
-            "automatically"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "communicative",
-        "valid": [
-            "communicative"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "achievement",
-        "valid": [
-            "achievement"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "unexpectedly",
-        "valid": [
-            "unexpectedly"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "disagreement",
-        "valid": [
-            "disagreement"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "misunderstood",
-        "valid": [
-            "misunderstood"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "disappointed",
-        "valid": [
-            "disappointed"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "inconveniently",
-        "valid": [
-            "inconveniently"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "unnecessarily",
-        "valid": [
-            "unnecessarily"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "disrespectful",
-        "valid": [
-            "disrespectful"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "miscalculation",
-        "valid": [
-            "miscalculation"
-        ],
-        "difficulty": "expert"
-    },
-    {
-        "word": "overconfident",
-        "valid": [
-            "overconfident"
-        ],
-        "difficulty": "expert"
-    }
-];
-
 const WORD_LIST = [
     {
         "word": "the",
@@ -2982,6 +10,13 @@ const WORD_LIST = [
         "word": "and",
         "valid": [
             "and"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "word": "for",
+        "valid": [
+            "for"
         ],
         "difficulty": "easy"
     },
@@ -3031,6 +66,13 @@ const WORD_LIST = [
         "word": "from",
         "valid": [
             "from"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "word": "your",
+        "valid": [
+            "your"
         ],
         "difficulty": "easy"
     },
@@ -3133,6 +175,13 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
+        "word": "our",
+        "valid": [
+            "our"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "one",
         "valid": [
             "one"
@@ -3192,6 +241,13 @@ const WORD_LIST = [
         "word": "which",
         "valid": [
             "which"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "word": "their",
+        "valid": [
+            "their"
         ],
         "difficulty": "easy"
     },
@@ -6892,6 +3948,13 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
+        "word": "rss",
+        "valid": [
+            "rss"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "become",
         "valid": [
             "become"
@@ -9965,13 +7028,6 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
-        "word": "lesbian",
-        "valid": [
-            "lesbian"
-        ],
-        "difficulty": "medium"
-    },
-    {
         "word": "appropriate",
         "valid": [
             "appropriate"
@@ -10388,6 +7444,13 @@ const WORD_LIST = [
         "word": "song",
         "valid": [
             "song"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "word": "cnet",
+        "valid": [
+            "cnet"
         ],
         "difficulty": "easy"
     },
@@ -10861,6 +7924,13 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
+        "word": "paypal",
+        "valid": [
+            "paypal"
+        ],
+        "difficulty": "medium"
+    },
+    {
         "word": "favorite",
         "valid": [
             "favorite"
@@ -11006,6 +8076,13 @@ const WORD_LIST = [
             "parents"
         ],
         "difficulty": "medium"
+    },
+    {
+        "word": "nokia",
+        "valid": [
+            "nokia"
+        ],
+        "difficulty": "easy"
     },
     {
         "word": "impact",
@@ -12016,6 +9093,13 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
+        "word": "prev",
+        "valid": [
+            "prev"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "expected",
         "valid": [
             "expected"
@@ -12513,6 +9597,13 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
+        "word": "phentermine",
+        "valid": [
+            "phentermine"
+        ],
+        "difficulty": "expert"
+    },
+    {
         "word": "southern",
         "valid": [
             "southern"
@@ -12847,6 +9938,13 @@ const WORD_LIST = [
             "teachers"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "isbn",
+        "valid": [
+            "isbn"
+        ],
+        "difficulty": "easy"
     },
     {
         "word": "manual",
@@ -13582,6 +10680,13 @@ const WORD_LIST = [
             "secretary"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "angeles",
+        "valid": [
+            "angeles"
+        ],
+        "difficulty": "medium"
     },
     {
         "word": "networking",
@@ -14469,6 +11574,13 @@ const WORD_LIST = [
         "word": "pain",
         "valid": [
             "pain"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "word": "xbox",
+        "valid": [
+            "xbox"
         ],
         "difficulty": "easy"
     },
@@ -15859,6 +12971,13 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
+        "word": "motorola",
+        "valid": [
+            "motorola"
+        ],
+        "difficulty": "hard"
+    },
+    {
         "word": "acceptance",
         "valid": [
             "acceptance"
@@ -16181,6 +13300,13 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
+        "word": "kong",
+        "valid": [
+            "kong"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "column",
         "valid": [
             "column"
@@ -16256,6 +13382,13 @@ const WORD_LIST = [
             "domestic"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "sitemap",
+        "valid": [
+            "sitemap"
+        ],
+        "difficulty": "medium"
     },
     {
         "word": "recommendations",
@@ -17560,6 +14693,20 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
+        "word": "pubmed",
+        "valid": [
+            "pubmed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "word": "hong",
+        "valid": [
+            "hong"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "vice",
         "valid": [
             "vice"
@@ -17929,6 +15076,13 @@ const WORD_LIST = [
             "broken"
         ],
         "difficulty": "medium"
+    },
+    {
+        "word": "tripadvisor",
+        "valid": [
+            "tripadvisor"
+        ],
+        "difficulty": "expert"
     },
     {
         "word": "frank",
@@ -18974,13 +16128,6 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
-        "word": "hunter",
-        "valid": [
-            "hunter"
-        ],
-        "difficulty": "medium"
-    },
-    {
         "word": "addresses",
         "valid": [
             "addresses"
@@ -19555,6 +16702,13 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
+        "word": "devel",
+        "valid": [
+            "devel"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "amendment",
         "valid": [
             "amendment"
@@ -19975,13 +17129,6 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
-        "word": "miller",
-        "valid": [
-            "miller"
-        ],
-        "difficulty": "medium"
-    },
-    {
         "word": "provision",
         "valid": [
             "provision"
@@ -20143,6 +17290,13 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
+        "word": "eric",
+        "valid": [
+            "eric"
+        ],
+        "difficulty": "easy"
+    },
+    {
         "word": "spot",
         "valid": [
             "spot"
@@ -20183,13 +17337,6 @@ const WORD_LIST = [
             "interior"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "revised",
-        "valid": [
-            "revised"
-        ],
-        "difficulty": "medium"
     },
     {
         "word": "grow",
@@ -21011,6 +18158,13 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
+        "word": "playstation",
+        "valid": [
+            "playstation"
+        ],
+        "difficulty": "expert"
+    },
+    {
         "word": "alcohol",
         "valid": [
             "alcohol"
@@ -21100,6 +18254,13 @@ const WORD_LIST = [
             "expressed"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "jeff",
+        "valid": [
+            "jeff"
+        ],
+        "difficulty": "easy"
     },
     {
         "word": "extent",
@@ -21618,6 +18779,13 @@ const WORD_LIST = [
             "extremely"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "verzeichnis",
+        "valid": [
+            "verzeichnis"
+        ],
+        "difficulty": "expert"
     },
     {
         "word": "contracts",
@@ -22152,6 +19320,13 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
+        "word": "ericsson",
+        "valid": [
+            "ericsson"
+        ],
+        "difficulty": "hard"
+    },
+    {
         "word": "appendix",
         "valid": [
             "appendix"
@@ -22213,6 +19388,13 @@ const WORD_LIST = [
             "cotton"
         ],
         "difficulty": "medium"
+    },
+    {
+        "word": "bluetooth",
+        "valid": [
+            "bluetooth"
+        ],
+        "difficulty": "hard"
     },
     {
         "word": "controlled",

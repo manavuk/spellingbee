@@ -17,6 +17,22 @@
             <h1>Spell Bee</h1>
             <p>Listen to the word, spell it correctly.</p>
             <p>10 Lives. Increasing Difficulty. Can you survive?</p>
+            
+            <div class="voice-selector-container">
+                <label for="voice-select">Choose Voice</label>
+                <select id="voice-select" class="voice-select" aria-label="Select voice font">
+                    <option value="">Default System Voice</option>
+                </select>
+            </div>
+            
+            <div class="word-list-selector-container" style="margin: 15px 0 10px 0;">
+                <label for="word-list-select">Word Bank</label>
+                <select id="word-list-select" class="word-list-select" aria-label="Select spelling word list">
+                    <option value="default">General Vocabulary (Default)</option>
+                    <option value="11plus">11+ Exam Words</option>
+                </select>
+            </div>
+            
             <button id="start-btn" class="primary-btn">Start Game</button>
         </main>
 
@@ -32,13 +48,38 @@
             <div class="game-container">
                 <div class="difficulty-badge" id="difficulty-badge">Easy</div>
                 
-                <button id="listen-btn" class="secondary-btn" aria-label="Listen to word again">
-                    <!-- Speaker Icon -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                    </svg>
-                    Listen Again
-                </button>
+                <div style="display: flex; gap: 10px; justify-content: center; margin: 25px 0;">
+                    <button id="listen-btn" class="secondary-btn" aria-label="Listen to word again" style="margin: 0;">
+                        <!-- Speaker Icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        Listen Again
+                    </button>
+                    
+                    <button id="listen-slow-btn" class="secondary-btn" aria-label="Listen to word slowly" style="margin: 0;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        Listen Slowly
+                    </button>
+                </div>
+                
+                <!-- Hint Buttons (Definition & Sentence) -->
+                <div id="hint-container" class="hint-container hidden">
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
+                        <button id="define-btn" class="tertiary-btn" aria-label="Show word definition" disabled>
+                            Define Word
+                        </button>
+                        <button id="sentence-btn" class="tertiary-btn" aria-label="Show word in a sentence" disabled>
+                            Use in Sentence
+                        </button>
+                    </div>
+                    <div id="hint-display" class="hint-display-card hidden">
+                        <span id="hint-badge" class="hint-badge">Definition</span>
+                        <p id="hint-text" class="hint-text"></p>
+                    </div>
+                </div>
                 
                 <div id="feedback" class="feedback-toast hidden" role="alert">Correct!</div>
                 
@@ -59,6 +100,11 @@
         <section id="game-over-screen" class="screen hidden">
             <h2 id="game-over-title">Game Over</h2>
             <p>Your Final Score: <span id="final-score">0</span></p>
+            <p>Right Answers: <span id="right-answers">0</span></p>
+            <div class="wrong-words-container" style="margin: 20px 0;">
+                <p>Words you missed:</p>
+                <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 150px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
+            </div>
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
         </section>
