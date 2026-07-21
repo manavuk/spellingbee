@@ -1336,7 +1336,8 @@ const WORD_LIST_11PLUS = [
             "accident prone",
             "accidentprone"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "mother-in-law",
@@ -1345,7 +1346,8 @@ const WORD_LIST_11PLUS = [
             "mother in law",
             "motherinlaw"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "disastrous",
@@ -1368,7 +1370,8 @@ const WORD_LIST_11PLUS = [
             "fine tune",
             "finetune"
         ],
-        "difficulty": "hard"
+        "difficulty": "hard",
+        "status": "inactive"
     },
     {
         "word": "embarrass",
@@ -1391,7 +1394,8 @@ const WORD_LIST_11PLUS = [
             "up to date",
             "uptodate"
         ],
-        "difficulty": "hard"
+        "difficulty": "hard",
+        "status": "inactive"
     },
     {
         "word": "environment",
@@ -1414,7 +1418,8 @@ const WORD_LIST_11PLUS = [
             "all inclusive",
             "allinclusive"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "equipped",
@@ -1437,7 +1442,8 @@ const WORD_LIST_11PLUS = [
             "power driven",
             "powerdriven"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "cross-reference",
@@ -1446,7 +1452,8 @@ const WORD_LIST_11PLUS = [
             "cross reference",
             "crossreference"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "equipment",
@@ -1469,7 +1476,8 @@ const WORD_LIST_11PLUS = [
             "custom built",
             "custombuilt"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "especially",
@@ -1492,7 +1500,8 @@ const WORD_LIST_11PLUS = [
             "good looking",
             "goodlooking"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "twenty-three",
@@ -1501,7 +1510,8 @@ const WORD_LIST_11PLUS = [
             "twenty three",
             "twentythree"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "exaggerate",
@@ -1524,7 +1534,8 @@ const WORD_LIST_11PLUS = [
             "quick thinking",
             "quickthinking"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "excellent",
@@ -1547,7 +1558,8 @@ const WORD_LIST_11PLUS = [
             "bad tempered",
             "badtempered"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "re-elect",
@@ -1556,7 +1568,8 @@ const WORD_LIST_11PLUS = [
             "re elect",
             "reelect"
         ],
-        "difficulty": "medium"
+        "difficulty": "medium",
+        "status": "inactive"
     },
     {
         "word": "existence",
@@ -1579,7 +1592,8 @@ const WORD_LIST_11PLUS = [
             "fair haired",
             "fairhaired"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "well-intentioned",
@@ -1588,7 +1602,8 @@ const WORD_LIST_11PLUS = [
             "well intentioned",
             "wellintentioned"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "explanation",
@@ -1618,7 +1633,8 @@ const WORD_LIST_11PLUS = [
             "eye opener",
             "eyeopener"
         ],
-        "difficulty": "hard"
+        "difficulty": "hard",
+        "status": "inactive"
     },
     {
         "word": "well-to-do",
@@ -1627,7 +1643,8 @@ const WORD_LIST_11PLUS = [
             "well to do",
             "welltodo"
         ],
-        "difficulty": "hard"
+        "difficulty": "hard",
+        "status": "inactive"
     },
     {
         "word": "foreign",
@@ -1650,7 +1667,8 @@ const WORD_LIST_11PLUS = [
             "check in",
             "checkin"
         ],
-        "difficulty": "medium"
+        "difficulty": "medium",
+        "status": "inactive"
     },
     {
         "word": "light-green",
@@ -1659,14 +1677,16 @@ const WORD_LIST_11PLUS = [
             "light green",
             "lightgreen"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "forty",
         "valid": [
             "forty"
         ],
-        "difficulty": "easy"
+        "difficulty": "easy",
+        "status": "inactive"
     },
     {
         "word": "transferred",
@@ -1682,7 +1702,8 @@ const WORD_LIST_11PLUS = [
             "free for all",
             "freeforall"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "x-ray",
@@ -1691,7 +1712,8 @@ const WORD_LIST_11PLUS = [
             "x ray",
             "xray"
         ],
-        "difficulty": "easy"
+        "difficulty": "easy",
+        "status": "inactive"
     },
     {
         "word": "frequently",
@@ -1707,7 +1729,8 @@ const WORD_LIST_11PLUS = [
             "first class",
             "firstclass"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "co-operate",
@@ -1716,7 +1739,8 @@ const WORD_LIST_11PLUS = [
             "co operate",
             "cooperate"
         ],
-        "difficulty": "hard"
+        "difficulty": "hard",
+        "status": "inactive"
     },
     {
         "word": "guarantee",
@@ -1739,7 +1763,8 @@ const WORD_LIST_11PLUS = [
             "co ordinate",
             "coordinate"
         ],
-        "difficulty": "expert"
+        "difficulty": "expert",
+        "status": "inactive"
     },
     {
         "word": "re-enter",
@@ -1748,7 +1773,8 @@ const WORD_LIST_11PLUS = [
             "re enter",
             "reenter"
         ],
-        "difficulty": "medium"
+        "difficulty": "medium",
+        "status": "inactive"
     },
     {
         "word": "representative",

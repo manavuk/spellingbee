@@ -34,6 +34,7 @@
             </div>
             
             <button id="start-btn" class="primary-btn">Start Game</button>
+            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 20px; font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
         </main>
 
         <!-- Game Interface -->
@@ -107,6 +108,116 @@
             </div>
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
+        </section>
+
+        <!-- Admin Auth Screen -->
+        <section id="admin-auth-screen" class="screen hidden">
+            <h2>Admin Login</h2>
+            <p>Please enter the admin password to continue.</p>
+            <form id="admin-auth-form" style="width: 100%; max-width: 320px;">
+                <label for="admin-password-input" class="sr-only">Password</label>
+                <input type="password" id="admin-password-input" placeholder="Password" autocomplete="current-password" required>
+                <div style="display: flex; gap: 10px; width: 100%; margin-top: 10px;">
+                    <button type="button" id="admin-auth-back-btn" class="secondary-btn" style="flex: 1; margin: 0;">Back</button>
+                    <button type="submit" id="admin-auth-submit-btn" class="primary-btn" style="flex: 1; margin: 0; padding: 12px 24px; font-size: 1.1rem; box-shadow: none;">Login</button>
+                </div>
+            </form>
+            <p id="admin-auth-error" class="hint-text hidden" style="color: var(--danger); margin-top: 15px; font-weight: bold;"></p>
+        </section>
+
+        <!-- Admin Panel Screen -->
+        <section id="admin-panel-screen" class="screen hidden" style="padding: 30px 20px; max-width: 650px;">
+            <h2>Admin Panel</h2>
+            <p>Manage spelling categories, words, and active states.</p>
+
+            <!-- Dashboard View -->
+            <div id="admin-dashboard-container" style="width: 100%;">
+                <div class="admin-controls-grid">
+                    <!-- Word List Type Selector -->
+                    <div class="word-list-selector-container" style="margin: 10px 0;">
+                        <label for="admin-word-list-select">Word Bank</label>
+                        <select id="admin-word-list-select" class="word-list-select">
+                            <option value="default">General Vocabulary (Default)</option>
+                            <option value="11plus">11+ Exam Words</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Selector (Difficulty Tabs) -->
+                    <div class="difficulty-tabs-container">
+                        <span class="difficulty-label">Difficulty Category</span>
+                        <div class="difficulty-tabs">
+                            <button class="diff-tab-btn active" data-difficulty="easy">Easy</button>
+                            <button class="diff-tab-btn" data-difficulty="medium">Medium</button>
+                            <button class="diff-tab-btn" data-difficulty="hard">Hard</button>
+                            <button class="diff-tab-btn" data-difficulty="expert">Expert</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Add Controls -->
+                <div class="admin-search-bar-row">
+                    <input type="text" id="admin-search-input" placeholder="Search words..." style="font-size: 1.1rem; padding: 10px 15px; text-align: left; border-radius: 10px;">
+                    <button id="admin-add-word-btn" class="primary-btn" style="margin: 0; padding: 12px 20px; font-size: 0.95rem; border-radius: 10px; box-shadow: none; white-space: nowrap;">+ Add Word</button>
+                </div>
+
+                <!-- Word List Container -->
+                <div class="admin-words-list-wrapper">
+                    <div class="admin-words-list-header">
+                        <span>Word & Valid Spellings</span>
+                        <span>Actions</span>
+                    </div>
+                    <div id="admin-words-list" class="admin-words-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Export & Maintenance Actions -->
+                <div class="admin-actions-card">
+                    <h4>Data Actions</h4>
+                    <div class="admin-actions-buttons">
+                        <button id="admin-export-js-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px;">Export words.js</button>
+                        <button id="admin-export-filtered-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px;">Export words_filtered.js</button>
+                        <button id="admin-reset-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px; color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">Reset to Defaults</button>
+                    </div>
+                </div>
+
+                <button id="admin-exit-btn" class="secondary-btn" style="margin: 20px auto 0 auto; padding: 12px 30px;">Exit Admin Panel</button>
+            </div>
+
+            <!-- Add/Edit Word Form Container -->
+            <div id="admin-form-container" class="admin-form-container hidden" style="width: 100%;">
+                <h3 id="admin-form-title" style="margin-bottom: 20px; font-size: 1.8rem; font-weight: bold;">Add New Word</h3>
+                <form id="admin-word-form" style="text-align: left;">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-word-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Spelling Word</label>
+                        <input type="text" id="admin-word-input" placeholder="e.g. accommodate" required style="font-size: 1.2rem; padding: 12px; text-align: left; border-radius: 10px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-valid-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valid Spellings (comma separated)</label>
+                        <input type="text" id="admin-valid-input" placeholder="e.g. accommodate, accomodate" required style="font-size: 1.2rem; padding: 12px; text-align: left; border-radius: 10px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-difficulty-select" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Difficulty Category</label>
+                        <select id="admin-difficulty-select" class="word-list-select" style="max-width: 100%; text-align: left; text-align-last: left; border-radius: 10px;">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="expert">Expert</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label for="admin-status-select" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Word Status</label>
+                        <select id="admin-status-select" class="word-list-select" style="max-width: 100%; text-align: left; text-align-last: left; border-radius: 10px;">
+                            <option value="active">Active (Include in Game)</option>
+                            <option value="inactive">Inactive (Exclude from Game)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="admin-form-cancel-btn" class="secondary-btn" style="flex: 1; margin: 0; padding: 12px;">Cancel</button>
+                        <button type="submit" id="admin-form-save-btn" class="primary-btn" style="flex: 1; margin: 0; padding: 12px; font-size: 1.1rem; box-shadow: none;">Save Word</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </div>
     <script src="words.js"></script>
