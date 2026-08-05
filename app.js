@@ -488,19 +488,25 @@ function showFeedback(isCorrect, change) {
     
     if (UI.mascotPopup) {
         if (isCorrect) {
-            UI.mascotPopupImg.src = 'bee_happy.png';
-            UI.mascotPopupText.textContent = `Awesome! +${change} pts! 🌟`;
+            const correctVariations = [
+                { img: 'bee_happy.png', msg: `Awesome! +${change} pts! 🌟` },
+                { img: 'bee_superhero.png', msg: `Super Bee! +${change} pts! 🚀` },
+                { img: 'bee_logo.png', msg: `Genius! +${change} pts! 🎓` }
+            ];
+            const pick = correctVariations[Math.floor(Math.random() * correctVariations.length)];
+            UI.mascotPopupImg.src = pick.img;
+            UI.mascotPopupText.textContent = pick.msg;
             UI.mascotPopup.className = 'mascot-popup show correct';
         } else {
-            const oopsMessages = [
-                "Oops! Keep trying! 🐝",
-                "Almost had it! You can do it!",
-                "Nice try! Keep practicing!",
-                "Don't give up! Try again!"
+            const wrongVariations = [
+                { img: 'bee_oops.png', msg: "Oops! Keep trying! 🐝" },
+                { img: 'bee_thinking.png', msg: "Hmm, let's search again! 🔍" },
+                { img: 'bee_dizzy.png', msg: "Whoops! Almost had it! 💫" },
+                { img: 'bee_oops.png', msg: "Don't give up! Try again! 💪" }
             ];
-            const randomMsg = oopsMessages[Math.floor(Math.random() * oopsMessages.length)];
-            UI.mascotPopupImg.src = 'bee_oops.png';
-            UI.mascotPopupText.textContent = randomMsg;
+            const pick = wrongVariations[Math.floor(Math.random() * wrongVariations.length)];
+            UI.mascotPopupImg.src = pick.img;
+            UI.mascotPopupText.textContent = pick.msg;
             UI.mascotPopup.className = 'mascot-popup show wrong';
         }
     }
