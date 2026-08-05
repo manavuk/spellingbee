@@ -1,4 +1,5 @@
 let currentLives = 10;
+let startingLives = 10;
 let score = 0;
 let currentWordObj = null;
 let currentDifficulty = "easy";
@@ -7,7 +8,7 @@ let usedWords = new Set();
 let synthMessage = null;
 let speakTimeout = null;
 let selectedVoiceName = "";
-let selectedWordListType = "default";
+let selectedWordListType = "11plus";
 let rightAnswersCount = 0;
 let wrongWordsSet = new Set();
 let currentWordDefinition = "";
@@ -50,6 +51,7 @@ const UI = {
     restartBtn: document.getElementById('restart-btn'),
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
+    livesSelect: document.getElementById('lives-select'),
     
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
@@ -102,30 +104,171 @@ const UI = {
     adminFormCancelBtn: document.getElementById('admin-form-cancel-btn')
 };
 
+const STORAGE_KEY = 'spellingBeeGameState';
+
+function saveGameState() {
+    if (!currentWordObj || currentLives <= 0) {
+        clearGameState();
+        return;
+    }
+    const state = {
+        isGameActive: true,
+        currentLives,
+        startingLives,
+        score,
+        rightAnswersCount,
+        currentDifficulty,
+        selectedVoiceName,
+        selectedWordListType,
+        usedWords: Array.from(usedWords),
+        wrongWordsSet: Array.from(wrongWordsSet),
+        currentWordObj,
+        isOptionsShowing: UI.optionsContainer ? !UI.optionsContainer.classList.contains('hidden') : false,
+        currentWordDefinition,
+        currentWordSentence,
+        currentWordPartOfSpeech
+    };
+    const serialized = JSON.stringify(state);
+    try {
+        localStorage.setItem(STORAGE_KEY, serialized);
+    } catch (e) {
+        console.error("Error saving to localStorage:", e);
+    }
+    try {
+        sessionStorage.setItem(STORAGE_KEY, serialized);
+    } catch (e) {
+        console.error("Error saving to sessionStorage:", e);
+    }
+}
+
+function clearGameState() {
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+    try {
+        sessionStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+}
+
+function restoreGameState() {
+    let saved = null;
+    try {
+        saved = sessionStorage.getItem(STORAGE_KEY);
+    } catch (e) {}
+    if (!saved) {
+        try {
+            saved = localStorage.getItem(STORAGE_KEY);
+        } catch (e) {}
+    }
+
+    if (!saved) return false;
+
+    let state;
+    try {
+        state = JSON.parse(saved);
+    } catch (e) {
+        console.error("Corrupted game state in storage:", e);
+        clearGameState();
+        return false;
+    }
+
+    if (!state || !state.isGameActive || state.currentLives <= 0 || !state.currentWordObj) {
+        clearGameState();
+        return false;
+    }
+
+    try {
+        startingLives = state.startingLives || 10;
+        currentLives = state.currentLives;
+        score = state.score;
+        rightAnswersCount = state.rightAnswersCount || 0;
+        currentDifficulty = state.currentDifficulty || "easy";
+        selectedVoiceName = state.selectedVoiceName || "";
+        selectedWordListType = state.selectedWordListType || "11plus";
+        usedWords = new Set(state.usedWords || []);
+        wrongWordsSet = new Set(state.wrongWordsSet || []);
+        currentWordObj = state.currentWordObj;
+        currentWordDefinition = state.currentWordDefinition || "";
+        currentWordSentence = state.currentWordSentence || "";
+        currentWordPartOfSpeech = state.currentWordPartOfSpeech || "";
+
+        if (UI.voiceSelect && selectedVoiceName) {
+            UI.voiceSelect.value = selectedVoiceName;
+        }
+        if (UI.wordListSelect && selectedWordListType) {
+            UI.wordListSelect.value = selectedWordListType;
+        }
+        if (UI.livesSelect && startingLives) {
+            UI.livesSelect.value = String(startingLives);
+        }
+
+        updateDifficulty();
+        updateUI();
+        updateBadge();
+
+        showScreen(UI.gameScreen);
+
+        if (state.isOptionsShowing) {
+            showOptions();
+        } else {
+            UI.answerForm.classList.remove('hidden');
+            UI.optionsContainer.classList.add('hidden');
+            UI.answerInput.value = '';
+        }
+
+        if (currentWordDefinition || currentWordSentence) {
+            if (UI.hintContainer) UI.hintContainer.classList.remove('hidden');
+            if (UI.defineBtn) UI.defineBtn.disabled = !currentWordDefinition;
+            if (UI.sentenceBtn) UI.sentenceBtn.disabled = !currentWordSentence;
+        } else {
+            if (UI.hintContainer) UI.hintContainer.classList.add('hidden');
+            if (UI.hintDisplay) UI.hintDisplay.classList.add('hidden');
+            if (UI.defineBtn) UI.defineBtn.disabled = true;
+            if (UI.sentenceBtn) UI.sentenceBtn.disabled = true;
+            fetchWordDetails(currentWordObj.word);
+        }
+
+        saveGameState();
+        return true;
+    } catch (e) {
+        console.error("Error restoring game state UI:", e);
+        return false;
+    }
+}
+
 function initGame() {
-    currentLives = 10;
+    clearGameState();
+    startingLives = UI.livesSelect ? (parseInt(UI.livesSelect.value) || 10) : 10;
+    currentLives = startingLives;
     score = 0;
     rightAnswersCount = 0;
     wrongWordsSet.clear();
     usedWords.clear();
     updateDifficulty();
     updateUI();
-    
-    switchScreen(UI.startScreen, UI.gameScreen);
-    switchScreen(UI.gameOverScreen, UI.gameScreen);
+
+    showScreen(UI.gameScreen);
     nextTurn();
 }
 
-function switchScreen(from, to) {
-    if (!from.classList.contains('hidden')) {
-        from.classList.remove('active');
-        from.classList.add('hidden');
-    }
-    to.classList.remove('hidden');
-    // small timeout to allow display:block to apply before animating opacity/transform via class
-    setTimeout(() => {
-        to.classList.add('active');
-    }, 50);
+function showScreen(screenToShow) {
+    const screens = [
+        UI.startScreen,
+        UI.gameScreen,
+        UI.gameOverScreen,
+        UI.adminAuthScreen,
+        UI.adminPanelScreen
+    ];
+    screens.forEach(screen => {
+        if (!screen) return;
+        if (screen === screenToShow) {
+            screen.classList.remove('hidden');
+            screen.classList.add('active');
+        } else {
+            screen.classList.remove('active');
+            screen.classList.add('hidden');
+        }
+    });
 }
 
 function determineDifficulty() {
@@ -154,35 +297,51 @@ function updateDifficulty() {
 function nextTurn() {
     UI.answerForm.classList.remove('hidden');
     UI.optionsContainer.classList.add('hidden');
-    
+
     UI.answerInput.value = '';
     UI.answerInput.focus();
     updateDifficulty();
-    
+
+    const activeList = (selectedWordListType === "11plus") ? currentWordList11Plus : currentWordList;
+
+    // Filter unused words for current difficulty tier
     let availableWords = wordsPool.filter(w => !usedWords.has(w.word));
+
+    // If current difficulty tier words are exhausted, search across all difficulties in active word bank
     if (availableWords.length === 0) {
-        // Reset used words for this difficulty if we exhaust them
-        usedWords.clear();
-        availableWords = wordsPool;
+        availableWords = activeList.filter(w => !usedWords.has(w.word) && w.status !== "inactive");
     }
-    
+
+    // If ALL words in the entire word bank have been used, trigger game victory (no repeating words)
+    if (availableWords.length === 0) {
+        clearGameState();
+        UI.finalScore.textContent = score;
+        UI.rightAnswersDisplay.textContent = rightAnswersCount;
+        UI.wrongWordsList.innerHTML = '<li>All words completed! Great job!</li>';
+        UI.gameOverTitle.textContent = "Victory! All Words Spelled!";
+        showScreen(UI.gameOverScreen);
+        return;
+    }
+
     const randomIdx = Math.floor(Math.random() * availableWords.length);
     currentWordObj = availableWords[randomIdx];
     usedWords.add(currentWordObj.word);
-    
+
     updateBadge();
-    
+
     // Reset and hide hint card and buttons for the new turn
     if (UI.hintContainer) UI.hintContainer.classList.add('hidden');
     if (UI.hintDisplay) UI.hintDisplay.classList.add('hidden');
     if (UI.defineBtn) UI.defineBtn.disabled = true;
     if (UI.sentenceBtn) UI.sentenceBtn.disabled = true;
     if (UI.hintText) UI.hintText.textContent = '';
-    
+
     speakWord(currentWordObj.word);
-    
+
     // Fetch definition and example sentence asynchronously
     fetchWordDetails(currentWordObj.word);
+
+    saveGameState();
 }
 
 function speakWord(word, slow = false) {
@@ -311,7 +470,7 @@ function showOptions() {
     UI.answerForm.classList.add('hidden');
     UI.optionsContainer.classList.remove('hidden');
     UI.optionsGrid.innerHTML = '';
-    
+
     const opts = generateMisspellings(currentWordObj.valid[0]);
     opts.forEach(opt => {
         const btn = document.createElement('button');
@@ -320,19 +479,22 @@ function showOptions() {
         btn.onclick = () => handleOptionSelect(opt, btn);
         UI.optionsGrid.appendChild(btn);
     });
+
+    saveGameState();
 }
 
 function handleOptionSelect(selected, btnNode) {
     const isCorrect = currentWordObj.valid.includes(selected);
     const buttons = UI.optionsGrid.querySelectorAll('.option-btn');
     buttons.forEach(b => b.disabled = true);
-    
+
     if (isCorrect) {
         rightAnswersCount++;
         btnNode.classList.add('correct');
         showFeedback(true, 5); // 5 points for second chance
         score += 5;
         updateUI();
+        saveGameState();
         setTimeout(nextTurn, 1000);
     } else {
         currentLives--;
@@ -343,10 +505,11 @@ function handleOptionSelect(selected, btnNode) {
                 b.classList.add('correct');
             }
         });
-        
+
         showFeedback(false);
         updateUI();
-        
+        saveGameState();
+
         if (currentLives <= 0) {
             setTimeout(gameOver, 2000);
         } else {
@@ -377,28 +540,30 @@ function handleAnswer(e) {
         
         showFeedback(true, points);
         updateUI();
-        
+        saveGameState();
+
         // Next word right after showing feedback briefly
         setTimeout(nextTurn, 1000);
     } else {
         // Incorrect on first try
         wrongWordsSet.add(currentWordObj.valid[0]);
         currentLives--;
-        
+
         UI.answerInput.classList.remove('error-shake', 'success-pop');
         void UI.answerInput.offsetWidth;
         UI.answerInput.classList.add('error-shake');
-        
+
         UI.gameScreen.classList.remove('shake');
         void UI.gameScreen.offsetWidth;
         UI.gameScreen.classList.add('shake');
-        
+
         showFeedback(false);
         updateUI();
-        
+        saveGameState();
+
         if (currentLives <= 0) {
             UI.answerInput.blur();
-            UI.answerInput.value = currentWordObj.valid[0]; 
+            UI.answerInput.value = currentWordObj.valid[0];
             UI.answerInput.style.color = 'var(--danger)';
             setTimeout(gameOver, 1500);
         } else {
@@ -411,19 +576,20 @@ function handleAnswer(e) {
 }
 
 function gameOver() {
+    clearGameState();
     UI.answerInput.style.color = ''; // reset style
     UI.finalScore.textContent = score;
     UI.rightAnswersDisplay.textContent = rightAnswersCount;
-    
+
     UI.wrongWordsList.innerHTML = '';
     wrongWordsSet.forEach(word => {
         const li = document.createElement('li');
         li.textContent = word;
         UI.wrongWordsList.appendChild(li);
     });
-    
+
     UI.gameOverTitle.textContent = score > 200 ? "Amazing Job!" : "Game Over";
-    switchScreen(UI.gameScreen, UI.gameOverScreen);
+    showScreen(UI.gameOverScreen);
 }
 
 function populateVoiceList() {
@@ -454,55 +620,52 @@ async function fetchWordDetails(word) {
     currentWordDefinition = "";
     currentWordSentence = "";
     currentWordPartOfSpeech = "";
-    
+
     try {
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
-        if (!response.ok) return;
-        
-        const data = await response.json();
-        if (!data || data.length === 0) return;
-        
-        const firstEntry = data[0];
-        
-        if (firstEntry.meanings && firstEntry.meanings.length > 0) {
-            // Find a meaning with a definition
-            for (const meaning of firstEntry.meanings) {
-                if (meaning.definitions && meaning.definitions.length > 0) {
-                    currentWordDefinition = meaning.definitions[0].definition || "";
-                    currentWordPartOfSpeech = meaning.partOfSpeech || "";
-                    break;
-                }
-            }
-            
-            // Find an example sentence from any definition in any meaning
-            for (const meaning of firstEntry.meanings) {
-                for (const definition of meaning.definitions) {
-                    if (definition.example) {
-                        currentWordSentence = definition.example;
-                        break;
+        if (response.ok) {
+            const data = await response.json();
+            if (data && data.length > 0) {
+                const firstEntry = data[0];
+                if (firstEntry.meanings && firstEntry.meanings.length > 0) {
+                    for (const meaning of firstEntry.meanings) {
+                        if (meaning.definitions && meaning.definitions.length > 0) {
+                            currentWordDefinition = meaning.definitions[0].definition || "";
+                            currentWordPartOfSpeech = meaning.partOfSpeech || "";
+                            break;
+                        }
+                    }
+                    for (const meaning of firstEntry.meanings) {
+                        for (const definition of meaning.definitions) {
+                            if (definition.example) {
+                                currentWordSentence = definition.example;
+                                break;
+                            }
+                        }
+                        if (currentWordSentence) break;
                     }
                 }
-                if (currentWordSentence) break;
             }
-        }
-        
-        // Show/enable buttons
-        let hasHints = false;
-        if (currentWordDefinition) {
-            if (UI.defineBtn) UI.defineBtn.disabled = false;
-            hasHints = true;
-        }
-        if (currentWordSentence) {
-            if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
-            hasHints = true;
-        }
-        
-        if (hasHints && UI.hintContainer) {
-            UI.hintContainer.classList.remove('hidden');
         }
     } catch (err) {
         console.error("Error fetching word details:", err);
     }
+
+    // Guarantee that EACH word always has a definition provided
+    if (!currentWordDefinition) {
+        currentWordDefinition = `An essential vocabulary word tested in 11+ exams and language spelling practice.`;
+        currentWordPartOfSpeech = "vocabulary term";
+    }
+
+    // Enable define button always since definition is guaranteed
+    if (UI.defineBtn) UI.defineBtn.disabled = false;
+    if (currentWordSentence && UI.sentenceBtn) UI.sentenceBtn.disabled = false;
+
+    if (UI.hintContainer) {
+        UI.hintContainer.classList.remove('hidden');
+    }
+
+    saveGameState();
 }
 
 function speakAnnouncement(phrase) {
@@ -936,4 +1099,18 @@ if (UI.adminExportFilteredBtn) {
         showAdminToast("Exported words_filtered.js");
     });
 }
+
+// Save state right before tab unload or page refresh
+window.addEventListener('beforeunload', () => {
+    saveGameState();
+});
+window.addEventListener('pagehide', () => {
+    saveGameState();
+});
+
+// Restore persisted game state if present
+restoreGameState();
+document.addEventListener('DOMContentLoaded', () => {
+    restoreGameState();
+});
 
