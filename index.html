@@ -42,7 +42,10 @@
             </div>
             
             <button id="start-btn" class="primary-btn">Start Game</button>
-            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 20px; font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="misspelled-entrance-btn" class="tertiary-btn" style="font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Misspelled Words</button>
+                <button id="admin-entrance-btn" class="tertiary-btn" style="font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
+            </div>
         </main>
 
         <!-- Game Interface -->
@@ -115,7 +118,38 @@
                 <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 150px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
             </div>
             <p id="game-over-message">Better luck next time!</p>
-            <button id="restart-btn" class="primary-btn">Play Again</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="restart-btn" class="primary-btn" style="margin-top: 0;">Play Again</button>
+                <button id="gameover-misspelled-btn" class="secondary-btn" style="margin-top: 0; padding: 16px 24px;">View Misspelled Words</button>
+            </div>
+        </section>
+
+        <!-- Misspelled Words Screen -->
+        <section id="misspelled-screen" class="screen hidden" style="padding: 30px 20px; max-width: 650px;">
+            <h2>Misspelled Words Bank</h2>
+            <p>Review and manage all words missed across your spelling games.</p>
+
+            <div style="width: 100%; margin-top: 15px;">
+                <!-- Search and Stats Bar -->
+                <div class="admin-search-bar-row" style="margin-bottom: 15px;">
+                    <input type="text" id="misspelled-search-input" placeholder="Search misspelled words..." style="font-size: 1.1rem; padding: 10px 15px; text-align: left; border-radius: 10px; flex: 1;">
+                    <button id="export-csv-btn" class="primary-btn" style="margin: 0; padding: 12px 20px; font-size: 0.95rem; border-radius: 10px; box-shadow: none; white-space: nowrap; background: linear-gradient(135deg, #10b981, #059669);">Export CSV</button>
+                    <button id="clear-all-misspelled-btn" class="secondary-btn" style="margin: 0; padding: 12px 20px; font-size: 0.95rem; border-radius: 10px; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); white-space: nowrap;">Clear All</button>
+                </div>
+
+                <!-- Misspelled List Container -->
+                <div class="admin-words-list-wrapper">
+                    <div class="admin-words-list-header">
+                        <span>Word & Valid Spellings</span>
+                        <span>Action</span>
+                    </div>
+                    <div id="misspelled-words-list" class="admin-words-list" style="max-height: 380px;">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <button id="misspelled-exit-btn" class="secondary-btn" style="margin: 20px auto 0 auto; padding: 12px 30px;">Back to Main</button>
+            </div>
         </section>
 
         <!-- Admin Auth Screen -->

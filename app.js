@@ -18,6 +18,27 @@ let currentWordPartOfSpeech = "";
 let currentWordList = [];
 let currentWordList11Plus = [];
 
+const MISSPELLED_STORAGE_KEY = 'spelling_bee_misspelled_words_bank';
+let misspelledBank = [];
+
+function loadMisspelledBank() {
+    try {
+        const stored = localStorage.getItem(MISSPELLED_STORAGE_KEY);
+        misspelledBank = stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error("Error loading misspelled bank", e);
+        misspelledBank = [];
+    }
+}
+loadMisspelledBank();
+
+function saveMisspelledBank() {
+    try {
+        localStorage.setItem(MISSPELLED_STORAGE_KEY, JSON.stringify(misspelledBank));
+    } catch (e) {
+        console.error("Error saving misspelled bank", e);
+    }
+}
 function loadWordLists() {
     try {
         const stored = localStorage.getItem('spelling_bee_word_list');
@@ -36,6 +57,43 @@ function loadWordLists() {
     }
 }
 loadWordLists();
+
+function addMisspelledWord(wordObj, userTypedWord = null) {
+    if (!wordObj || !wordObj.word) return;
+    const targetWord = wordObj.word;
+    const existingIndex = misspelledBank.findIndex(item => item.word.toLowerCase() === targetWord.toLowerCase());
+    const validSpellings = wordObj.valid || [targetWord];
+    const difficulty = wordObj.difficulty || "easy";
+    const dateStr = new Date().toISOString();
+
+    if (existingIndex !== -1) {
+        misspelledBank[existingIndex].count = (misspelledBank[existingIndex].count || 1) + 1;
+        misspelledBank[existingIndex].lastMissed = dateStr;
+        if (userTypedWord && !misspelledBank[existingIndex].attempts.includes(userTypedWord)) {
+            misspelledBank[existingIndex].attempts.push(userTypedWord);
+        }
+    } else {
+        misspelledBank.push({
+            word: targetWord,
+            valid: validSpellings,
+            difficulty: difficulty,
+            count: 1,
+            lastMissed: dateStr,
+            attempts: userTypedWord ? [userTypedWord] : []
+        });
+    }
+    saveMisspelledBank();
+}
+
+function removeMisspelledWord(word) {
+    misspelledBank = misspelledBank.filter(item => item.word.toLowerCase() !== word.toLowerCase());
+    saveMisspelledBank();
+}
+
+function clearAllMisspelledWords() {
+    misspelledBank = [];
+    saveMisspelledBank();
+}
 
 
 const synth = window.speechSynthesis;
@@ -74,6 +132,16 @@ const UI = {
     hintDisplay: document.getElementById('hint-display'),
     hintBadge: document.getElementById('hint-badge'),
     hintText: document.getElementById('hint-text'),
+
+    // Misspelled Screen elements
+    misspelledEntranceBtn: document.getElementById('misspelled-entrance-btn'),
+    gameoverMisspelledBtn: document.getElementById('gameover-misspelled-btn'),
+    misspelledScreen: document.getElementById('misspelled-screen'),
+    misspelledSearchInput: document.getElementById('misspelled-search-input'),
+    exportCsvBtn: document.getElementById('export-csv-btn'),
+    clearAllMisspelledBtn: document.getElementById('clear-all-misspelled-btn'),
+    misspelledWordsList: document.getElementById('misspelled-words-list'),
+    misspelledExitBtn: document.getElementById('misspelled-exit-btn'),
 
     // Admin Panel elements
     adminEntranceBtn: document.getElementById('admin-entrance-btn'),
@@ -256,6 +324,7 @@ function showScreen(screenToShow) {
         UI.startScreen,
         UI.gameScreen,
         UI.gameOverScreen,
+        UI.misspelledScreen,
         UI.adminAuthScreen,
         UI.adminPanelScreen
     ];
@@ -499,6 +568,7 @@ function handleOptionSelect(selected, btnNode) {
     } else {
         currentLives--;
         wrongWordsSet.add(currentWordObj.valid[0]);
+        addMisspelledWord(currentWordObj, selected);
         btnNode.classList.add('wrong');
         buttons.forEach(b => {
             if (currentWordObj.valid.includes(b.textContent)) {
@@ -547,6 +617,7 @@ function handleAnswer(e) {
     } else {
         // Incorrect on first try
         wrongWordsSet.add(currentWordObj.valid[0]);
+        addMisspelledWord(currentWordObj, userAnswer);
         currentLives--;
 
         UI.answerInput.classList.remove('error-shake', 'success-pop');
@@ -621,8 +692,11 @@ async function fetchWordDetails(word) {
     currentWordSentence = "";
     currentWordPartOfSpeech = "";
 
+    const cleanWord = word.trim().toLowerCase();
+
+    // 1. Try Free Dictionary API
     try {
-        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanWord)}`);
         if (response.ok) {
             const data = await response.json();
             if (data && data.length > 0) {
@@ -648,21 +722,72 @@ async function fetchWordDetails(word) {
             }
         }
     } catch (err) {
-        console.error("Error fetching word details:", err);
+        console.error("Error fetching from primary dictionary API:", err);
     }
 
-    // Guarantee that EACH word always has a definition provided
+    // 2. Fallback: Try Datamuse API if primary dictionary didn't return a definition
     if (!currentWordDefinition) {
-        currentWordDefinition = `An essential vocabulary word tested in 11+ exams and language spelling practice.`;
-        currentWordPartOfSpeech = "vocabulary term";
+        try {
+            const response = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(cleanWord)}&md=d&max=1`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.length > 0 && data[0].defs && data[0].defs.length > 0) {
+                    const defString = data[0].defs[0]; // Format: "n\tdefinition text"
+                    const parts = defString.split('\t');
+                    if (parts.length > 1) {
+                        const posMap = { n: 'noun', v: 'verb', adj: 'adjective', adv: 'adverb' };
+                        currentWordPartOfSpeech = posMap[parts[0]] || parts[0];
+                        currentWordDefinition = parts[1];
+                    } else {
+                        currentWordDefinition = defString;
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error fetching from secondary dictionary API:", err);
+        }
     }
 
-    // Enable define button always since definition is guaranteed
-    if (UI.defineBtn) UI.defineBtn.disabled = false;
+    // 3. Fallback: Try English Wiktionary REST API if still no definition
+    if (!currentWordDefinition) {
+        try {
+            const response = await fetch(`https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(cleanWord)}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.en && data.en.length > 0) {
+                    const firstMeaning = data.en[0];
+                    if (firstMeaning.definitions && firstMeaning.definitions.length > 0) {
+                        const rawDef = firstMeaning.definitions[0].definition || "";
+                        // Strip HTML tags if any from Wiktionary HTML response
+                        const cleanDef = rawDef.replace(/<[^>]*>?/gm, '').trim();
+                        if (cleanDef) {
+                            currentWordDefinition = cleanDef;
+                            currentWordPartOfSpeech = firstMeaning.partOfSpeech || "";
+                        }
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error fetching from tertiary dictionary API:", err);
+        }
+    }
+
+    // If a definition was found, format part of speech into definition if available
+    if (currentWordDefinition && currentWordPartOfSpeech) {
+        // Normalize capitalization
+        currentWordDefinition = currentWordDefinition.charAt(0).toUpperCase() + currentWordDefinition.slice(1);
+    }
+
+    // Enable define button since we attempted to retrieve accurate definition
+    if (UI.defineBtn) UI.defineBtn.disabled = !currentWordDefinition;
     if (currentWordSentence && UI.sentenceBtn) UI.sentenceBtn.disabled = false;
 
     if (UI.hintContainer) {
-        UI.hintContainer.classList.remove('hidden');
+        if (currentWordDefinition || currentWordSentence) {
+            UI.hintContainer.classList.remove('hidden');
+        } else {
+            UI.hintContainer.classList.add('hidden');
+        }
     }
 
     saveGameState();
@@ -900,6 +1025,125 @@ function renderAdminWordsList() {
     });
 }
 
+// Misspelled Words Bank UI Logic
+let misspelledSearchQuery = "";
+
+function renderMisspelledWordsList() {
+    if (!UI.misspelledWordsList) return;
+    UI.misspelledWordsList.innerHTML = '';
+
+    let filtered = misspelledBank.slice();
+
+    if (misspelledSearchQuery.trim() !== "") {
+        const query = misspelledSearchQuery.trim().toLowerCase();
+        filtered = filtered.filter(item => 
+            item.word.toLowerCase().includes(query) ||
+            item.valid.some(v => v.toLowerCase().includes(query)) ||
+            (item.attempts && item.attempts.some(a => a.toLowerCase().includes(query)))
+        );
+    }
+
+    if (filtered.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'no-words-message';
+        emptyMsg.textContent = misspelledSearchQuery 
+            ? "No misspelled words match your search." 
+            : "No misspelled words recorded yet! Play a game to practice spelling.";
+        UI.misspelledWordsList.appendChild(emptyMsg);
+        return;
+    }
+
+    // Sort by count descending (most missed first), then alphabetically
+    filtered.sort((a, b) => (b.count || 1) - (a.count || 1) || a.word.localeCompare(b.word));
+
+    filtered.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'admin-word-row';
+
+        const details = document.createElement('div');
+        details.className = 'admin-word-details';
+
+        const textWrapper = document.createElement('div');
+        textWrapper.className = 'admin-word-text-wrapper';
+
+        const name = document.createElement('span');
+        name.className = 'admin-word-name';
+        name.textContent = item.word;
+
+        const countBadge = document.createElement('span');
+        countBadge.className = 'status-badge inactive';
+        countBadge.textContent = `Missed ${item.count || 1}x`;
+
+        const diffBadge = document.createElement('span');
+        diffBadge.className = 'status-badge active';
+        diffBadge.textContent = item.difficulty || 'easy';
+
+        textWrapper.appendChild(name);
+        textWrapper.appendChild(countBadge);
+        textWrapper.appendChild(diffBadge);
+
+        const spellings = document.createElement('div');
+        spellings.className = 'admin-word-valid-spells';
+        let subText = `Valid: ${item.valid ? item.valid.join(', ') : item.word}`;
+        if (item.attempts && item.attempts.length > 0) {
+            subText += ` | Typed: "${item.attempts.join('", "')}"`;
+        }
+        spellings.textContent = subText;
+
+        details.appendChild(textWrapper);
+        details.appendChild(spellings);
+
+        row.appendChild(details);
+
+        const actions = document.createElement('div');
+        actions.className = 'admin-word-actions';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'action-btn-sm delete-btn';
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = () => {
+            removeMisspelledWord(item.word);
+            renderMisspelledWordsList();
+        };
+        actions.appendChild(removeBtn);
+
+        row.appendChild(actions);
+
+        UI.misspelledWordsList.appendChild(row);
+    });
+}
+
+function exportMisspelledCSV() {
+    if (misspelledBank.length === 0) {
+        alert("No misspelled words to export.");
+        return;
+    }
+
+    const headers = ["Word", "Valid Spellings", "Difficulty", "Times Missed", "User Typed Attempts", "Last Missed Date"];
+    const rows = misspelledBank.map(item => {
+        const escapeCsv = (str) => `"${String(str || '').replace(/"/g, '""')}"`;
+        return [
+            escapeCsv(item.word),
+            escapeCsv(item.valid ? item.valid.join('; ') : item.word),
+            escapeCsv(item.difficulty || 'easy'),
+            item.count || 1,
+            escapeCsv(item.attempts ? item.attempts.join('; ') : ''),
+            escapeCsv(item.lastMissed || '')
+        ].join(',');
+    });
+
+    const csvContent = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `misspelled_words_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
 function openAddWordForm() {
     adminEditingWord = null;
     UI.adminFormTitle.textContent = "Add New Word";
@@ -1097,6 +1341,48 @@ if (UI.adminExportFilteredBtn) {
         const content = `const WORD_LIST = ${JSON.stringify(currentWordList, null, 4)};\n`;
         exportWordListFile("words_filtered.js", content);
         showAdminToast("Exported words_filtered.js");
+    });
+}
+
+// Misspelled Words Event Listeners
+if (UI.misspelledEntranceBtn) {
+    UI.misspelledEntranceBtn.addEventListener('click', () => {
+        showScreen(UI.misspelledScreen);
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.gameoverMisspelledBtn) {
+    UI.gameoverMisspelledBtn.addEventListener('click', () => {
+        showScreen(UI.misspelledScreen);
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.misspelledExitBtn) {
+    UI.misspelledExitBtn.addEventListener('click', () => {
+        showScreen(UI.startScreen);
+    });
+}
+
+if (UI.misspelledSearchInput) {
+    UI.misspelledSearchInput.addEventListener('input', (e) => {
+        misspelledSearchQuery = e.target.value;
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.exportCsvBtn) {
+    UI.exportCsvBtn.addEventListener('click', exportMisspelledCSV);
+}
+
+if (UI.clearAllMisspelledBtn) {
+    UI.clearAllMisspelledBtn.addEventListener('click', () => {
+        if (misspelledBank.length === 0) return;
+        if (confirm("Are you sure you want to clear all misspelled words from the bank?")) {
+            clearAllMisspelledWords();
+            renderMisspelledWordsList();
+        }
     });
 }
 
