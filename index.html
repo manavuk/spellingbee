@@ -7,14 +7,21 @@
     <!-- SEO Best Practices -->
     <meta name="description" content="A gamified application to test your spelling skills. Listen, spell, and score points! Features increasing difficulty and a 10-life survival mode.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Floating particles background canvas -->
+    <canvas id="sparkles-canvas"></canvas>
+
     <div id="app">
         <!-- Start Screen -->
         <main id="start-screen" class="screen active">
-            <h1>Spell Bee</h1>
+            <div class="mascot-container">
+                <img src="bee_logo.png" alt="Spelling Bee Mascot" class="mascot-img floating-anim">
+            </div>
+            <h1>Spell Bee 🐝</h1>
             <p>Listen to the word, spell it correctly.</p>
             <p>10 Lives. Increasing Difficulty. Can you survive?</p>
             
@@ -94,6 +101,12 @@
                 </div>
                 
                 <div id="feedback" class="feedback-toast hidden" role="alert">Correct!</div>
+
+                <!-- Fun Mascot Feedback Popup Overlay for Wrong/Right Answers -->
+                <div id="mascot-popup" class="mascot-popup hidden">
+                    <img id="mascot-popup-img" src="bee_oops.png" alt="Feedback Mascot" class="mascot-popup-graphic">
+                    <div id="mascot-popup-text" class="mascot-popup-message">Oops! Keep trying!</div>
+                </div>
                 
                 <form id="answer-form">
                     <label for="answer-input" class="sr-only">Type word spelling</label>

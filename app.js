@@ -122,6 +122,9 @@ const UI = {
     
     difficultyBadge: document.getElementById('difficulty-badge'),
     feedback: document.getElementById('feedback'),
+    mascotPopup: document.getElementById('mascot-popup'),
+    mascotPopupImg: document.getElementById('mascot-popup-img'),
+    mascotPopupText: document.getElementById('mascot-popup-text'),
     finalScore: document.getElementById('final-score'),
     rightAnswersDisplay: document.getElementById('right-answers'),
     wrongWordsList: document.getElementById('wrong-words-list'),
@@ -483,8 +486,30 @@ function showFeedback(isCorrect, change) {
     UI.feedback.textContent = isCorrect ? `+${change}` : 'Incorrect!';
     UI.feedback.className = `feedback-toast show ${isCorrect ? 'correct' : 'incorrect'}`;
     
+    if (UI.mascotPopup) {
+        if (isCorrect) {
+            UI.mascotPopupImg.src = 'bee_happy.png';
+            UI.mascotPopupText.textContent = `Awesome! +${change} pts! 🌟`;
+            UI.mascotPopup.className = 'mascot-popup show correct';
+        } else {
+            const oopsMessages = [
+                "Oops! Keep trying! 🐝",
+                "Almost had it! You can do it!",
+                "Nice try! Keep practicing!",
+                "Don't give up! Try again!"
+            ];
+            const randomMsg = oopsMessages[Math.floor(Math.random() * oopsMessages.length)];
+            UI.mascotPopupImg.src = 'bee_oops.png';
+            UI.mascotPopupText.textContent = randomMsg;
+            UI.mascotPopup.className = 'mascot-popup show wrong';
+        }
+    }
+
     setTimeout(() => {
         UI.feedback.classList.remove('show');
+        if (UI.mascotPopup) {
+            UI.mascotPopup.classList.remove('show');
+        }
     }, 1200);
 }
 
@@ -1398,5 +1423,62 @@ window.addEventListener('pagehide', () => {
 restoreGameState();
 document.addEventListener('DOMContentLoaded', () => {
     restoreGameState();
+    initSparklesCanvas();
 });
+
+// Dynamic Floating Bee Sparkles Animation Canvas
+function initSparklesCanvas() {
+    const canvas = document.getElementById('sparkles-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const colors = ['#f59e0b', '#fbbf24', '#3b82f6', '#ec4899', '#8b5cf6'];
+
+    for (let i = 0; i < 35; i++) {
+        particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 3 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: -Math.random() * 0.5 - 0.2,
+            alpha: Math.random() * 0.7 + 0.3
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.y < -10) {
+                p.y = height + 10;
+                p.x = Math.random() * width;
+            }
+            if (p.x < -10) p.x = width + 10;
+            if (p.x > width + 10) p.x = -10;
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.restore();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
 
