@@ -1430,7 +1430,23 @@ restoreGameState();
 document.addEventListener('DOMContentLoaded', () => {
     restoreGameState();
     initSparklesCanvas();
+    registerServiceWorker();
 });
+
+// Register PWA Service Worker
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then((reg) => {
+                    console.log('PWA Service Worker registered successfully:', reg.scope);
+                })
+                .catch((err) => {
+                    console.error('Service Worker registration failed:', err);
+                });
+        });
+    }
+}
 
 // Dynamic Floating Bee Sparkles Animation Canvas
 function initSparklesCanvas() {
