@@ -1249,7 +1249,7 @@ function exportWordListFile(filename, content) {
 // Admin Event Listeners
 if (UI.adminEntranceBtn) {
     UI.adminEntranceBtn.addEventListener('click', () => {
-        switchScreen(UI.startScreen, UI.adminAuthScreen);
+        showScreen(UI.adminAuthScreen);
         UI.adminPasswordInput.value = "";
         UI.adminAuthError.classList.add('hidden');
         UI.adminPasswordInput.focus();
@@ -1258,13 +1258,13 @@ if (UI.adminEntranceBtn) {
 
 if (UI.adminAuthBackBtn) {
     UI.adminAuthBackBtn.addEventListener('click', () => {
-        switchScreen(UI.adminAuthScreen, UI.startScreen);
+        showScreen(UI.startScreen);
     });
 }
 
 if (UI.adminExitBtn) {
     UI.adminExitBtn.addEventListener('click', () => {
-        switchScreen(UI.adminPanelScreen, UI.startScreen);
+        showScreen(UI.startScreen);
     });
 }
 
@@ -1277,7 +1277,7 @@ if (UI.adminAuthForm) {
         if (enteredHash === ADMIN_PASSWORD_HASH) {
             UI.adminPasswordInput.value = "";
             UI.adminAuthError.classList.add('hidden');
-            switchScreen(UI.adminAuthScreen, UI.adminPanelScreen);
+            showScreen(UI.adminPanelScreen);
             renderAdminWordsList();
         } else {
             UI.adminAuthError.textContent = "Incorrect password. Try again.";
