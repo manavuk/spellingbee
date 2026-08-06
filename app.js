@@ -47,7 +47,7 @@ function loadWordLists() {
         console.error("Error loading word list", e);
         currentWordList = WORD_LIST;
     }
-    
+
     try {
         const stored11 = localStorage.getItem('spelling_bee_word_list_11plus');
         currentWordList11Plus = stored11 ? JSON.parse(stored11) : WORD_LIST_11PLUS;
@@ -102,7 +102,7 @@ const UI = {
     startScreen: document.getElementById('start-screen'),
     gameScreen: document.getElementById('game-screen'),
     gameOverScreen: document.getElementById('game-over-screen'),
-    
+
     startBtn: document.getElementById('start-btn'),
     listenBtn: document.getElementById('listen-btn'),
     listenSlowBtn: document.getElementById('listen-slow-btn'),
@@ -110,16 +110,16 @@ const UI = {
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
     livesSelect: document.getElementById('lives-select'),
-    
+
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
-    
+
     optionsContainer: document.getElementById('options-container'),
     optionsGrid: document.getElementById('options-grid'),
-    
+
     livesCount: document.getElementById('lives-count'),
     scoreDisplay: document.getElementById('score'),
-    
+
     difficultyBadge: document.getElementById('difficulty-badge'),
     virtualKeyboard: document.getElementById('virtual-keyboard'),
     feedback: document.getElementById('feedback'),
@@ -154,7 +154,7 @@ const UI = {
     adminPasswordInput: document.getElementById('admin-password-input'),
     adminAuthBackBtn: document.getElementById('admin-auth-back-btn'),
     adminAuthError: document.getElementById('admin-auth-error'),
-    
+
     adminPanelScreen: document.getElementById('admin-panel-screen'),
     adminDashboardContainer: document.getElementById('admin-dashboard-container'),
     adminWordListSelect: document.getElementById('admin-word-list-select'),
@@ -165,7 +165,7 @@ const UI = {
     adminExportFilteredBtn: document.getElementById('admin-export-filtered-btn'),
     adminResetBtn: document.getElementById('admin-reset-btn'),
     adminExitBtn: document.getElementById('admin-exit-btn'),
-    
+
     adminFormContainer: document.getElementById('admin-form-container'),
     adminFormTitle: document.getElementById('admin-form-title'),
     adminWordForm: document.getElementById('admin-word-form'),
@@ -216,21 +216,21 @@ function saveGameState() {
 function clearGameState() {
     try {
         localStorage.removeItem(STORAGE_KEY);
-    } catch (e) {}
+    } catch (e) { }
     try {
         sessionStorage.removeItem(STORAGE_KEY);
-    } catch (e) {}
+    } catch (e) { }
 }
 
 function restoreGameState() {
     let saved = null;
     try {
         saved = sessionStorage.getItem(STORAGE_KEY);
-    } catch (e) {}
+    } catch (e) { }
     if (!saved) {
         try {
             saved = localStorage.getItem(STORAGE_KEY);
-        } catch (e) {}
+        } catch (e) { }
     }
 
     if (!saved) return false;
@@ -356,7 +356,7 @@ function updateDifficulty() {
     // currentWordList and currentWordList11Plus are loaded from LocalStorage (or defaults)
     const activeList = (selectedWordListType === "11plus") ? currentWordList11Plus : currentWordList;
     wordsPool = activeList.filter(w => w.difficulty === currentDifficulty && w.status !== "inactive");
-    
+
     // Fallback: if the filtered list is empty (e.g. no easy words in the selected list),
     // fall back to using any available word from the list
     if (wordsPool.length === 0 && activeList.length > 0) {
@@ -422,45 +422,45 @@ function speakWord(word, slow = false) {
         clearTimeout(speakTimeout);
     }
     synth.cancel();
-    
+
     synthMessage = new SpeechSynthesisUtterance(word);
     const voices = synth.getVoices();
     const enVoices = voices.filter(v => v.lang.startsWith('en'));
-    
+
     let chosenVoice = null;
     if (selectedVoiceName) {
         chosenVoice = voices.find(v => v.name === selectedVoiceName);
     }
-    
+
     if (!chosenVoice && enVoices.length > 0) {
         // Automatically select the best local/native English voice that is fully responsive 
         // (excluding Enhanced, Siri, and Google voices which ignore rate changes on macOS Chrome/Safari)
-        const responsiveVoices = enVoices.filter(v => 
-            (v.localService || v.localService === undefined) && 
-            !v.name.includes('Enhanced') && 
+        const responsiveVoices = enVoices.filter(v =>
+            (v.localService || v.localService === undefined) &&
+            !v.name.includes('Enhanced') &&
             !v.name.includes('Siri') &&
             !v.name.includes('Google')
         );
-        
+
         if (responsiveVoices.length > 0) {
-            chosenVoice = 
+            chosenVoice =
                 responsiveVoices.find(v => v.name.includes('Alex')) ||
                 responsiveVoices.find(v => v.name.includes('Samantha')) ||
                 responsiveVoices.find(v => v.name.includes('Daniel')) ||
                 responsiveVoices[0];
         } else {
-            chosenVoice = 
+            chosenVoice =
                 enVoices.find(v => (v.localService || v.localService === undefined) && v.name.includes('Samantha')) ||
                 enVoices.find(v => (v.localService || v.localService === undefined) && v.name.includes('Alex')) ||
                 enVoices.find(v => v.localService) ||
                 enVoices[0];
         }
     }
-    
+
     if (chosenVoice) {
         synthMessage.voice = chosenVoice;
     }
-    
+
     synthMessage.rate = slow ? 0.45 : 0.85;
 
     // Speak synchronously to preserve the active user gesture/activation context.
@@ -475,7 +475,7 @@ function updateBadge() {
 function updateUI() {
     UI.livesCount.textContent = currentLives;
     UI.scoreDisplay.textContent = score;
-    
+
     if (currentLives <= 3) {
         UI.livesCount.style.animation = "shake 0.5s infinite";
     } else {
@@ -486,7 +486,7 @@ function updateUI() {
 function showFeedback(isCorrect, change) {
     UI.feedback.textContent = isCorrect ? `+${change}` : 'Incorrect!';
     UI.feedback.className = `feedback-toast show ${isCorrect ? 'correct' : 'incorrect'}`;
-    
+
     if (UI.mascotPopup) {
         if (isCorrect) {
             const correctVariations = [
@@ -523,32 +523,32 @@ function showFeedback(isCorrect, change) {
 function generateMisspellings(word) {
     const options = new Set([word]);
     let attempts = 0;
-    while(options.size < 3 && attempts < 50) {
+    while (options.size < 3 && attempts < 50) {
         let variant = word;
         const type = Math.floor(Math.random() * 4);
         if (type === 0 && word.length > 3) {
             const idx = Math.floor(Math.random() * (word.length - 2)) + 1;
-            variant = word.substring(0, idx) + word[idx+1] + word[idx] + word.substring(idx+2);
+            variant = word.substring(0, idx) + word[idx + 1] + word[idx] + word.substring(idx + 2);
         } else if (type === 1) {
             const cons = word.match(/[bcdfghjklmnpqrstvwxyz]/g);
             if (cons) {
-               const c = cons[Math.floor(Math.random()*cons.length)];
-               variant = word.replace(c, c+c);
+                const c = cons[Math.floor(Math.random() * cons.length)];
+                variant = word.replace(c, c + c);
             }
         } else if (type === 2) {
-            const vowels = ['a','e','i','o','u'];
-            for(let i=1; i<word.length; i++) {
+            const vowels = ['a', 'e', 'i', 'o', 'u'];
+            for (let i = 1; i < word.length; i++) {
                 if (vowels.includes(word[i])) {
-                    variant = word.substring(0, i) + word.substring(i+1);
+                    variant = word.substring(0, i) + word.substring(i + 1);
                     break;
                 }
             }
         } else if (type === 3) {
-            const vowels = ['a','e','i','o','u'];
-            for(let i=1; i<word.length; i++) {
+            const vowels = ['a', 'e', 'i', 'o', 'u'];
+            for (let i = 1; i < word.length; i++) {
                 if (vowels.includes(word[i])) {
                     const other = vowels.filter(v => v !== word[i]);
-                    variant = word.substring(0, i) + other[Math.floor(Math.random()*other.length)] + word.substring(i+1);
+                    variant = word.substring(0, i) + other[Math.floor(Math.random() * other.length)] + word.substring(i + 1);
                     break;
                 }
             }
@@ -556,14 +556,14 @@ function generateMisspellings(word) {
         if (variant !== word && variant.length >= 3) options.add(variant);
         attempts++;
     }
-    
+
     const fallbacks = ['s', 'e', 'd', 'ing', 'ly', 'er'];
     let fallbackIdx = 0;
-    while(options.size < 3) {
+    while (options.size < 3) {
         options.add(word + fallbacks[fallbackIdx % fallbacks.length]);
         fallbackIdx++;
     }
-    
+
     return Array.from(options).sort(() => Math.random() - 0.5);
 }
 
@@ -624,7 +624,7 @@ function handleAnswer(e) {
     e.preventDefault();
     const userAnswer = UI.answerInput.value.trim().toLowerCase();
     if (!userAnswer) return;
-    
+
     if (currentWordObj.valid.includes(userAnswer)) {
         // Correct
         rightAnswersCount++;
@@ -632,14 +632,14 @@ function handleAnswer(e) {
         if (currentDifficulty === 'medium') points = 20;
         if (currentDifficulty === 'hard') points = 30;
         if (currentDifficulty === 'expert') points = 50;
-        
+
         score += points;
-        
+
         // Trigger CSS animations
         UI.answerInput.classList.remove('error-shake', 'success-pop');
         void UI.answerInput.offsetWidth;
         UI.answerInput.classList.add('success-pop');
-        
+
         showFeedback(true, points);
         updateUI();
         saveGameState();
@@ -698,21 +698,21 @@ function gameOver() {
 function populateVoiceList() {
     if (!UI.voiceSelect) return;
     UI.voiceSelect.innerHTML = '<option value="">Auto-Detect Best Local Voice</option>';
-    
+
     const voices = synth.getVoices();
     const enVoices = voices.filter(v => v.lang.startsWith('en'));
-    
+
     enVoices.forEach(voice => {
         const option = document.createElement('option');
         // Filter out Enhanced, Siri, and Google voices as unresponsive to rate settings
         const isResponsive = !voice.name.includes('Enhanced') && !voice.name.includes('Siri') && !voice.name.includes('Google');
         const isLocal = voice.localService || voice.localService === undefined;
-        
+
         let label = "Cloud/Unresponsive";
         if (isLocal) {
             label = isResponsive ? "Local/Responsive" : "Local/Unresponsive (Siri/Enhanced)";
         }
-        
+
         option.textContent = `${voice.name} (${voice.lang}) [${label}]`;
         option.value = voice.name;
         UI.voiceSelect.appendChild(option);
@@ -830,7 +830,7 @@ function speakAnnouncement(phrase) {
         clearTimeout(speakTimeout);
     }
     synth.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(phrase);
     let chosenVoice = null;
     if (selectedVoiceName) {
@@ -838,15 +838,15 @@ function speakAnnouncement(phrase) {
     }
     if (!chosenVoice) {
         const enVoices = synth.getVoices().filter(v => v.lang.startsWith('en'));
-        const responsiveVoices = enVoices.filter(v => 
-            (v.localService || v.localService === undefined) && 
-            !v.name.includes('Enhanced') && 
+        const responsiveVoices = enVoices.filter(v =>
+            (v.localService || v.localService === undefined) &&
+            !v.name.includes('Enhanced') &&
             !v.name.includes('Siri') &&
             !v.name.includes('Google')
         );
-        
+
         if (responsiveVoices.length > 0) {
-            chosenVoice = 
+            chosenVoice =
                 responsiveVoices.find(v => v.name.includes('Alex')) ||
                 responsiveVoices.find(v => v.name.includes('Samantha')) ||
                 responsiveVoices.find(v => v.name.includes('Daniel')) ||
@@ -855,11 +855,11 @@ function speakAnnouncement(phrase) {
             chosenVoice = enVoices[0];
         }
     }
-    
+
     if (chosenVoice) {
         utterance.voice = chosenVoice;
     }
-    
+
     utterance.rate = 0.85;
 
     // Speak synchronously to preserve the active user gesture/activation context
@@ -903,7 +903,7 @@ if (UI.sentenceBtn) {
             if (UI.hintDisplay && UI.hintBadge && UI.hintText && currentWordObj) {
                 const regex = new RegExp(`\\b${currentWordObj.word}\\b`, 'gi');
                 const maskedSentence = currentWordSentence.replace(regex, '______');
-                
+
                 UI.hintDisplay.classList.remove('hidden');
                 UI.hintBadge.textContent = "Sentence";
                 UI.hintText.textContent = maskedSentence;
@@ -935,7 +935,7 @@ populateVoiceList();
 // ==========================================
 // Admin Panel Controllers & Handlers
 // ==========================================
-const ADMIN_PASSWORD_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // sha256 hash of "admin123"
+const ADMIN_PASSWORD_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
 let adminCurrentWordBank = "default";
 let adminCurrentDifficulty = "easy";
 let adminEditingWord = null;
@@ -972,7 +972,7 @@ function renderAdminWordsList() {
     });
 
     UI.adminWordsList.innerHTML = '';
-    
+
     if (filteredList.length === 0) {
         const msg = document.createElement('div');
         msg.className = 'no-words-message';
@@ -1068,7 +1068,7 @@ function renderMisspelledWordsList() {
 
     if (misspelledSearchQuery.trim() !== "") {
         const query = misspelledSearchQuery.trim().toLowerCase();
-        filtered = filtered.filter(item => 
+        filtered = filtered.filter(item =>
             item.word.toLowerCase().includes(query) ||
             item.valid.some(v => v.toLowerCase().includes(query)) ||
             (item.attempts && item.attempts.some(a => a.toLowerCase().includes(query)))
@@ -1078,8 +1078,8 @@ function renderMisspelledWordsList() {
     if (filtered.length === 0) {
         const emptyMsg = document.createElement('div');
         emptyMsg.className = 'no-words-message';
-        emptyMsg.textContent = misspelledSearchQuery 
-            ? "No misspelled words match your search." 
+        emptyMsg.textContent = misspelledSearchQuery
+            ? "No misspelled words match your search."
             : "No misspelled words recorded yet! Play a game to practice spelling.";
         UI.misspelledWordsList.appendChild(emptyMsg);
         return;
@@ -1169,7 +1169,7 @@ function exportMisspelledCSV() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `misspelled_words_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute('download', `misspelled_words_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -1184,7 +1184,7 @@ function openAddWordForm() {
     UI.adminValidInput.value = "";
     UI.adminDifficultySelect.value = adminCurrentDifficulty;
     UI.adminStatusSelect.value = "active";
-    
+
     UI.adminDashboardContainer.classList.add('hidden');
     UI.adminFormContainer.classList.remove('hidden');
 }
@@ -1197,7 +1197,7 @@ function openEditWordForm(wordObj) {
     UI.adminValidInput.value = wordObj.valid.join(', ');
     UI.adminDifficultySelect.value = wordObj.difficulty;
     UI.adminStatusSelect.value = wordObj.status || "active";
-    
+
     UI.adminDashboardContainer.classList.add('hidden');
     UI.adminFormContainer.classList.remove('hidden');
 }
@@ -1305,7 +1305,7 @@ if (UI.adminAuthForm) {
         e.preventDefault();
         const enteredPassword = UI.adminPasswordInput.value;
         const enteredHash = await hashPassword(enteredPassword);
-        
+
         if (enteredHash === ADMIN_PASSWORD_HASH) {
             UI.adminPasswordInput.value = "";
             UI.adminAuthError.classList.add('hidden');

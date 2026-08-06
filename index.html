@@ -26,40 +26,42 @@
     <div id="app">
         <!-- Start Screen -->
         <main id="start-screen" class="screen active">
-            <div class="mascot-container">
-                <img src="bee_logo.png" alt="Spelling Bee Mascot" class="mascot-img floating-anim">
+            <div class="landing-header-row">
+                <img src="bee_logo.png" alt="Spelling Bee Mascot" class="mascot-img-sm floating-anim">
+                <h1>Spell Bee</h1>
             </div>
-            <h1>Spell Bee 🐝</h1>
-            <p>Listen to the word, spell it correctly.</p>
-            <p>10 Lives. Increasing Difficulty. Can you survive?</p>
+            <p class="subtitle">Listen to the word, spell it correctly!</p>
             
-            <div class="voice-selector-container">
-                <label for="voice-select">Choose Voice</label>
-                <select id="voice-select" class="voice-select" aria-label="Select voice font">
-                    <option value="">Default System Voice</option>
-                </select>
-            </div>
-            
-            <div class="word-list-selector-container" style="margin: 15px 0 10px 0;">
-                <label for="word-list-select">Word Bank</label>
-                <select id="word-list-select" class="word-list-select" aria-label="Select spelling word list">
-                    <option value="11plus" selected>11+ Exam Words (Default)</option>
-                    <option value="default">General Vocabulary</option>
-                </select>
-            </div>
-            
-            <div class="lives-selector-container" style="margin: 15px 0 10px 0;">
-                <label for="lives-select">Starting Lives</label>
-                <select id="lives-select" class="word-list-select" aria-label="Select starting lives">
-                    <option value="10" selected>10 Lives (Default)</option>
-                    <option value="5">5 Lives (Challenge Mode)</option>
-                </select>
+            <div class="landing-settings-card">
+                <div class="setting-item">
+                    <label for="word-list-select">Word Bank</label>
+                    <select id="word-list-select" class="word-list-select" aria-label="Select spelling word list">
+                        <option value="11plus" selected>11+ Exam Words (Default)</option>
+                        <option value="default">General Vocabulary</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label for="lives-select">Starting Lives</label>
+                    <select id="lives-select" class="word-list-select" aria-label="Select starting lives">
+                        <option value="10" selected>10 Lives (Default)</option>
+                        <option value="5">5 Lives (Challenge Mode)</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label for="voice-select">Voice Reader</label>
+                    <select id="voice-select" class="voice-select" aria-label="Select voice font">
+                        <option value="">Default System Voice</option>
+                    </select>
+                </div>
             </div>
             
             <button id="start-btn" class="primary-btn">Start Game</button>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button id="misspelled-entrance-btn" class="tertiary-btn" style="font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Misspelled Words</button>
-                <button id="admin-entrance-btn" class="tertiary-btn" style="font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
+            
+            <div class="landing-footer-nav">
+                <button id="misspelled-entrance-btn" class="tertiary-btn">Misspelled Words</button>
+                <button id="admin-entrance-btn" class="tertiary-btn">Admin Panel</button>
             </div>
         </main>
 
