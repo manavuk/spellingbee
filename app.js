@@ -121,6 +121,7 @@ const UI = {
     scoreDisplay: document.getElementById('score'),
     
     difficultyBadge: document.getElementById('difficulty-badge'),
+    virtualKeyboard: document.getElementById('virtual-keyboard'),
     feedback: document.getElementById('feedback'),
     mascotPopup: document.getElementById('mascot-popup'),
     mascotPopupImg: document.getElementById('mascot-popup-img'),
@@ -1430,8 +1431,68 @@ restoreGameState();
 document.addEventListener('DOMContentLoaded', () => {
     restoreGameState();
     initSparklesCanvas();
+    initVirtualKeyboard();
     registerServiceWorker();
 });
+
+// Build Custom Virtual On-Screen Bee Keyboard
+function initVirtualKeyboard() {
+    if (!UI.virtualKeyboard) return;
+    UI.virtualKeyboard.innerHTML = '';
+
+    const rows = [
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    ];
+
+    rows.forEach((rowKeys, rowIndex) => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'vk-row';
+
+        rowKeys.forEach(letter => {
+            const keyBtn = document.createElement('button');
+            keyBtn.type = 'button';
+            keyBtn.className = 'vk-key';
+            keyBtn.textContent = letter;
+            keyBtn.setAttribute('aria-label', `Key ${letter}`);
+
+            // Prevent default focus shift to keep input focused
+            keyBtn.addEventListener('mousedown', (e) => e.preventDefault());
+            keyBtn.addEventListener('touchstart', (e) => e.preventDefault());
+
+            keyBtn.addEventListener('click', () => {
+                if (UI.answerInput) {
+                    UI.answerInput.value += letter.toLowerCase();
+                    UI.answerInput.focus();
+                }
+            });
+            rowDiv.appendChild(keyBtn);
+        });
+
+        // Append Backspace key on 3rd row
+        if (rowIndex === 2) {
+            const backspaceBtn = document.createElement('button');
+            backspaceBtn.type = 'button';
+            backspaceBtn.className = 'vk-key vk-action-key vk-backspace';
+            backspaceBtn.innerHTML = '⌫';
+            backspaceBtn.setAttribute('aria-label', 'Delete character');
+
+            backspaceBtn.addEventListener('mousedown', (e) => e.preventDefault());
+            backspaceBtn.addEventListener('touchstart', (e) => e.preventDefault());
+
+            backspaceBtn.addEventListener('click', () => {
+                if (UI.answerInput && UI.answerInput.value.length > 0) {
+                    UI.answerInput.value = UI.answerInput.value.slice(0, -1);
+                    UI.answerInput.focus();
+                }
+            });
+            rowDiv.appendChild(backspaceBtn);
+        }
+
+        UI.virtualKeyboard.appendChild(rowDiv);
+    });
+}
 
 // Register PWA Service Worker
 function registerServiceWorker() {

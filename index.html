@@ -118,9 +118,14 @@
                 
                 <form id="answer-form" autocomplete="off">
                     <label for="answer-input" class="sr-only">Type word spelling</label>
-                    <input type="password" id="answer-input" name="spelling-pwd-field" autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="text" enterkeyhint="go" data-lpignore="true" data-form-type="other" data-gramm="false" data-enable-grammarly="false" placeholder="Type spelling here..." autofocus>
+                    <input type="text" id="answer-input" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Type or tap keyboard..." autofocus>
                     <button type="submit" id="submit-btn" class="primary-btn">Submit</button>
                 </form>
+
+                <!-- Custom On-Screen Virtual Keyboard (Prevents Mobile Native Predictive Strips) -->
+                <div id="virtual-keyboard" class="virtual-keyboard">
+                    <!-- Populated dynamically via JS -->
+                </div>
                 
                 <div id="options-container" class="options-container hidden">
                     <p class="instruction">Choose the correct spelling:</p>
