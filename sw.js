@@ -14,8 +14,11 @@ const ASSETS = [
     './bee_thinking.png',
     './bee_dizzy.png',
     './bee_superhero.png',
+    './icon-96.png',
+    './icon-144.png',
     './icon-192.png',
-    './icon-512.png'
+    './icon-512.png',
+    './apple-touch-icon.png'
 ];
 
 self.addEventListener('install', (e) => {
