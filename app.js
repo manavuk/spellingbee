@@ -110,7 +110,8 @@ const UI = {
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
     livesSelect: document.getElementById('lives-select'),
-    themeSelect: document.getElementById('theme-select'),
+    themeToggleBtn: document.getElementById('theme-toggle-btn'),
+    themeToggleIcon: document.getElementById('theme-toggle-icon'),
 
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
@@ -1429,12 +1430,18 @@ window.addEventListener('pagehide', () => {
 
 // Theme Switcher Controller
 const THEME_STORAGE_KEY = 'spelling_bee_theme';
+let currentThemeMode = 'dark';
 
 function applyTheme(theme) {
+    currentThemeMode = theme;
     if (theme === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
+        if (UI.themeToggleIcon) UI.themeToggleIcon.textContent = '☀️';
+        if (UI.themeToggleBtn) UI.themeToggleBtn.setAttribute('title', 'Switch to Dark Theme');
     } else {
         document.documentElement.removeAttribute('data-theme');
+        if (UI.themeToggleIcon) UI.themeToggleIcon.textContent = '🌙';
+        if (UI.themeToggleBtn) UI.themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
     }
     try {
         localStorage.setItem(THEME_STORAGE_KEY, theme);
@@ -1448,10 +1455,11 @@ function initTheme() {
     } catch (e) {}
 
     applyTheme(savedTheme);
-    if (UI.themeSelect) {
-        UI.themeSelect.value = savedTheme;
-        UI.themeSelect.addEventListener('change', (e) => {
-            applyTheme(e.target.value);
+
+    if (UI.themeToggleBtn) {
+        UI.themeToggleBtn.addEventListener('click', () => {
+            const nextTheme = (currentThemeMode === 'dark') ? 'light' : 'dark';
+            applyTheme(nextTheme);
         });
     }
 }

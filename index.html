@@ -24,6 +24,11 @@
     <canvas id="sparkles-canvas"></canvas>
 
     <div id="app">
+        <!-- Top Right Floating Theme Toggle Button -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle theme mode" title="Switch Theme">
+            <span id="theme-toggle-icon">🌙</span>
+        </button>
+
         <!-- Start Screen -->
         <main id="start-screen" class="screen active">
             <div class="landing-header-row">
@@ -46,14 +51,6 @@
                     <select id="lives-select" class="word-list-select" aria-label="Select starting lives">
                         <option value="10" selected>10 Lives (Default)</option>
                         <option value="5">5 Lives (Challenge Mode)</option>
-                    </select>
-                </div>
-
-                <div class="setting-item">
-                    <label for="theme-select">Color Theme</label>
-                    <select id="theme-select" class="word-list-select" aria-label="Select color theme">
-                        <option value="dark" selected>🌙 Dark Theme (Default)</option>
-                        <option value="light">☀️ Light Theme</option>
                     </select>
                 </div>
 

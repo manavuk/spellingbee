@@ -126,6 +126,37 @@ body {
     margin: auto;
 }
 
+/* Floating Top-Right Theme Toggle Icon Button */
+.theme-toggle-btn {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--key-bg);
+    border: 1px solid var(--key-border);
+    color: var(--key-text);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.12) rotate(15deg);
+    border-color: var(--primary);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.95);
+}
+
 .screen {
     display: flex;
     flex-direction: column;
@@ -296,9 +327,10 @@ button {
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-bottom: 40px;
-    padding: 0 10px;
+    padding: 0 50px 0 10px;
 }
 
 .lives {
