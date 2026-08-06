@@ -50,6 +50,14 @@
                 </div>
 
                 <div class="setting-item">
+                    <label for="theme-select">Color Theme</label>
+                    <select id="theme-select" class="word-list-select" aria-label="Select color theme">
+                        <option value="dark" selected>🌙 Dark Theme (Default)</option>
+                        <option value="light">☀️ Light Theme</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
                     <label for="voice-select">Voice Reader</label>
                     <select id="voice-select" class="voice-select" aria-label="Select voice font">
                         <option value="">Default System Voice</option>
@@ -146,9 +154,9 @@
                 <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 150px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
             </div>
             <p id="game-over-message">Better luck next time!</p>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button id="restart-btn" class="primary-btn" style="margin-top: 0;">Play Again</button>
-                <button id="gameover-misspelled-btn" class="secondary-btn" style="margin-top: 0; padding: 16px 24px;">View Misspelled Words</button>
+            <div class="gameover-actions-row">
+                <button id="restart-btn" class="primary-btn gameover-btn">Play Again</button>
+                <button id="gameover-misspelled-btn" class="secondary-btn gameover-btn">View Misspelled Words</button>
             </div>
         </section>
 

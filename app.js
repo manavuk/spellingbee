@@ -110,6 +110,7 @@ const UI = {
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
     livesSelect: document.getElementById('lives-select'),
+    themeSelect: document.getElementById('theme-select'),
 
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
@@ -1426,10 +1427,40 @@ window.addEventListener('pagehide', () => {
     saveGameState();
 });
 
+// Theme Switcher Controller
+const THEME_STORAGE_KEY = 'spelling_bee_theme';
+
+function applyTheme(theme) {
+    if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (e) {}
+}
+
+function initTheme() {
+    let savedTheme = 'dark';
+    try {
+        savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'dark';
+    } catch (e) {}
+
+    applyTheme(savedTheme);
+    if (UI.themeSelect) {
+        UI.themeSelect.value = savedTheme;
+        UI.themeSelect.addEventListener('change', (e) => {
+            applyTheme(e.target.value);
+        });
+    }
+}
+
 // Restore persisted game state if present
 restoreGameState();
 document.addEventListener('DOMContentLoaded', () => {
     restoreGameState();
+    initTheme();
     initSparklesCanvas();
     initVirtualKeyboard();
     registerServiceWorker();
