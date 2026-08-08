@@ -69,6 +69,9 @@ function addMisspelledWord(wordObj, userTypedWord = null) {
     if (existingIndex !== -1) {
         misspelledBank[existingIndex].count = (misspelledBank[existingIndex].count || 1) + 1;
         misspelledBank[existingIndex].lastMissed = dateStr;
+        if (currentWordDefinition && !misspelledBank[existingIndex].definition) {
+            misspelledBank[existingIndex].definition = currentWordDefinition;
+        }
         if (userTypedWord && !misspelledBank[existingIndex].attempts.includes(userTypedWord)) {
             misspelledBank[existingIndex].attempts.push(userTypedWord);
         }
@@ -77,6 +80,7 @@ function addMisspelledWord(wordObj, userTypedWord = null) {
             word: targetWord,
             valid: validSpellings,
             difficulty: difficulty,
+            definition: currentWordDefinition || "",
             count: 1,
             lastMissed: dateStr,
             attempts: userTypedWord ? [userTypedWord] : []
@@ -1066,85 +1070,118 @@ function renderMisspelledWordsList() {
     if (!UI.misspelledWordsList) return;
     UI.misspelledWordsList.innerHTML = '';
 
-    let filtered = misspelledBank.slice();
-
-    if (misspelledSearchQuery.trim() !== "") {
-        const query = misspelledSearchQuery.trim().toLowerCase();
-        filtered = filtered.filter(item =>
-            item.word.toLowerCase().includes(query) ||
-            item.valid.some(v => v.toLowerCase().includes(query)) ||
-            (item.attempts && item.attempts.some(a => a.toLowerCase().includes(query)))
-        );
-    }
-
-    if (filtered.length === 0) {
-        const emptyMsg = document.createElement('div');
-        emptyMsg.className = 'no-words-message';
-        emptyMsg.textContent = misspelledSearchQuery
-            ? "No misspelled words match your search."
-            : "No misspelled words recorded yet! Play a game to practice spelling.";
-        UI.misspelledWordsList.appendChild(emptyMsg);
-        return;
-    }
-
-    // Sort by count descending (most missed first), then alphabetically
-    filtered.sort((a, b) => (b.count || 1) - (a.count || 1) || a.word.localeCompare(b.word));
-
-    filtered.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'admin-word-row';
-
-        const details = document.createElement('div');
-        details.className = 'admin-word-details';
-
-        const textWrapper = document.createElement('div');
-        textWrapper.className = 'admin-word-text-wrapper';
-
-        const name = document.createElement('span');
-        name.className = 'admin-word-name';
-        name.textContent = item.word;
-
-        const countBadge = document.createElement('span');
-        countBadge.className = 'status-badge inactive';
-        countBadge.textContent = `Missed ${item.count || 1}x`;
-
-        const diffBadge = document.createElement('span');
-        diffBadge.className = 'status-badge active';
-        diffBadge.textContent = item.difficulty || 'easy';
-
-        textWrapper.appendChild(name);
-        textWrapper.appendChild(countBadge);
-        textWrapper.appendChild(diffBadge);
-
-        const spellings = document.createElement('div');
-        spellings.className = 'admin-word-valid-spells';
-        let subText = `Valid: ${item.valid ? item.valid.join(', ') : item.word}`;
-        if (item.attempts && item.attempts.length > 0) {
-            subText += ` | Typed: "${item.attempts.join('", "')}"`;
+    try {
+        if (!Array.isArray(misspelledBank)) {
+            misspelledBank = [];
         }
-        spellings.textContent = subText;
 
-        details.appendChild(textWrapper);
-        details.appendChild(spellings);
+        let filtered = misspelledBank.filter(item => item && item.word);
 
-        row.appendChild(details);
+        if (misspelledSearchQuery && misspelledSearchQuery.trim() !== "") {
+            const query = misspelledSearchQuery.trim().toLowerCase();
+            filtered = filtered.filter(item =>
+                (item.word && item.word.toLowerCase().includes(query)) ||
+                (item.definition && item.definition.toLowerCase().includes(query)) ||
+                (Array.isArray(item.valid) && item.valid.some(v => v && v.toLowerCase().includes(query))) ||
+                (Array.isArray(item.attempts) && item.attempts.some(a => a && a.toLowerCase().includes(query)))
+            );
+        }
 
-        const actions = document.createElement('div');
-        actions.className = 'admin-word-actions';
+        if (filtered.length === 0) {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.className = 'no-words-message';
+            emptyMsg.style.padding = '20px';
+            emptyMsg.style.textAlign = 'center';
+            emptyMsg.style.color = 'var(--text-muted)';
+            emptyMsg.style.fontSize = '0.9rem';
+            emptyMsg.textContent = misspelledSearchQuery
+                ? "No misspelled words match your search."
+                : "No misspelled words recorded yet! Play a game to practice spelling.";
+            UI.misspelledWordsList.appendChild(emptyMsg);
+            return;
+        }
 
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'action-btn-sm delete-btn';
-        removeBtn.textContent = 'Remove';
-        removeBtn.onclick = () => {
-            removeMisspelledWord(item.word);
-            renderMisspelledWordsList();
-        };
-        actions.appendChild(removeBtn);
+        // Sort by count descending (most missed first), then alphabetically
+        filtered.sort((a, b) => (b.count || 1) - (a.count || 1) || String(a.word).localeCompare(String(b.word)));
 
-        row.appendChild(actions);
+        filtered.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'admin-word-row';
+            row.style.padding = '8px 12px';
 
-        UI.misspelledWordsList.appendChild(row);
-    });
+            const details = document.createElement('div');
+            details.className = 'admin-word-details';
+
+            const textWrapper = document.createElement('div');
+            textWrapper.className = 'admin-word-text-wrapper';
+
+            const name = document.createElement('span');
+            name.className = 'admin-word-name';
+            name.style.fontSize = '1rem';
+            name.textContent = item.word;
+
+            const countBadge = document.createElement('span');
+            countBadge.className = 'status-badge inactive';
+            countBadge.textContent = `${item.count || 1}x`;
+
+            const diffBadge = document.createElement('span');
+            diffBadge.className = 'status-badge active';
+            diffBadge.textContent = item.difficulty || 'easy';
+
+            textWrapper.appendChild(name);
+            textWrapper.appendChild(countBadge);
+            textWrapper.appendChild(diffBadge);
+
+            const defElement = document.createElement('div');
+            defElement.className = 'admin-word-valid-spells';
+            defElement.style.color = 'var(--text-main)';
+            defElement.style.fontSize = '0.82rem';
+            defElement.style.marginTop = '2px';
+            defElement.style.lineHeight = '1.2';
+            defElement.textContent = item.definition ? item.definition : "No definition found";
+
+            const spellings = document.createElement('div');
+            spellings.className = 'admin-word-valid-spells';
+            spellings.style.fontSize = '0.78rem';
+            spellings.style.opacity = '0.85';
+            let subText = `Valid: ${item.valid ? (Array.isArray(item.valid) ? item.valid.join(', ') : item.valid) : item.word}`;
+            if (Array.isArray(item.attempts) && item.attempts.length > 0) {
+                subText += ` | Typed: "${item.attempts.join('", "')}"`;
+            }
+            spellings.textContent = subText;
+
+            details.appendChild(textWrapper);
+            details.appendChild(defElement);
+            details.appendChild(spellings);
+
+            row.appendChild(details);
+
+            const actions = document.createElement('div');
+            actions.className = 'admin-word-actions';
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'action-btn-sm delete-btn';
+            removeBtn.style.padding = '4px 10px';
+            removeBtn.style.fontSize = '0.75rem';
+            removeBtn.textContent = 'Remove';
+            removeBtn.onclick = () => {
+                try {
+                    removeMisspelledWord(item.word);
+                    renderMisspelledWordsList();
+                } catch (err) {
+                    console.error("Error removing misspelled word:", err);
+                }
+            };
+            actions.appendChild(removeBtn);
+
+            row.appendChild(actions);
+
+            UI.misspelledWordsList.appendChild(row);
+        });
+    } catch (e) {
+        console.error("Error rendering Misspelled Words List:", e);
+        UI.misspelledWordsList.innerHTML = '<div class="no-words-message" style="padding: 20px; text-align: center; color: var(--danger); font-size: 0.9rem;">Unable to load misspelled words.</div>';
+    }
 }
 
 function exportMisspelledCSV() {
