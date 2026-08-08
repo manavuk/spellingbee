@@ -1514,6 +1514,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // Build Custom Virtual On-Screen Bee Keyboard
 function initVirtualKeyboard() {
     if (!UI.virtualKeyboard) return;
+
+    // Detect if device supports touch screen
+    const isTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+    if (!isTouchScreen) {
+        UI.virtualKeyboard.style.display = 'none';
+        if (UI.answerInput) {
+            UI.answerInput.removeAttribute('readonly');
+            UI.answerInput.removeAttribute('inputmode');
+        }
+        return;
+    }
+
+    // Touch screen detected: show custom keyboard & prevent native mobile virtual keyboard overlay
+    UI.virtualKeyboard.style.display = 'flex';
+    if (UI.answerInput) {
+        UI.answerInput.setAttribute('readonly', 'readonly');
+        UI.answerInput.setAttribute('inputmode', 'none');
+    }
+
     UI.virtualKeyboard.innerHTML = '';
 
     const rows = [
@@ -1540,7 +1560,6 @@ function initVirtualKeyboard() {
             keyBtn.addEventListener('click', () => {
                 if (UI.answerInput) {
                     UI.answerInput.value += letter.toLowerCase();
-                    UI.answerInput.focus();
                 }
             });
             rowDiv.appendChild(keyBtn);
@@ -1560,7 +1579,6 @@ function initVirtualKeyboard() {
             backspaceBtn.addEventListener('click', () => {
                 if (UI.answerInput && UI.answerInput.value.length > 0) {
                     UI.answerInput.value = UI.answerInput.value.slice(0, -1);
-                    UI.answerInput.focus();
                 }
             });
             rowDiv.appendChild(backspaceBtn);
