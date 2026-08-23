@@ -1,11 +1,24 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.4.0";
+const APP_VERSION = "v1.5.0";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.4.0",
+        version: "v1.5.0",
         date: "Latest Release",
         badge: "New",
+        title: "Visual Themes & Mobile-First Experience",
+        highlights: [
+            "5 visual themes: Midnight Blue, Daylight Honey (Light), Forest Emerald, Cyberpunk Neon & Sunset Gold",
+            "Enhanced typography and high-contrast styling across all light mode elements and keyboards",
+            "Responsive layout optimizations for mobile phones, smaller touch viewports and compact keyboards",
+            "Real-time theme switching with persistent cross-session localStorage sync",
+            "Over-the-air PWA update deployment for all installed web apps"
+        ]
+    },
+    {
+        version: "v1.4.0",
+        date: "Previous Release",
+        badge: "PWA",
         title: "Progressive Web App (PWA) & Update Engine",
         highlights: [
             "Install as a standalone native-like app on Android, iOS, Windows & Mac",
