@@ -32,15 +32,32 @@
                     <option value="11plus">11+ Exam Words</option>
                 </select>
             </div>
+
+            <div class="keyboard-selector-container" style="margin: 15px 0 10px 0;">
+                <label for="keyboard-select">Keyboard</label>
+                <select id="keyboard-select" class="word-list-select" aria-label="Select keyboard input mode">
+                    <option value="virtual">Virtual Keyboard Only (Default)</option>
+                    <option value="both">Virtual + Native Device Keyboard</option>
+                </select>
+            </div>
             
             <button id="start-btn" class="primary-btn">Start Game</button>
+            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 20px; font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
         </main>
 
         <!-- Game Interface -->
         <section id="game-screen" class="screen hidden" aria-live="polite">
             <header class="header">
-                <div class="lives" aria-label="Lives remaining">
-                    Lives: <span id="lives-count">10</span>
+                <div class="lives-container">
+                    <div class="lives" aria-label="Lives remaining">
+                        Lives: <span id="lives-count">10</span>
+                    </div>
+                    <button id="in-game-restart-btn" class="icon-restart-btn" aria-label="Restart game" title="Restart Game">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                    </button>
                 </div>
                 <div class="score" aria-label="Current score">Score: <span id="score">0</span></div>
             </header>
@@ -85,9 +102,55 @@
                 
                 <form id="answer-form">
                     <label for="answer-input" class="sr-only">Type word spelling</label>
-                    <input type="text" id="answer-input" autocomplete="off" placeholder="Type spelling here..." autofocus>
+                    <input type="text" id="answer-input" name="spelling-answer" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="none" placeholder="Type spelling here..." autofocus>
                     <button type="submit" id="submit-btn" class="primary-btn">Submit</button>
                 </form>
+                
+                <!-- Interactive Virtual Keyboard -->
+                <div id="virtual-keyboard" class="virtual-keyboard" aria-label="Virtual Keyboard">
+                    <div class="keyboard-row">
+                        <button type="button" class="key-btn" data-key="q">Q</button>
+                        <button type="button" class="key-btn" data-key="w">W</button>
+                        <button type="button" class="key-btn" data-key="e">E</button>
+                        <button type="button" class="key-btn" data-key="r">R</button>
+                        <button type="button" class="key-btn" data-key="t">T</button>
+                        <button type="button" class="key-btn" data-key="y">Y</button>
+                        <button type="button" class="key-btn" data-key="u">U</button>
+                        <button type="button" class="key-btn" data-key="i">I</button>
+                        <button type="button" class="key-btn" data-key="o">O</button>
+                        <button type="button" class="key-btn" data-key="p">P</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button type="button" class="key-btn" data-key="a">A</button>
+                        <button type="button" class="key-btn" data-key="s">S</button>
+                        <button type="button" class="key-btn" data-key="d">D</button>
+                        <button type="button" class="key-btn" data-key="f">F</button>
+                        <button type="button" class="key-btn" data-key="g">G</button>
+                        <button type="button" class="key-btn" data-key="h">H</button>
+                        <button type="button" class="key-btn" data-key="j">J</button>
+                        <button type="button" class="key-btn" data-key="k">K</button>
+                        <button type="button" class="key-btn" data-key="l">L</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button type="button" class="key-btn action-key backspace-key" data-key="Backspace" aria-label="Backspace">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+                                <line x1="18" y1="9" x2="12" y2="15"/>
+                                <line x1="12" y1="9" x2="18" y2="15"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="key-btn" data-key="z">Z</button>
+                        <button type="button" class="key-btn" data-key="x">X</button>
+                        <button type="button" class="key-btn" data-key="c">C</button>
+                        <button type="button" class="key-btn" data-key="v">V</button>
+                        <button type="button" class="key-btn" data-key="b">B</button>
+                        <button type="button" class="key-btn" data-key="n">N</button>
+                        <button type="button" class="key-btn" data-key="m">M</button>
+                        <button type="button" class="key-btn action-key enter-key" data-key="Enter" aria-label="Submit word">
+                            ⏎
+                        </button>
+                    </div>
+                </div>
                 
                 <div id="options-container" class="options-container hidden">
                     <p class="instruction">Choose the correct spelling:</p>
@@ -108,6 +171,130 @@
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
         </section>
+
+        <!-- Admin Auth Screen -->
+        <section id="admin-auth-screen" class="screen hidden">
+            <h2>Admin Login</h2>
+            <p>Please enter the admin password to continue.</p>
+            <form id="admin-auth-form" style="width: 100%; max-width: 320px;">
+                <label for="admin-password-input" class="sr-only">Password</label>
+                <input type="password" id="admin-password-input" placeholder="Password" autocomplete="current-password" required>
+                <div style="display: flex; gap: 10px; width: 100%; margin-top: 10px;">
+                    <button type="button" id="admin-auth-back-btn" class="secondary-btn" style="flex: 1; margin: 0;">Back</button>
+                    <button type="submit" id="admin-auth-submit-btn" class="primary-btn" style="flex: 1; margin: 0; padding: 12px 24px; font-size: 1.1rem; box-shadow: none;">Login</button>
+                </div>
+            </form>
+            <p id="admin-auth-error" class="hint-text hidden" style="color: var(--danger); margin-top: 15px; font-weight: bold;"></p>
+        </section>
+
+        <!-- Admin Panel Screen -->
+        <section id="admin-panel-screen" class="screen hidden" style="padding: 30px 20px; max-width: 650px;">
+            <h2>Admin Panel</h2>
+            <p>Manage spelling categories, words, and active states.</p>
+
+            <!-- Dashboard View -->
+            <div id="admin-dashboard-container" style="width: 100%;">
+                <div class="admin-controls-grid">
+                    <!-- Word List Type Selector -->
+                    <div class="word-list-selector-container" style="margin: 10px 0;">
+                        <label for="admin-word-list-select">Word Bank</label>
+                        <select id="admin-word-list-select" class="word-list-select">
+                            <option value="default">General Vocabulary (Default)</option>
+                            <option value="11plus">11+ Exam Words</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Selector (Difficulty Tabs) -->
+                    <div class="difficulty-tabs-container">
+                        <span class="difficulty-label">Difficulty Category</span>
+                        <div class="difficulty-tabs">
+                            <button class="diff-tab-btn active" data-difficulty="easy">Easy</button>
+                            <button class="diff-tab-btn" data-difficulty="medium">Medium</button>
+                            <button class="diff-tab-btn" data-difficulty="hard">Hard</button>
+                            <button class="diff-tab-btn" data-difficulty="expert">Expert</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Add Controls -->
+                <div class="admin-search-bar-row">
+                    <input type="text" id="admin-search-input" placeholder="Search words..." style="font-size: 1.1rem; padding: 10px 15px; text-align: left; border-radius: 10px;">
+                    <button id="admin-add-word-btn" class="primary-btn" style="margin: 0; padding: 12px 20px; font-size: 0.95rem; border-radius: 10px; box-shadow: none; white-space: nowrap;">+ Add Word</button>
+                </div>
+
+                <!-- Word List Container -->
+                <div class="admin-words-list-wrapper">
+                    <div class="admin-words-list-header">
+                        <span>Word & Valid Spellings</span>
+                        <span>Actions</span>
+                    </div>
+                    <div id="admin-words-list" class="admin-words-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Export & Maintenance Actions -->
+                <div class="admin-actions-card">
+                    <h4>Data Actions</h4>
+                    <div class="admin-actions-buttons">
+                        <button id="admin-export-js-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px;">Export words.js</button>
+                        <button id="admin-export-filtered-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px;">Export words_filtered.js</button>
+                        <button id="admin-reset-btn" class="secondary-btn" style="margin: 0; font-size: 0.9rem; padding: 10px 15px; color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">Reset to Defaults</button>
+                    </div>
+                </div>
+
+                <button id="admin-exit-btn" class="secondary-btn" style="margin: 20px auto 0 auto; padding: 12px 30px;">Exit Admin Panel</button>
+            </div>
+
+            <!-- Add/Edit Word Form Container -->
+            <div id="admin-form-container" class="admin-form-container hidden" style="width: 100%;">
+                <h3 id="admin-form-title" style="margin-bottom: 20px; font-size: 1.8rem; font-weight: bold;">Add New Word</h3>
+                <form id="admin-word-form" style="text-align: left;">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-word-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Spelling Word</label>
+                        <input type="text" id="admin-word-input" placeholder="e.g. accommodate" required style="font-size: 1.2rem; padding: 12px; text-align: left; border-radius: 10px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-valid-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valid Spellings (comma separated)</label>
+                        <input type="text" id="admin-valid-input" placeholder="e.g. accommodate, accomodate" required style="font-size: 1.2rem; padding: 12px; text-align: left; border-radius: 10px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-difficulty-select" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Difficulty Category</label>
+                        <select id="admin-difficulty-select" class="word-list-select" style="max-width: 100%; text-align: left; text-align-last: left; border-radius: 10px;">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="expert">Expert</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label for="admin-status-select" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Word Status</label>
+                        <select id="admin-status-select" class="word-list-select" style="max-width: 100%; text-align: left; text-align-last: left; border-radius: 10px;">
+                            <option value="active">Active (Include in Game)</option>
+                            <option value="inactive">Inactive (Exclude from Game)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="admin-form-cancel-btn" class="secondary-btn" style="flex: 1; margin: 0; padding: 12px;">Cancel</button>
+                        <button type="submit" id="admin-form-save-btn" class="primary-btn" style="flex: 1; margin: 0; padding: 12px; font-size: 1.1rem; box-shadow: none;">Save Word</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Restart Confirmation Modal -->
+        <div id="restart-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="restart-modal-title">
+            <div class="modal-card">
+                <h3 id="restart-modal-title" class="modal-title">Restart Game?</h3>
+                <p id="restart-modal-desc" class="modal-desc">
+                    Are you sure you want to restart? You will return to the start screen and your current score (<span id="modal-current-score" class="modal-highlight">0</span>) will be lost.
+                </p>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-restart-btn" class="secondary-btn modal-btn">Keep Playing</button>
+                    <button type="button" id="confirm-restart-btn" class="primary-btn modal-btn danger">Restart</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="words.js"></script>
     <script src="app.js"></script>

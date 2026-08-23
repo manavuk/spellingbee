@@ -14,13 +14,6 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
-        "word": "for",
-        "valid": [
-            "for"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "that",
         "valid": [
             "that"
@@ -66,13 +59,6 @@ const WORD_LIST = [
         "word": "from",
         "valid": [
             "from"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "your",
-        "valid": [
-            "your"
         ],
         "difficulty": "easy"
     },
@@ -175,13 +161,6 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
-        "word": "our",
-        "valid": [
-            "our"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "one",
         "valid": [
             "one"
@@ -241,13 +220,6 @@ const WORD_LIST = [
         "word": "which",
         "valid": [
             "which"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "their",
-        "valid": [
-            "their"
         ],
         "difficulty": "easy"
     },
@@ -3948,13 +3920,6 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
-        "word": "rss",
-        "valid": [
-            "rss"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "become",
         "valid": [
             "become"
@@ -7028,6 +6993,13 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
+        "word": "lesbian",
+        "valid": [
+            "lesbian"
+        ],
+        "difficulty": "medium"
+    },
+    {
         "word": "appropriate",
         "valid": [
             "appropriate"
@@ -7444,13 +7416,6 @@ const WORD_LIST = [
         "word": "song",
         "valid": [
             "song"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "cnet",
-        "valid": [
-            "cnet"
         ],
         "difficulty": "easy"
     },
@@ -7924,13 +7889,6 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
-        "word": "paypal",
-        "valid": [
-            "paypal"
-        ],
-        "difficulty": "medium"
-    },
-    {
         "word": "favorite",
         "valid": [
             "favorite"
@@ -8076,13 +8034,6 @@ const WORD_LIST = [
             "parents"
         ],
         "difficulty": "medium"
-    },
-    {
-        "word": "nokia",
-        "valid": [
-            "nokia"
-        ],
-        "difficulty": "easy"
     },
     {
         "word": "impact",
@@ -9093,13 +9044,6 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
-        "word": "prev",
-        "valid": [
-            "prev"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "expected",
         "valid": [
             "expected"
@@ -9597,13 +9541,6 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
-        "word": "phentermine",
-        "valid": [
-            "phentermine"
-        ],
-        "difficulty": "expert"
-    },
-    {
         "word": "southern",
         "valid": [
             "southern"
@@ -9938,13 +9875,6 @@ const WORD_LIST = [
             "teachers"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "isbn",
-        "valid": [
-            "isbn"
-        ],
-        "difficulty": "easy"
     },
     {
         "word": "manual",
@@ -10680,13 +10610,6 @@ const WORD_LIST = [
             "secretary"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "angeles",
-        "valid": [
-            "angeles"
-        ],
-        "difficulty": "medium"
     },
     {
         "word": "networking",
@@ -11574,13 +11497,6 @@ const WORD_LIST = [
         "word": "pain",
         "valid": [
             "pain"
-        ],
-        "difficulty": "easy"
-    },
-    {
-        "word": "xbox",
-        "valid": [
-            "xbox"
         ],
         "difficulty": "easy"
     },
@@ -12971,13 +12887,6 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
-        "word": "motorola",
-        "valid": [
-            "motorola"
-        ],
-        "difficulty": "hard"
-    },
-    {
         "word": "acceptance",
         "valid": [
             "acceptance"
@@ -13300,13 +13209,6 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
-        "word": "kong",
-        "valid": [
-            "kong"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "column",
         "valid": [
             "column"
@@ -13382,13 +13284,6 @@ const WORD_LIST = [
             "domestic"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "sitemap",
-        "valid": [
-            "sitemap"
-        ],
-        "difficulty": "medium"
     },
     {
         "word": "recommendations",
@@ -14693,20 +14588,6 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
-        "word": "pubmed",
-        "valid": [
-            "pubmed"
-        ],
-        "difficulty": "medium"
-    },
-    {
-        "word": "hong",
-        "valid": [
-            "hong"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "vice",
         "valid": [
             "vice"
@@ -15076,13 +14957,6 @@ const WORD_LIST = [
             "broken"
         ],
         "difficulty": "medium"
-    },
-    {
-        "word": "tripadvisor",
-        "valid": [
-            "tripadvisor"
-        ],
-        "difficulty": "expert"
     },
     {
         "word": "frank",
@@ -16128,6 +16002,13 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
+        "word": "hunter",
+        "valid": [
+            "hunter"
+        ],
+        "difficulty": "medium"
+    },
+    {
         "word": "addresses",
         "valid": [
             "addresses"
@@ -16702,13 +16583,6 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
-        "word": "devel",
-        "valid": [
-            "devel"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "amendment",
         "valid": [
             "amendment"
@@ -17129,6 +17003,13 @@ const WORD_LIST = [
         "difficulty": "easy"
     },
     {
+        "word": "miller",
+        "valid": [
+            "miller"
+        ],
+        "difficulty": "medium"
+    },
+    {
         "word": "provision",
         "valid": [
             "provision"
@@ -17290,13 +17171,6 @@ const WORD_LIST = [
         "difficulty": "medium"
     },
     {
-        "word": "eric",
-        "valid": [
-            "eric"
-        ],
-        "difficulty": "easy"
-    },
-    {
         "word": "spot",
         "valid": [
             "spot"
@@ -17337,6 +17211,13 @@ const WORD_LIST = [
             "interior"
         ],
         "difficulty": "hard"
+    },
+    {
+        "word": "revised",
+        "valid": [
+            "revised"
+        ],
+        "difficulty": "medium"
     },
     {
         "word": "grow",
@@ -18158,13 +18039,6 @@ const WORD_LIST = [
         "difficulty": "expert"
     },
     {
-        "word": "playstation",
-        "valid": [
-            "playstation"
-        ],
-        "difficulty": "expert"
-    },
-    {
         "word": "alcohol",
         "valid": [
             "alcohol"
@@ -18254,13 +18128,6 @@ const WORD_LIST = [
             "expressed"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "jeff",
-        "valid": [
-            "jeff"
-        ],
-        "difficulty": "easy"
     },
     {
         "word": "extent",
@@ -18779,13 +18646,6 @@ const WORD_LIST = [
             "extremely"
         ],
         "difficulty": "hard"
-    },
-    {
-        "word": "verzeichnis",
-        "valid": [
-            "verzeichnis"
-        ],
-        "difficulty": "expert"
     },
     {
         "word": "contracts",
@@ -19320,13 +19180,6 @@ const WORD_LIST = [
         "difficulty": "hard"
     },
     {
-        "word": "ericsson",
-        "valid": [
-            "ericsson"
-        ],
-        "difficulty": "hard"
-    },
-    {
         "word": "appendix",
         "valid": [
             "appendix"
@@ -19388,13 +19241,6 @@ const WORD_LIST = [
             "cotton"
         ],
         "difficulty": "medium"
-    },
-    {
-        "word": "bluetooth",
-        "valid": [
-            "bluetooth"
-        ],
-        "difficulty": "hard"
     },
     {
         "word": "controlled",

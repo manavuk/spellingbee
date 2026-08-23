@@ -6,13 +6,38 @@ let wordsPool = [];
 let usedWords = new Set();
 let synthMessage = null;
 let speakTimeout = null;
+let turnTimeout = null;
 let selectedVoiceName = "";
 let selectedWordListType = "default";
+let selectedKeyboardMode = "virtual";
 let rightAnswersCount = 0;
 let wrongWordsSet = new Set();
 let currentWordDefinition = "";
 let currentWordSentence = "";
 let currentWordPartOfSpeech = "";
+
+let currentWordList = [];
+let currentWordList11Plus = [];
+
+function loadWordLists() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_word_list');
+        currentWordList = stored ? JSON.parse(stored) : WORD_LIST;
+    } catch (e) {
+        console.error("Error loading word list", e);
+        currentWordList = WORD_LIST;
+    }
+    
+    try {
+        const stored11 = localStorage.getItem('spelling_bee_word_list_11plus');
+        currentWordList11Plus = stored11 ? JSON.parse(stored11) : WORD_LIST_11PLUS;
+    } catch (e) {
+        console.error("Error loading 11plus word list", e);
+        currentWordList11Plus = WORD_LIST_11PLUS;
+    }
+}
+loadWordLists();
+
 
 const synth = window.speechSynthesis;
 
@@ -25,11 +50,18 @@ const UI = {
     listenBtn: document.getElementById('listen-btn'),
     listenSlowBtn: document.getElementById('listen-slow-btn'),
     restartBtn: document.getElementById('restart-btn'),
+    inGameRestartBtn: document.getElementById('in-game-restart-btn'),
+    restartModal: document.getElementById('restart-modal'),
+    modalCurrentScore: document.getElementById('modal-current-score'),
+    cancelRestartBtn: document.getElementById('cancel-restart-btn'),
+    confirmRestartBtn: document.getElementById('confirm-restart-btn'),
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
+    keyboardSelect: document.getElementById('keyboard-select'),
     
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
+    virtualKeyboard: document.getElementById('virtual-keyboard'),
     
     optionsContainer: document.getElementById('options-container'),
     optionsGrid: document.getElementById('options-grid'),
@@ -48,15 +80,140 @@ const UI = {
     hintContainer: document.getElementById('hint-container'),
     hintDisplay: document.getElementById('hint-display'),
     hintBadge: document.getElementById('hint-badge'),
-    hintText: document.getElementById('hint-text')
+    hintText: document.getElementById('hint-text'),
+
+    // Admin Panel elements
+    adminEntranceBtn: document.getElementById('admin-entrance-btn'),
+    adminAuthScreen: document.getElementById('admin-auth-screen'),
+    adminAuthForm: document.getElementById('admin-auth-form'),
+    adminPasswordInput: document.getElementById('admin-password-input'),
+    adminAuthBackBtn: document.getElementById('admin-auth-back-btn'),
+    adminAuthError: document.getElementById('admin-auth-error'),
+    
+    adminPanelScreen: document.getElementById('admin-panel-screen'),
+    adminDashboardContainer: document.getElementById('admin-dashboard-container'),
+    adminWordListSelect: document.getElementById('admin-word-list-select'),
+    adminSearchInput: document.getElementById('admin-search-input'),
+    adminAddWordBtn: document.getElementById('admin-add-word-btn'),
+    adminWordsList: document.getElementById('admin-words-list'),
+    adminExportJsBtn: document.getElementById('admin-export-js-btn'),
+    adminExportFilteredBtn: document.getElementById('admin-export-filtered-btn'),
+    adminResetBtn: document.getElementById('admin-reset-btn'),
+    adminExitBtn: document.getElementById('admin-exit-btn'),
+    
+    adminFormContainer: document.getElementById('admin-form-container'),
+    adminFormTitle: document.getElementById('admin-form-title'),
+    adminWordForm: document.getElementById('admin-word-form'),
+    adminWordInput: document.getElementById('admin-word-input'),
+    adminValidInput: document.getElementById('admin-valid-input'),
+    adminDifficultySelect: document.getElementById('admin-difficulty-select'),
+    adminStatusSelect: document.getElementById('admin-status-select'),
+    adminFormCancelBtn: document.getElementById('admin-form-cancel-btn')
 };
 
-function initGame() {
+function openRestartModal() {
+    if (UI.modalCurrentScore) {
+        UI.modalCurrentScore.textContent = score;
+    }
+    if (UI.restartModal) {
+        UI.restartModal.classList.remove('hidden');
+    }
+}
+
+function closeRestartModal() {
+    if (UI.restartModal) {
+        UI.restartModal.classList.add('hidden');
+    }
+    if (UI.answerInput && !UI.gameScreen.classList.contains('hidden')) {
+        UI.answerInput.focus();
+    }
+}
+
+function loadKeyboardSetting() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_keyboard_mode');
+        if (stored) {
+            selectedKeyboardMode = stored;
+            if (UI.keyboardSelect) {
+                UI.keyboardSelect.value = stored;
+            }
+        }
+    } catch (e) {
+        console.error("Error loading keyboard mode setting", e);
+    }
+}
+loadKeyboardSetting();
+
+function applyKeyboardMode() {
+    if (!UI.answerInput) return;
+    if (selectedKeyboardMode === "both") {
+        UI.answerInput.setAttribute('inputmode', 'text');
+    } else {
+        UI.answerInput.setAttribute('inputmode', 'none');
+    }
+}
+
+function resetToStartScreen() {
+    if (turnTimeout) {
+        clearTimeout(turnTimeout);
+        turnTimeout = null;
+    }
+    if (speakTimeout) {
+        clearTimeout(speakTimeout);
+        speakTimeout = null;
+    }
+    synth.cancel();
+    closeRestartModal();
+
     currentLives = 10;
     score = 0;
     rightAnswersCount = 0;
     wrongWordsSet.clear();
     usedWords.clear();
+    
+    // Reset feedback, input styles, options, hints
+    if (UI.feedback) UI.feedback.classList.remove('show');
+    if (UI.answerInput) {
+        UI.answerInput.value = '';
+        UI.answerInput.style.color = '';
+        UI.answerInput.classList.remove('error-shake', 'success-pop');
+    }
+    if (UI.gameScreen) UI.gameScreen.classList.remove('shake');
+    if (UI.hintContainer) UI.hintContainer.classList.add('hidden');
+    if (UI.hintDisplay) UI.hintDisplay.classList.add('hidden');
+
+    switchScreen(UI.gameScreen, UI.startScreen);
+    switchScreen(UI.gameOverScreen, UI.startScreen);
+}
+
+function initGame() {
+    if (turnTimeout) {
+        clearTimeout(turnTimeout);
+        turnTimeout = null;
+    }
+    if (speakTimeout) {
+        clearTimeout(speakTimeout);
+        speakTimeout = null;
+    }
+    synth.cancel();
+    closeRestartModal();
+
+    currentLives = 10;
+    score = 0;
+    rightAnswersCount = 0;
+    wrongWordsSet.clear();
+    usedWords.clear();
+    
+    // Reset feedback, input styles, options, hints
+    if (UI.feedback) UI.feedback.classList.remove('show');
+    if (UI.answerInput) {
+        UI.answerInput.value = '';
+        UI.answerInput.style.color = '';
+        UI.answerInput.classList.remove('error-shake', 'success-pop');
+    }
+    if (UI.gameScreen) UI.gameScreen.classList.remove('shake');
+    
+    applyKeyboardMode();
     updateDifficulty();
     updateUI();
     
@@ -86,22 +243,27 @@ function determineDifficulty() {
 
 function updateDifficulty() {
     currentDifficulty = determineDifficulty();
-    // WORD_LIST and WORD_LIST_11PLUS are defined in words.js
-    const activeList = (selectedWordListType === "11plus") ? WORD_LIST_11PLUS : WORD_LIST;
-    wordsPool = activeList.filter(w => w.difficulty === currentDifficulty);
+    // currentWordList and currentWordList11Plus are loaded from LocalStorage (or defaults)
+    const activeList = (selectedWordListType === "11plus") ? currentWordList11Plus : currentWordList;
+    wordsPool = activeList.filter(w => w.difficulty === currentDifficulty && w.status !== "inactive");
     
     // Fallback: if the filtered list is empty (e.g. no easy words in the selected list),
     // fall back to using any available word from the list
     if (wordsPool.length === 0 && activeList.length > 0) {
-        wordsPool = activeList;
+        wordsPool = activeList.filter(w => w.status !== "inactive");
+        if (wordsPool.length === 0) {
+            wordsPool = activeList;
+        }
     }
 }
 
 function nextTurn() {
     UI.answerForm.classList.remove('hidden');
+    if (UI.virtualKeyboard) UI.virtualKeyboard.classList.remove('hidden');
     UI.optionsContainer.classList.add('hidden');
     
     UI.answerInput.value = '';
+    applyKeyboardMode();
     UI.answerInput.focus();
     updateDifficulty();
     
@@ -255,6 +417,7 @@ function generateMisspellings(word) {
 
 function showOptions() {
     UI.answerForm.classList.add('hidden');
+    if (UI.virtualKeyboard) UI.virtualKeyboard.classList.add('hidden');
     UI.optionsContainer.classList.remove('hidden');
     UI.optionsGrid.innerHTML = '';
     
@@ -269,6 +432,10 @@ function showOptions() {
 }
 
 function handleOptionSelect(selected, btnNode) {
+    if (turnTimeout) {
+        clearTimeout(turnTimeout);
+        turnTimeout = null;
+    }
     const isCorrect = currentWordObj.valid.includes(selected);
     const buttons = UI.optionsGrid.querySelectorAll('.option-btn');
     buttons.forEach(b => b.disabled = true);
@@ -279,7 +446,7 @@ function handleOptionSelect(selected, btnNode) {
         showFeedback(true, 5); // 5 points for second chance
         score += 5;
         updateUI();
-        setTimeout(nextTurn, 1000);
+        turnTimeout = setTimeout(nextTurn, 1000);
     } else {
         currentLives--;
         wrongWordsSet.add(currentWordObj.valid[0]);
@@ -294,15 +461,19 @@ function handleOptionSelect(selected, btnNode) {
         updateUI();
         
         if (currentLives <= 0) {
-            setTimeout(gameOver, 2000);
+            turnTimeout = setTimeout(gameOver, 2000);
         } else {
-            setTimeout(nextTurn, 2500);
+            turnTimeout = setTimeout(nextTurn, 2500);
         }
     }
 }
 
 function handleAnswer(e) {
     e.preventDefault();
+    if (turnTimeout) {
+        clearTimeout(turnTimeout);
+        turnTimeout = null;
+    }
     const userAnswer = UI.answerInput.value.trim().toLowerCase();
     if (!userAnswer) return;
     
@@ -325,7 +496,7 @@ function handleAnswer(e) {
         updateUI();
         
         // Next word right after showing feedback briefly
-        setTimeout(nextTurn, 1000);
+        turnTimeout = setTimeout(nextTurn, 1000);
     } else {
         // Incorrect on first try
         wrongWordsSet.add(currentWordObj.valid[0]);
@@ -346,10 +517,10 @@ function handleAnswer(e) {
             UI.answerInput.blur();
             UI.answerInput.value = currentWordObj.valid[0]; 
             UI.answerInput.style.color = 'var(--danger)';
-            setTimeout(gameOver, 1500);
+            turnTimeout = setTimeout(gameOver, 1500);
         } else {
             // Show options as penalty
-            setTimeout(() => {
+            turnTimeout = setTimeout(() => {
                 showOptions();
             }, 1000);
         }
@@ -494,7 +665,78 @@ function speakAnnouncement(phrase) {
 
 // Event Listeners
 UI.startBtn.addEventListener('click', initGame);
-UI.restartBtn.addEventListener('click', initGame);
+UI.restartBtn.addEventListener('click', resetToStartScreen);
+if (UI.inGameRestartBtn) {
+    UI.inGameRestartBtn.addEventListener('click', openRestartModal);
+}
+if (UI.cancelRestartBtn) {
+    UI.cancelRestartBtn.addEventListener('click', closeRestartModal);
+}
+if (UI.confirmRestartBtn) {
+    UI.confirmRestartBtn.addEventListener('click', () => {
+        resetToStartScreen();
+    });
+}
+if (UI.restartModal) {
+    UI.restartModal.addEventListener('click', (e) => {
+        if (e.target === UI.restartModal) {
+            closeRestartModal();
+        }
+    });
+}
+function handleVirtualKeyPress(key) {
+    if (!UI.answerInput) return;
+    if (key === 'Backspace') {
+        UI.answerInput.value = UI.answerInput.value.slice(0, -1);
+    } else if (key === 'Enter') {
+        if (UI.answerForm) {
+            if (typeof UI.answerForm.requestSubmit === 'function') {
+                UI.answerForm.requestSubmit();
+            } else {
+                UI.answerForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+        }
+        return;
+    } else if (/^[a-zA-Z]$/.test(key)) {
+        UI.answerInput.value += key.toLowerCase();
+    }
+    UI.answerInput.dispatchEvent(new Event('input', { bubbles: true }));
+    UI.answerInput.focus();
+}
+
+if (UI.virtualKeyboard) {
+    const onKeyTrigger = (e) => {
+        const keyBtn = e.target.closest('.key-btn');
+        if (!keyBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const key = keyBtn.getAttribute('data-key');
+        if (key) {
+            handleVirtualKeyPress(key);
+            keyBtn.classList.add('pressed');
+            setTimeout(() => keyBtn.classList.remove('pressed'), 120);
+        }
+    };
+    
+    UI.virtualKeyboard.addEventListener('pointerdown', onKeyTrigger);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && UI.restartModal && !UI.restartModal.classList.contains('hidden')) {
+        closeRestartModal();
+        return;
+    }
+    
+    // Highlight pressed key on virtual keyboard for visual feedback
+    const key = e.key;
+    const btn = document.querySelector(`.key-btn[data-key="${key.toLowerCase()}"]`) || 
+                document.querySelector(`.key-btn[data-key="${key}"]`);
+    if (btn) {
+        btn.classList.add('pressed');
+        setTimeout(() => btn.classList.remove('pressed'), 120);
+    }
+});
 UI.listenBtn.addEventListener('click', () => {
     if (currentWordObj) {
         speakWord(currentWordObj.word, false);
@@ -550,6 +792,18 @@ if (UI.wordListSelect) {
     });
 }
 
+if (UI.keyboardSelect) {
+    UI.keyboardSelect.addEventListener('change', (e) => {
+        selectedKeyboardMode = e.target.value;
+        try {
+            localStorage.setItem('spelling_bee_keyboard_mode', selectedKeyboardMode);
+        } catch (err) {
+            console.error("Error saving keyboard setting", err);
+        }
+        applyKeyboardMode();
+    });
+}
+
 // Initialize Voices on Load
 if (window.speechSynthesis.onvoiceschanged !== undefined) {
     window.speechSynthesis.onvoiceschanged = () => {
@@ -557,3 +811,329 @@ if (window.speechSynthesis.onvoiceschanged !== undefined) {
     };
 }
 populateVoiceList();
+
+// ==========================================
+// Admin Panel Controllers & Handlers
+// ==========================================
+const ADMIN_PASSWORD_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // sha256 hash of "admin123"
+let adminCurrentWordBank = "default";
+let adminCurrentDifficulty = "easy";
+let adminEditingWord = null;
+let adminSearchQuery = "";
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+function showAdminToast(message, isError = false) {
+    UI.feedback.textContent = message;
+    UI.feedback.className = `feedback-toast show ${isError ? 'incorrect' : 'correct'}`;
+    setTimeout(() => {
+        UI.feedback.classList.remove('show');
+    }, 1500);
+}
+
+function saveWordsToStorage() {
+    localStorage.setItem('spelling_bee_word_list', JSON.stringify(currentWordList));
+    localStorage.setItem('spelling_bee_word_list_11plus', JSON.stringify(currentWordList11Plus));
+}
+
+function renderAdminWordsList() {
+    const activeList = (adminCurrentWordBank === "11plus") ? currentWordList11Plus : currentWordList;
+    const filteredList = activeList.filter(w => {
+        const matchesCategory = w.difficulty === adminCurrentDifficulty;
+        const matchesSearch = w.word.toLowerCase().includes(adminSearchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
+
+    UI.adminWordsList.innerHTML = '';
+    
+    if (filteredList.length === 0) {
+        const msg = document.createElement('div');
+        msg.className = 'no-words-message';
+        msg.textContent = 'No words found in this category.';
+        UI.adminWordsList.appendChild(msg);
+        return;
+    }
+
+    filteredList.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'admin-word-row';
+
+        const details = document.createElement('div');
+        details.className = 'admin-word-details';
+
+        const textWrapper = document.createElement('div');
+        textWrapper.className = 'admin-word-text-wrapper';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'admin-word-name';
+        nameSpan.textContent = item.word;
+        textWrapper.appendChild(nameSpan);
+
+        const status = item.status || "active";
+        const badge = document.createElement('span');
+        badge.className = `status-badge ${status}`;
+        badge.textContent = status;
+        textWrapper.appendChild(badge);
+
+        details.appendChild(textWrapper);
+
+        const validSpellings = document.createElement('span');
+        validSpellings.className = 'admin-word-valid-spells';
+        validSpellings.textContent = `Valid: ${item.valid.join(', ')}`;
+        details.appendChild(validSpellings);
+
+        row.appendChild(details);
+
+        const actions = document.createElement('div');
+        actions.className = 'admin-word-actions';
+
+        // Toggle Status Button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'action-btn-sm toggle-active-btn';
+        toggleBtn.textContent = status === "active" ? "Disable" : "Enable";
+        toggleBtn.onclick = () => {
+            item.status = status === "active" ? "inactive" : "active";
+            saveWordsToStorage();
+            renderAdminWordsList();
+            showAdminToast(status === "active" ? "Word Disabled" : "Word Enabled");
+        };
+        actions.appendChild(toggleBtn);
+
+        // Edit Button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'action-btn-sm';
+        editBtn.textContent = "Edit";
+        editBtn.onclick = () => {
+            openEditWordForm(item);
+        };
+        actions.appendChild(editBtn);
+
+        // Delete Button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'action-btn-sm delete-btn';
+        deleteBtn.textContent = "Delete";
+        deleteBtn.onclick = () => {
+            if (confirm(`Are you sure you want to delete "${item.word}"?`)) {
+                const listIndex = activeList.indexOf(item);
+                if (listIndex > -1) {
+                    activeList.splice(listIndex, 1);
+                    saveWordsToStorage();
+                    renderAdminWordsList();
+                    showAdminToast("Word Deleted");
+                }
+            }
+        };
+        actions.appendChild(deleteBtn);
+
+        row.appendChild(actions);
+        UI.adminWordsList.appendChild(row);
+    });
+}
+
+function openAddWordForm() {
+    adminEditingWord = null;
+    UI.adminFormTitle.textContent = "Add New Word";
+    UI.adminWordInput.value = "";
+    UI.adminWordInput.disabled = false;
+    UI.adminValidInput.value = "";
+    UI.adminDifficultySelect.value = adminCurrentDifficulty;
+    UI.adminStatusSelect.value = "active";
+    
+    UI.adminDashboardContainer.classList.add('hidden');
+    UI.adminFormContainer.classList.remove('hidden');
+}
+
+function openEditWordForm(wordObj) {
+    adminEditingWord = wordObj;
+    UI.adminFormTitle.textContent = `Edit Word: ${wordObj.word}`;
+    UI.adminWordInput.value = wordObj.word;
+    UI.adminWordInput.disabled = true;
+    UI.adminValidInput.value = wordObj.valid.join(', ');
+    UI.adminDifficultySelect.value = wordObj.difficulty;
+    UI.adminStatusSelect.value = wordObj.status || "active";
+    
+    UI.adminDashboardContainer.classList.add('hidden');
+    UI.adminFormContainer.classList.remove('hidden');
+}
+
+function closeWordForm() {
+    UI.adminFormContainer.classList.add('hidden');
+    UI.adminDashboardContainer.classList.remove('hidden');
+    adminEditingWord = null;
+}
+
+function saveWordForm(e) {
+    e.preventDefault();
+    const wordText = UI.adminWordInput.value.trim().toLowerCase();
+    const validSpellings = UI.adminValidInput.value.split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(s => s.length > 0);
+    const difficulty = UI.adminDifficultySelect.value;
+    const status = UI.adminStatusSelect.value;
+
+    if (!wordText) {
+        showAdminToast("Word cannot be empty", true);
+        return;
+    }
+    if (validSpellings.length === 0) {
+        showAdminToast("At least one valid spelling is required", true);
+        return;
+    }
+
+    const activeList = (adminCurrentWordBank === "11plus") ? currentWordList11Plus : currentWordList;
+
+    if (adminEditingWord) {
+        adminEditingWord.valid = validSpellings;
+        adminEditingWord.difficulty = difficulty;
+        adminEditingWord.status = status;
+        showAdminToast("Word Saved");
+    } else {
+        const exists = activeList.some(w => w.word === wordText);
+        if (exists) {
+            showAdminToast("Word already exists in this bank", true);
+            return;
+        }
+
+        const newWordObj = {
+            word: wordText,
+            valid: validSpellings,
+            difficulty: difficulty,
+            status: status
+        };
+        activeList.push(newWordObj);
+        showAdminToast("Word Added");
+    }
+
+    saveWordsToStorage();
+    closeWordForm();
+    renderAdminWordsList();
+}
+
+function resetToDefaults() {
+    if (confirm("Are you sure you want to reset all lists to their defaults? Any custom added, edited, or deleted words will be permanently lost.")) {
+        localStorage.removeItem('spelling_bee_word_list');
+        localStorage.removeItem('spelling_bee_word_list_11plus');
+        loadWordLists();
+        renderAdminWordsList();
+        showAdminToast("Word lists reset to defaults");
+    }
+}
+
+function exportWordListFile(filename, content) {
+    const blob = new Blob([content], { type: 'text/javascript;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+// Admin Event Listeners
+if (UI.adminEntranceBtn) {
+    UI.adminEntranceBtn.addEventListener('click', () => {
+        switchScreen(UI.startScreen, UI.adminAuthScreen);
+        UI.adminPasswordInput.value = "";
+        UI.adminAuthError.classList.add('hidden');
+        UI.adminPasswordInput.focus();
+    });
+}
+
+if (UI.adminAuthBackBtn) {
+    UI.adminAuthBackBtn.addEventListener('click', () => {
+        switchScreen(UI.adminAuthScreen, UI.startScreen);
+    });
+}
+
+if (UI.adminExitBtn) {
+    UI.adminExitBtn.addEventListener('click', () => {
+        switchScreen(UI.adminPanelScreen, UI.startScreen);
+    });
+}
+
+if (UI.adminAuthForm) {
+    UI.adminAuthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const enteredPassword = UI.adminPasswordInput.value;
+        const enteredHash = await hashPassword(enteredPassword);
+        
+        if (enteredHash === ADMIN_PASSWORD_HASH) {
+            UI.adminPasswordInput.value = "";
+            UI.adminAuthError.classList.add('hidden');
+            switchScreen(UI.adminAuthScreen, UI.adminPanelScreen);
+            renderAdminWordsList();
+        } else {
+            UI.adminAuthError.textContent = "Incorrect password. Try again.";
+            UI.adminAuthError.classList.remove('hidden');
+            UI.adminPasswordInput.focus();
+            UI.adminPasswordInput.select();
+        }
+    });
+}
+
+if (UI.adminWordListSelect) {
+    UI.adminWordListSelect.addEventListener('change', (e) => {
+        adminCurrentWordBank = e.target.value;
+        renderAdminWordsList();
+    });
+}
+
+const diffTabs = document.querySelectorAll('.diff-tab-btn');
+diffTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        diffTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        adminCurrentDifficulty = tab.getAttribute('data-difficulty');
+        renderAdminWordsList();
+    });
+});
+
+if (UI.adminSearchInput) {
+    UI.adminSearchInput.addEventListener('input', (e) => {
+        adminSearchQuery = e.target.value;
+        renderAdminWordsList();
+    });
+}
+
+if (UI.adminAddWordBtn) {
+    UI.adminAddWordBtn.addEventListener('click', openAddWordForm);
+}
+
+if (UI.adminFormCancelBtn) {
+    UI.adminFormCancelBtn.addEventListener('click', closeWordForm);
+}
+
+if (UI.adminWordForm) {
+    UI.adminWordForm.addEventListener('submit', saveWordForm);
+}
+
+if (UI.adminResetBtn) {
+    UI.adminResetBtn.addEventListener('click', resetToDefaults);
+}
+
+if (UI.adminExportJsBtn) {
+    UI.adminExportJsBtn.addEventListener('click', () => {
+        const content = `const WORD_LIST_11PLUS = ${JSON.stringify(currentWordList11Plus, null, 4)};\n\nconst WORD_LIST = ${JSON.stringify(currentWordList, null, 4)};\n`;
+        exportWordListFile("words.js", content);
+        showAdminToast("Exported words.js");
+    });
+}
+
+if (UI.adminExportFilteredBtn) {
+    UI.adminExportFilteredBtn.addEventListener('click', () => {
+        const content = `const WORD_LIST = ${JSON.stringify(currentWordList, null, 4)};\n`;
+        exportWordListFile("words_filtered.js", content);
+        showAdminToast("Exported words_filtered.js");
+    });
+}
+
