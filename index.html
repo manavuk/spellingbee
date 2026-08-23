@@ -20,6 +20,10 @@
             <p>Listen to the word, spell it correctly.</p>
             <p>10 Lives. Increasing Difficulty. Can you survive?</p>
             
+            <div class="coin-badge-container" style="margin: 10px 0 5px 0;">
+                <div class="coin-badge"><span class="coin-icon">🍯</span> <span id="start-honey-coins">0</span> Honey Coins</div>
+            </div>
+
             <div class="voice-selector-container">
                 <label for="voice-select">Choose Voice</label>
                 <select id="voice-select" class="voice-select" aria-label="Select voice font">
@@ -44,7 +48,13 @@
             </div>
             
             <button id="start-btn" class="primary-btn">Start Game</button>
-            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 20px; font-size: 0.95rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 10px 20px;">Admin Panel</button>
+            
+            <div class="start-extras-row" style="display: flex; gap: 10px; width: 100%; margin-top: 18px;">
+                <button type="button" id="open-stickers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🍯 Sticker Shop (<span id="start-sticker-count">0</span>/500)</button>
+                <button type="button" id="open-wallpapers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🖼️ Wallpapers</button>
+            </div>
+
+            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 15px; font-size: 0.9rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 8px 18px;">Admin Panel</button>
         </main>
 
         <!-- Game Interface -->
@@ -61,7 +71,10 @@
                         </svg>
                     </button>
                 </div>
-                <div class="score" aria-label="Current score">Score: <span id="score">0</span></div>
+                <div class="header-right-hud">
+                    <div class="coin-hud" title="Total Honey Coins Earned"><span class="coin-icon">🍯</span> <span id="game-honey-coins">0</span></div>
+                    <div class="score" aria-label="Current score">Score: <span id="score">0</span></div>
+                </div>
             </header>
             
             <div class="game-container">
@@ -166,12 +179,17 @@
             <h2 id="game-over-title">Game Over</h2>
             <p>Your Final Score: <span id="final-score">0</span></p>
             <p>Right Answers: <span id="right-answers">0</span></p>
-            <div class="wrong-words-container" style="margin: 20px 0;">
+            <p style="font-weight: 700; color: #f59e0b;">Total Honey Coins: <span id="gameover-honey-coins">0</span> 🍯</p>
+            <div class="wrong-words-container" style="margin: 15px 0;">
                 <p>Words you missed:</p>
-                <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 150px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
+                <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 140px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
             </div>
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
+            <div style="display: flex; gap: 10px; width: 100%; margin-top: 15px;">
+                <button type="button" id="gameover-stickers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🍯 Sticker Shop</button>
+                <button type="button" id="gameover-wallpapers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🖼️ Wallpapers</button>
+            </div>
         </section>
 
         <!-- Admin Auth Screen -->
@@ -297,8 +315,67 @@
                 </div>
             </div>
         </div>
+
+        <!-- Flying Bee Mascot Cheer Overlay -->
+        <div id="flying-mascot-container" class="flying-mascot-container hidden" aria-live="polite">
+            <div class="mascot-flight-wrapper">
+                <img id="mascot-img" class="mascot-img" src="bee_happy.png" alt="Cheering Bee">
+                <div id="mascot-bubble" class="mascot-speech-bubble">
+                    <span id="mascot-speech-text">Bee-utiful! 🐝✨</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticker Shop & Album Modal -->
+        <div id="sticker-shop-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="sticker-shop-title">
+            <div class="modal-card sticker-shop-card">
+                <div class="shop-header">
+                    <div class="shop-header-title">
+                        <h3 id="sticker-shop-title" class="modal-title" style="margin: 0; font-size: 1.6rem;">🍯 Sticker Shop & Album</h3>
+                        <span class="shop-coins-pill">🍯 <span id="modal-shop-coins">0</span> Coins</span>
+                    </div>
+                    <button type="button" id="close-stickers-btn" class="modal-close-btn" aria-label="Close">&times;</button>
+                </div>
+                
+                <div class="shop-tabs">
+                    <button type="button" class="shop-tab-btn active" id="shop-tab-all" data-tab="shop">🛍️ Shop All (500)</button>
+                    <button type="button" class="shop-tab-btn" id="shop-tab-album" data-tab="album">📖 My Album (<span id="album-collected-count">0</span>/500)</button>
+                </div>
+
+                <div class="shop-controls">
+                    <input type="text" id="sticker-search-input" placeholder="🔍 Search 500 stickers..." class="sticker-search-input">
+                    <div id="sticker-categories-bar" class="sticker-categories-bar">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div id="stickers-grid" class="stickers-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallpaper Gallery Modal -->
+        <div id="wallpaper-gallery-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="wallpaper-gallery-title">
+            <div class="modal-card wallpaper-gallery-card">
+                <div class="shop-header">
+                    <div class="shop-header-title">
+                        <h3 id="wallpaper-gallery-title" class="modal-title" style="margin: 0; font-size: 1.6rem;">🖼️ Bee Art Wallpapers</h3>
+                        <span class="shop-coins-pill">✨ <span id="modal-wp-points">0</span> Lifetime Pts</span>
+                    </div>
+                    <button type="button" id="close-wallpapers-btn" class="modal-close-btn" aria-label="Close">&times;</button>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-muted); margin: 6px 0 16px 0; text-align: left;">Earn points in games to progressively reveal tiles and unlock custom bee art backgrounds!</p>
+                
+                <div id="wallpapers-grid" class="wallpapers-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
     </div>
     <script src="words.js"></script>
+    <script src="stickers.js"></script>
+    <script src="wallpapers.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

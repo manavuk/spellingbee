@@ -16,6 +16,16 @@ let currentWordDefinition = "";
 let currentWordSentence = "";
 let currentWordPartOfSpeech = "";
 
+// Gamification State
+let totalLifetimePoints = 0;
+let currentHoneyCoins = 0;
+let consecutiveCorrectStreak = 0;
+let unlockedStickers = new Set();
+let activeWallpaperId = "default";
+let selectedStickerCategory = "all";
+let activeStickerTab = "shop"; // 'shop' or 'album'
+let stickerSearchQuery = "";
+
 let currentWordList = [];
 let currentWordList11Plus = [];
 
@@ -81,6 +91,35 @@ const UI = {
     hintDisplay: document.getElementById('hint-display'),
     hintBadge: document.getElementById('hint-badge'),
     hintText: document.getElementById('hint-text'),
+
+    // Gamification UI Elements
+    startHoneyCoins: document.getElementById('start-honey-coins'),
+    gameHoneyCoins: document.getElementById('game-honey-coins'),
+    gameoverHoneyCoins: document.getElementById('gameover-honey-coins'),
+    startStickerCount: document.getElementById('start-sticker-count'),
+    openStickersBtn: document.getElementById('open-stickers-btn'),
+    gameoverStickersBtn: document.getElementById('gameover-stickers-btn'),
+    openWallpapersBtn: document.getElementById('open-wallpapers-btn'),
+    gameoverWallpapersBtn: document.getElementById('gameover-wallpapers-btn'),
+    
+    flyingMascotContainer: document.getElementById('flying-mascot-container'),
+    mascotImg: document.getElementById('mascot-img'),
+    mascotSpeechText: document.getElementById('mascot-speech-text'),
+    
+    stickerShopModal: document.getElementById('sticker-shop-modal'),
+    modalShopCoins: document.getElementById('modal-shop-coins'),
+    closeStickersBtn: document.getElementById('close-stickers-btn'),
+    shopTabAll: document.getElementById('shop-tab-all'),
+    shopTabAlbum: document.getElementById('shop-tab-album'),
+    albumCollectedCount: document.getElementById('album-collected-count'),
+    stickerSearchInput: document.getElementById('sticker-search-input'),
+    stickerCategoriesBar: document.getElementById('sticker-categories-bar'),
+    stickersGrid: document.getElementById('stickers-grid'),
+    
+    wallpaperGalleryModal: document.getElementById('wallpaper-gallery-modal'),
+    modalWpPoints: document.getElementById('modal-wp-points'),
+    closeWallpapersBtn: document.getElementById('close-wallpapers-btn'),
+    wallpapersGrid: document.getElementById('wallpapers-grid'),
 
     // Admin Panel elements
     adminEntranceBtn: document.getElementById('admin-entrance-btn'),
@@ -152,6 +191,114 @@ function applyKeyboardMode() {
         UI.answerInput.setAttribute('inputmode', 'none');
     }
 }
+
+// ==========================================
+// Gamification Controllers & State
+// ==========================================
+function loadGamificationState() {
+    try {
+        totalLifetimePoints = parseInt(localStorage.getItem('spelling_bee_lifetime_points') || '0', 10);
+        currentHoneyCoins = parseInt(localStorage.getItem('spelling_bee_honey_coins') || '0', 10);
+        
+        const storedStickers = localStorage.getItem('spelling_bee_unlocked_stickers');
+        unlockedStickers = storedStickers ? new Set(JSON.parse(storedStickers)) : new Set();
+        
+        activeWallpaperId = localStorage.getItem('spelling_bee_active_wallpaper') || 'default';
+    } catch (e) {
+        console.error("Error loading gamification state", e);
+    }
+    applyActiveWallpaper();
+    updateCoinUI();
+}
+
+function saveGamificationState() {
+    try {
+        localStorage.setItem('spelling_bee_lifetime_points', totalLifetimePoints);
+        localStorage.setItem('spelling_bee_honey_coins', currentHoneyCoins);
+        localStorage.setItem('spelling_bee_unlocked_stickers', JSON.stringify(Array.from(unlockedStickers)));
+        localStorage.setItem('spelling_bee_active_wallpaper', activeWallpaperId);
+    } catch (e) {
+        console.error("Error saving gamification state", e);
+    }
+    updateCoinUI();
+}
+
+function addHoneyCoins(points) {
+    if (points <= 0) return;
+    totalLifetimePoints += points;
+    currentHoneyCoins += points;
+    saveGamificationState();
+    updateCoinUI();
+}
+
+function updateCoinUI() {
+    if (UI.startHoneyCoins) UI.startHoneyCoins.textContent = currentHoneyCoins;
+    if (UI.gameHoneyCoins) UI.gameHoneyCoins.textContent = currentHoneyCoins;
+    if (UI.gameoverHoneyCoins) UI.gameoverHoneyCoins.textContent = currentHoneyCoins;
+    if (UI.modalShopCoins) UI.modalShopCoins.textContent = currentHoneyCoins;
+    if (UI.modalWpPoints) UI.modalWpPoints.textContent = totalLifetimePoints;
+    if (UI.startStickerCount) UI.startStickerCount.textContent = unlockedStickers.size;
+    if (UI.albumCollectedCount) UI.albumCollectedCount.textContent = unlockedStickers.size;
+}
+
+const CHEER_MASCOT_IMAGES = ['bee_happy.png', 'bee_superhero.png', 'bee_thinking.png'];
+const CHEER_QUOTES = [
+    "Bee-utiful job! 🐝✨",
+    "Un-bee-lievable streak! 🔥",
+    "Buzzing brilliant! ⭐",
+    "Sweet as honey! 🍯",
+    "Super Bee power! 🦸",
+    "You're on a roll! 🌟",
+    "Spelling master! 👑",
+    "Keep buzzing along! 🐝",
+    "Top of the hive! 🏆",
+    "Honey sweet accuracy! 🍯✨"
+];
+
+let mascotCheerTimeout = null;
+
+function triggerBeeCheer() {
+    if (!UI.flyingMascotContainer || !UI.mascotImg || !UI.mascotSpeechText) return;
+    
+    if (mascotCheerTimeout) {
+        clearTimeout(mascotCheerTimeout);
+        mascotCheerTimeout = null;
+    }
+
+    const randomImg = CHEER_MASCOT_IMAGES[Math.floor(Math.random() * CHEER_MASCOT_IMAGES.length)];
+    const randomQuote = CHEER_QUOTES[Math.floor(Math.random() * CHEER_QUOTES.length)];
+
+    UI.mascotImg.src = randomImg;
+    UI.mascotSpeechText.textContent = randomQuote;
+
+    UI.flyingMascotContainer.classList.remove('hidden');
+    UI.flyingMascotContainer.classList.remove('fly-in');
+    void UI.flyingMascotContainer.offsetWidth;
+    UI.flyingMascotContainer.classList.add('fly-in');
+
+    mascotCheerTimeout = setTimeout(() => {
+        UI.flyingMascotContainer.classList.add('hidden');
+        UI.flyingMascotContainer.classList.remove('fly-in');
+        mascotCheerTimeout = null;
+    }, 3200);
+}
+
+function applyActiveWallpaper() {
+    if (typeof WALLPAPERS === 'undefined') return;
+    
+    // Remove existing wallpaper background classes
+    WALLPAPERS.forEach(wp => {
+        document.body.classList.remove(wp.cssClass);
+    });
+
+    const activeWp = WALLPAPERS.find(w => w.id === activeWallpaperId);
+    if (activeWp) {
+        document.body.style.background = activeWp.bgStyle;
+    } else {
+        document.body.style.background = '';
+    }
+}
+loadGamificationState();
 
 function resetToStartScreen() {
     if (turnTimeout) {
@@ -442,12 +589,20 @@ function handleOptionSelect(selected, btnNode) {
     
     if (isCorrect) {
         rightAnswersCount++;
+        consecutiveCorrectStreak++;
         btnNode.classList.add('correct');
         showFeedback(true, 5); // 5 points for second chance
         score += 5;
+        addHoneyCoins(5);
         updateUI();
+
+        if (consecutiveCorrectStreak % 3 === 0 || rightAnswersCount % 4 === 0) {
+            triggerBeeCheer();
+        }
+
         turnTimeout = setTimeout(nextTurn, 1000);
     } else {
+        consecutiveCorrectStreak = 0;
         currentLives--;
         wrongWordsSet.add(currentWordObj.valid[0]);
         btnNode.classList.add('wrong');
@@ -480,12 +635,14 @@ function handleAnswer(e) {
     if (currentWordObj.valid.includes(userAnswer)) {
         // Correct
         rightAnswersCount++;
+        consecutiveCorrectStreak++;
         let points = 10;
         if (currentDifficulty === 'medium') points = 20;
         if (currentDifficulty === 'hard') points = 30;
         if (currentDifficulty === 'expert') points = 50;
         
         score += points;
+        addHoneyCoins(points);
         
         // Trigger CSS animations
         UI.answerInput.classList.remove('error-shake', 'success-pop');
@@ -494,11 +651,17 @@ function handleAnswer(e) {
         
         showFeedback(true, points);
         updateUI();
+
+        // Cheer on every 3 streaks or every 3 right answers
+        if (consecutiveCorrectStreak % 3 === 0 || rightAnswersCount % 3 === 0) {
+            triggerBeeCheer();
+        }
         
         // Next word right after showing feedback briefly
         turnTimeout = setTimeout(nextTurn, 1000);
     } else {
         // Incorrect on first try
+        consecutiveCorrectStreak = 0;
         wrongWordsSet.add(currentWordObj.valid[0]);
         currentLives--;
         
@@ -531,6 +694,7 @@ function gameOver() {
     UI.answerInput.style.color = ''; // reset style
     UI.finalScore.textContent = score;
     UI.rightAnswersDisplay.textContent = rightAnswersCount;
+    updateCoinUI();
     
     UI.wrongWordsList.innerHTML = '';
     wrongWordsSet.forEach(word => {
@@ -1136,4 +1300,304 @@ if (UI.adminExportFilteredBtn) {
         showAdminToast("Exported words_filtered.js");
     });
 }
+
+// ==========================================
+// Sticker Shop & Album Controllers
+// ==========================================
+function openStickerShop(tab = "shop") {
+    activeStickerTab = tab;
+    if (UI.shopTabAll && UI.shopTabAlbum) {
+        if (tab === "shop") {
+            UI.shopTabAll.classList.add('active');
+            UI.shopTabAlbum.classList.remove('active');
+        } else {
+            UI.shopTabAlbum.classList.add('active');
+            UI.shopTabAll.classList.remove('active');
+        }
+    }
+    renderStickerCategories();
+    renderStickers();
+    updateCoinUI();
+    if (UI.stickerShopModal) {
+        UI.stickerShopModal.classList.remove('hidden');
+    }
+}
+
+function closeStickerShop() {
+    if (UI.stickerShopModal) {
+        UI.stickerShopModal.classList.add('hidden');
+    }
+}
+
+function renderStickerCategories() {
+    if (!UI.stickerCategoriesBar || typeof STICKER_CATEGORIES === 'undefined') return;
+    UI.stickerCategoriesBar.innerHTML = '';
+
+    const allChip = document.createElement('button');
+    allChip.className = `sticker-cat-chip ${selectedStickerCategory === 'all' ? 'active' : ''}`;
+    allChip.textContent = '🌟 All Categories';
+    allChip.onclick = () => {
+        selectedStickerCategory = 'all';
+        renderStickerCategories();
+        renderStickers();
+    };
+    UI.stickerCategoriesBar.appendChild(allChip);
+
+    STICKER_CATEGORIES.forEach(cat => {
+        const chip = document.createElement('button');
+        chip.className = `sticker-cat-chip ${selectedStickerCategory === cat.id ? 'active' : ''}`;
+        chip.textContent = `${cat.icon} ${cat.name}`;
+        chip.onclick = () => {
+            selectedStickerCategory = cat.id;
+            renderStickerCategories();
+            renderStickers();
+        };
+        UI.stickerCategoriesBar.appendChild(chip);
+    });
+}
+
+function renderStickers() {
+    if (!UI.stickersGrid || typeof ALL_STICKERS === 'undefined') return;
+    UI.stickersGrid.innerHTML = '';
+
+    let filtered = ALL_STICKERS.filter(s => {
+        const matchesCategory = selectedStickerCategory === 'all' || s.category === selectedStickerCategory;
+        const matchesSearch = s.name.toLowerCase().includes(stickerSearchQuery.toLowerCase());
+        const matchesTab = (activeStickerTab === 'shop') ? true : unlockedStickers.has(s.id);
+        return matchesCategory && matchesSearch && matchesTab;
+    });
+
+    if (filtered.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'no-words-message';
+        emptyMsg.style.gridColumn = '1 / -1';
+        emptyMsg.textContent = activeStickerTab === 'album' 
+            ? 'No stickers collected in this category yet! Visit the Shop to unlock them with Honey Coins.' 
+            : 'No stickers found matching your search.';
+        UI.stickersGrid.appendChild(emptyMsg);
+        return;
+    }
+
+    filtered.forEach(sticker => {
+        const isOwned = unlockedStickers.has(sticker.id);
+        const card = document.createElement('div');
+        card.className = `sticker-item rarity-${sticker.rarity}`;
+
+        const iconEl = document.createElement('div');
+        iconEl.className = 'sticker-icon';
+        iconEl.textContent = sticker.icon;
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'sticker-name';
+        nameEl.textContent = sticker.name;
+
+        const rarityEl = document.createElement('span');
+        rarityEl.className = `sticker-rarity ${sticker.rarity}`;
+        rarityEl.textContent = sticker.rarity;
+
+        const buyBtn = document.createElement('button');
+        buyBtn.type = 'button';
+        if (isOwned) {
+            buyBtn.className = 'sticker-buy-btn owned';
+            buyBtn.textContent = '✅ Owned';
+            buyBtn.disabled = true;
+        } else {
+            buyBtn.className = 'sticker-buy-btn buy';
+            buyBtn.textContent = `${sticker.price} 🍯 Buy`;
+            buyBtn.disabled = currentHoneyCoins < sticker.price;
+            buyBtn.onclick = () => buySticker(sticker);
+        }
+
+        card.appendChild(iconEl);
+        card.appendChild(nameEl);
+        card.appendChild(rarityEl);
+        card.appendChild(buyBtn);
+        UI.stickersGrid.appendChild(card);
+    });
+}
+
+function buySticker(sticker) {
+    if (currentHoneyCoins < sticker.price) {
+        showFeedback(false);
+        return;
+    }
+    currentHoneyCoins -= sticker.price;
+    unlockedStickers.add(sticker.id);
+    saveGamificationState();
+    updateCoinUI();
+    renderStickers();
+    triggerBeeCheer();
+}
+
+// ==========================================
+// Wallpaper Gallery Controllers
+// ==========================================
+function openWallpaperGallery() {
+    renderWallpapers();
+    updateCoinUI();
+    if (UI.wallpaperGalleryModal) {
+        UI.wallpaperGalleryModal.classList.remove('hidden');
+    }
+}
+
+function closeWallpaperGallery() {
+    if (UI.wallpaperGalleryModal) {
+        UI.wallpaperGalleryModal.classList.add('hidden');
+    }
+}
+
+function renderWallpapers() {
+    if (!UI.wallpapersGrid || typeof WALLPAPERS === 'undefined') return;
+    UI.wallpapersGrid.innerHTML = '';
+
+    WALLPAPERS.forEach(wp => {
+        const isUnlocked = totalLifetimePoints >= wp.pointsRequired;
+        const isEquipped = activeWallpaperId === wp.id;
+        const revealedTiles = Math.min(wp.totalTiles, Math.floor((totalLifetimePoints / wp.pointsRequired) * wp.totalTiles));
+        const progressPct = Math.min(100, Math.floor((totalLifetimePoints / wp.pointsRequired) * 100));
+
+        const card = document.createElement('div');
+        card.className = 'wallpaper-card';
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'wallpaper-card-header';
+        
+        const title = document.createElement('span');
+        title.className = 'wp-title';
+        title.textContent = wp.name;
+
+        const badge = document.createElement('span');
+        badge.className = `wp-status-badge ${isUnlocked ? 'unlocked' : 'locked'}`;
+        badge.textContent = isUnlocked ? 'Unlocked' : `${totalLifetimePoints}/${wp.pointsRequired} Pts`;
+
+        header.appendChild(title);
+        header.appendChild(badge);
+
+        // Preview Box with Mystery Tiles
+        const previewBox = document.createElement('div');
+        previewBox.className = 'wp-preview-box';
+        previewBox.style.background = wp.bgStyle;
+
+        const centerEmoji = document.createElement('div');
+        centerEmoji.className = 'wp-preview-center-emoji';
+        centerEmoji.textContent = wp.emoji;
+        previewBox.appendChild(centerEmoji);
+
+        const tileGrid = document.createElement('div');
+        tileGrid.className = 'wp-tile-grid';
+        for (let i = 0; i < wp.totalTiles; i++) {
+            const tile = document.createElement('div');
+            tile.className = `wp-tile ${i < revealedTiles ? 'revealed' : ''}`;
+            tileGrid.appendChild(tile);
+        }
+        previewBox.appendChild(tileGrid);
+
+        // Progress Bar
+        const progContainer = document.createElement('div');
+        progContainer.className = 'wp-progress-bar-container';
+        const progBar = document.createElement('div');
+        progBar.className = 'wp-progress-bar';
+        progBar.style.width = `${progressPct}%`;
+        progContainer.appendChild(progBar);
+
+        // Description
+        const desc = document.createElement('p');
+        desc.style.fontSize = '0.88rem';
+        desc.style.color = 'var(--text-muted)';
+        desc.style.margin = '2px 0 6px 0';
+        desc.textContent = wp.desc;
+
+        // Button
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        if (!isUnlocked) {
+            btn.className = 'wp-equip-btn';
+            btn.disabled = true;
+            btn.textContent = `🔒 Unlocks at ${wp.pointsRequired} Pts (${revealedTiles}/${wp.totalTiles} Revealed)`;
+        } else if (isEquipped) {
+            btn.className = 'wp-equip-btn equipped';
+            btn.textContent = '✅ Currently Equipped (Click to Default)';
+            btn.onclick = () => {
+                activeWallpaperId = 'default';
+                saveGamificationState();
+                applyActiveWallpaper();
+                renderWallpapers();
+            };
+        } else {
+            btn.className = 'wp-equip-btn equip';
+            btn.textContent = 'Equip Wallpaper';
+            btn.onclick = () => {
+                activeWallpaperId = wp.id;
+                saveGamificationState();
+                applyActiveWallpaper();
+                renderWallpapers();
+            };
+        }
+
+        card.appendChild(header);
+        card.appendChild(previewBox);
+        card.appendChild(progContainer);
+        card.appendChild(desc);
+        card.appendChild(btn);
+
+        UI.wallpapersGrid.appendChild(card);
+    });
+}
+
+// Gamification Modal Event Listeners
+if (UI.openStickersBtn) {
+    UI.openStickersBtn.addEventListener('click', () => openStickerShop("shop"));
+}
+if (UI.gameoverStickersBtn) {
+    UI.gameoverStickersBtn.addEventListener('click', () => openStickerShop("shop"));
+}
+if (UI.closeStickersBtn) {
+    UI.closeStickersBtn.addEventListener('click', closeStickerShop);
+}
+if (UI.shopTabAll) {
+    UI.shopTabAll.addEventListener('click', () => {
+        UI.shopTabAll.classList.add('active');
+        if (UI.shopTabAlbum) UI.shopTabAlbum.classList.remove('active');
+        activeStickerTab = "shop";
+        renderStickers();
+    });
+}
+if (UI.shopTabAlbum) {
+    UI.shopTabAlbum.addEventListener('click', () => {
+        UI.shopTabAlbum.classList.add('active');
+        if (UI.shopTabAll) UI.shopTabAll.classList.remove('active');
+        activeStickerTab = "album";
+        renderStickers();
+    });
+}
+if (UI.stickerSearchInput) {
+    UI.stickerSearchInput.addEventListener('input', (e) => {
+        stickerSearchQuery = e.target.value;
+        renderStickers();
+    });
+}
+
+if (UI.openWallpapersBtn) {
+    UI.openWallpapersBtn.addEventListener('click', openWallpaperGallery);
+}
+if (UI.gameoverWallpapersBtn) {
+    UI.gameoverWallpapersBtn.addEventListener('click', openWallpaperGallery);
+}
+if (UI.closeWallpapersBtn) {
+    UI.closeWallpapersBtn.addEventListener('click', closeWallpaperGallery);
+}
+
+// Close modals on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (UI.stickerShopModal && !UI.stickerShopModal.classList.contains('hidden')) {
+            closeStickerShop();
+        }
+        if (UI.wallpaperGalleryModal && !UI.wallpaperGalleryModal.classList.contains('hidden')) {
+            closeWallpaperGallery();
+        }
+    }
+});
+
 
