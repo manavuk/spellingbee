@@ -10,11 +10,18 @@ let turnTimeout = null;
 let selectedVoiceName = "";
 let selectedWordListType = "default";
 let selectedKeyboardMode = "virtual";
+let selectedStartingLives = 10;
 let rightAnswersCount = 0;
 let wrongWordsSet = new Set();
+let currentSessionMissedWords = [];
 let currentWordDefinition = "";
 let currentWordSentence = "";
 let currentWordPartOfSpeech = "";
+
+// Misspelled Words Bank State
+const MISSPELLED_STORAGE_KEY = 'spelling_bee_misspelled_words_bank';
+let misspelledBank = [];
+let misspelledSearchQuery = "";
 
 // Gamification State
 let totalLifetimePoints = 0;
@@ -48,6 +55,33 @@ function loadWordLists() {
 }
 loadWordLists();
 
+function loadMisspelledBank() {
+    try {
+        const stored = localStorage.getItem(MISSPELLED_STORAGE_KEY);
+        misspelledBank = stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error("Error loading misspelled bank", e);
+        misspelledBank = [];
+    }
+    updateMisspelledCounts();
+}
+loadMisspelledBank();
+
+function saveMisspelledBank() {
+    try {
+        localStorage.setItem(MISSPELLED_STORAGE_KEY, JSON.stringify(misspelledBank));
+    } catch (e) {
+        console.error("Error saving misspelled bank", e);
+    }
+    updateMisspelledCounts();
+}
+
+function updateMisspelledCounts() {
+    const count = misspelledBank.length;
+    if (UI.startMisspelledCount) UI.startMisspelledCount.textContent = count;
+    if (UI.gameoverMisspelledCount) UI.gameoverMisspelledCount.textContent = count;
+}
+
 
 const synth = window.speechSynthesis;
 
@@ -67,7 +101,14 @@ const UI = {
     confirmRestartBtn: document.getElementById('confirm-restart-btn'),
     voiceSelect: document.getElementById('voice-select'),
     wordListSelect: document.getElementById('word-list-select'),
+    livesSelect: document.getElementById('lives-select'),
+    startLivesDesc: document.getElementById('start-lives-desc'),
     keyboardSelect: document.getElementById('keyboard-select'),
+    
+    startMisspelledBtn: document.getElementById('start-misspelled-btn'),
+    startMisspelledCount: document.getElementById('start-misspelled-count'),
+    gameoverMisspelledBtn: document.getElementById('gameover-misspelled-btn'),
+    gameoverMisspelledCount: document.getElementById('gameover-misspelled-count'),
     
     answerForm: document.getElementById('answer-form'),
     answerInput: document.getElementById('answer-input'),
@@ -81,6 +122,10 @@ const UI = {
     
     difficultyBadge: document.getElementById('difficulty-badge'),
     feedback: document.getElementById('feedback'),
+    mascotPopup: document.getElementById('mascot-popup'),
+    mascotPopupImg: document.getElementById('mascot-popup-img'),
+    mascotPopupText: document.getElementById('mascot-popup-text'),
+    
     finalScore: document.getElementById('final-score'),
     rightAnswersDisplay: document.getElementById('right-answers'),
     wrongWordsList: document.getElementById('wrong-words-list'),
@@ -91,6 +136,14 @@ const UI = {
     hintDisplay: document.getElementById('hint-display'),
     hintBadge: document.getElementById('hint-badge'),
     hintText: document.getElementById('hint-text'),
+
+    // Misspelled Words Review Screen
+    misspelledScreen: document.getElementById('misspelled-screen'),
+    misspelledSearchInput: document.getElementById('misspelled-search-input'),
+    exportCsvBtn: document.getElementById('export-csv-btn'),
+    clearAllMisspelledBtn: document.getElementById('clear-all-misspelled-btn'),
+    misspelledWordsList: document.getElementById('misspelled-words-list'),
+    misspelledExitBtn: document.getElementById('misspelled-exit-btn'),
 
     // Gamification UI Elements
     startHoneyCoins: document.getElementById('start-honey-coins'),
@@ -300,6 +353,86 @@ function applyActiveWallpaper() {
 }
 loadGamificationState();
 
+function loadStartingLives() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_starting_lives');
+        if (stored) {
+            selectedStartingLives = parseInt(stored, 10) || 10;
+            if (UI.livesSelect) UI.livesSelect.value = String(selectedStartingLives);
+            if (UI.startLivesDesc) UI.startLivesDesc.textContent = String(selectedStartingLives);
+        }
+    } catch (e) {
+        console.error("Error loading starting lives", e);
+    }
+}
+loadStartingLives();
+
+let mascotFeedbackTimeout = null;
+function showMascotFeedback(type, message) {
+    if (!UI.mascotPopup || !UI.mascotPopupImg || !UI.mascotPopupText) return;
+    
+    if (mascotFeedbackTimeout) {
+        clearTimeout(mascotFeedbackTimeout);
+        mascotFeedbackTimeout = null;
+    }
+
+    const isCorrect = (type === 'correct');
+    const images = isCorrect ? ['bee_happy.png', 'bee_superhero.png'] : ['bee_oops.png', 'bee_dizzy.png'];
+    const chosenImg = images[Math.floor(Math.random() * images.length)];
+
+    UI.mascotPopupImg.src = chosenImg;
+    UI.mascotPopupText.textContent = message || (isCorrect ? "Great Job! 🐝" : "Oops! Keep Trying! 🐝");
+    UI.mascotPopup.className = `mascot-popup show ${isCorrect ? 'correct' : 'incorrect'}`;
+
+    mascotFeedbackTimeout = setTimeout(() => {
+        if (UI.mascotPopup) UI.mascotPopup.classList.remove('show');
+        mascotFeedbackTimeout = null;
+    }, 1300);
+}
+
+function recordMisspelledWord(wordObj, userAttempt) {
+    if (!wordObj || !wordObj.word) return;
+    const target = wordObj.word.toLowerCase();
+    
+    // Add to session missed words for Game Over screen review
+    const sessionExists = currentSessionMissedWords.find(w => w.word && w.word.toLowerCase() === target);
+    if (!sessionExists) {
+        currentSessionMissedWords.push({
+            word: wordObj.valid[0],
+            definition: currentWordDefinition || wordObj.definition || "",
+            partOfSpeech: currentWordPartOfSpeech || "",
+            sentence: currentWordSentence || "",
+            userAttempt: userAttempt || ""
+        });
+    }
+
+    // Add to global persistent bank
+    let bankItem = misspelledBank.find(item => item.word && item.word.toLowerCase() === target);
+    if (bankItem) {
+        bankItem.count = (bankItem.count || 1) + 1;
+        bankItem.lastMissed = new Date().toISOString();
+        if (currentWordDefinition && !bankItem.definition) bankItem.definition = currentWordDefinition;
+        if (currentWordSentence && !bankItem.sentence) bankItem.sentence = currentWordSentence;
+        if (currentWordPartOfSpeech && !bankItem.partOfSpeech) bankItem.partOfSpeech = currentWordPartOfSpeech;
+        if (userAttempt && Array.isArray(bankItem.attempts) && !bankItem.attempts.includes(userAttempt)) {
+            bankItem.attempts.push(userAttempt);
+        }
+    } else {
+        misspelledBank.push({
+            word: wordObj.valid[0],
+            valid: wordObj.valid,
+            difficulty: wordObj.difficulty,
+            definition: currentWordDefinition || wordObj.definition || "",
+            partOfSpeech: currentWordPartOfSpeech || "",
+            sentence: currentWordSentence || "",
+            attempts: userAttempt ? [userAttempt] : [],
+            count: 1,
+            lastMissed: new Date().toISOString()
+        });
+    }
+    saveMisspelledBank();
+}
+
 function resetToStartScreen() {
     if (turnTimeout) {
         clearTimeout(turnTimeout);
@@ -312,14 +445,17 @@ function resetToStartScreen() {
     synth.cancel();
     closeRestartModal();
 
-    currentLives = 10;
+    currentLives = selectedStartingLives;
     score = 0;
+    consecutiveCorrectStreak = 0;
     rightAnswersCount = 0;
     wrongWordsSet.clear();
+    currentSessionMissedWords = [];
     usedWords.clear();
     
     // Reset feedback, input styles, options, hints
     if (UI.feedback) UI.feedback.classList.remove('show');
+    if (UI.mascotPopup) UI.mascotPopup.classList.remove('show');
     if (UI.answerInput) {
         UI.answerInput.value = '';
         UI.answerInput.style.color = '';
@@ -331,6 +467,7 @@ function resetToStartScreen() {
 
     switchScreen(UI.gameScreen, UI.startScreen);
     switchScreen(UI.gameOverScreen, UI.startScreen);
+    if (UI.misspelledScreen) switchScreen(UI.misspelledScreen, UI.startScreen);
 }
 
 function initGame() {
@@ -345,14 +482,17 @@ function initGame() {
     synth.cancel();
     closeRestartModal();
 
-    currentLives = 10;
+    currentLives = selectedStartingLives;
     score = 0;
+    consecutiveCorrectStreak = 0;
     rightAnswersCount = 0;
     wrongWordsSet.clear();
+    currentSessionMissedWords = [];
     usedWords.clear();
     
     // Reset feedback, input styles, options, hints
     if (UI.feedback) UI.feedback.classList.remove('show');
+    if (UI.mascotPopup) UI.mascotPopup.classList.remove('show');
     if (UI.answerInput) {
         UI.answerInput.value = '';
         UI.answerInput.style.color = '';
@@ -366,6 +506,7 @@ function initGame() {
     
     switchScreen(UI.startScreen, UI.gameScreen);
     switchScreen(UI.gameOverScreen, UI.gameScreen);
+    if (UI.misspelledScreen) switchScreen(UI.misspelledScreen, UI.gameScreen);
     nextTurn();
 }
 
@@ -592,6 +733,7 @@ function handleOptionSelect(selected, btnNode) {
         consecutiveCorrectStreak++;
         btnNode.classList.add('correct');
         showFeedback(true, 5); // 5 points for second chance
+        showMascotFeedback('correct', 'Super spelling! 🐝✨');
         score += 5;
         addHoneyCoins(5);
         updateUI();
@@ -605,6 +747,8 @@ function handleOptionSelect(selected, btnNode) {
         consecutiveCorrectStreak = 0;
         currentLives--;
         wrongWordsSet.add(currentWordObj.valid[0]);
+        recordMisspelledWord(currentWordObj, selected);
+        showMascotFeedback('incorrect', 'Oops! 🐝');
         btnNode.classList.add('wrong');
         buttons.forEach(b => {
             if (currentWordObj.valid.includes(b.textContent)) {
@@ -650,6 +794,7 @@ function handleAnswer(e) {
         UI.answerInput.classList.add('success-pop');
         
         showFeedback(true, points);
+        showMascotFeedback('correct', 'Bee-utiful! 🐝✨');
         updateUI();
 
         // Cheer on every 3 streaks or every 3 right answers
@@ -663,6 +808,8 @@ function handleAnswer(e) {
         // Incorrect on first try
         consecutiveCorrectStreak = 0;
         wrongWordsSet.add(currentWordObj.valid[0]);
+        recordMisspelledWord(currentWordObj, userAnswer);
+        showMascotFeedback('incorrect', 'Oops! Keep going! 🐝');
         currentLives--;
         
         UI.answerInput.classList.remove('error-shake', 'success-pop');
@@ -690,18 +837,58 @@ function handleAnswer(e) {
     }
 }
 
+function renderGameOverMissedWords() {
+    if (!UI.wrongWordsList) return;
+    UI.wrongWordsList.innerHTML = '';
+    
+    if (currentSessionMissedWords.length === 0) {
+        const p = document.createElement('p');
+        p.style.color = 'var(--success)';
+        p.style.fontWeight = '700';
+        p.style.padding = '12px';
+        p.textContent = 'Flawless spelling! No words missed this round! 🐝🎉';
+        UI.wrongWordsList.appendChild(p);
+        return;
+    }
+
+    currentSessionMissedWords.forEach(missed => {
+        const card = document.createElement('div');
+        card.className = 'missed-word-card';
+
+        const info = document.createElement('div');
+        info.style.flex = '1';
+        
+        const title = document.createElement('div');
+        title.className = 'missed-word-text';
+        title.textContent = missed.word;
+
+        const def = document.createElement('div');
+        def.className = 'missed-word-def';
+        def.textContent = missed.definition ? `${missed.partOfSpeech ? `(${missed.partOfSpeech}) ` : ''}${missed.definition}` : '';
+
+        info.appendChild(title);
+        if (missed.definition) info.appendChild(def);
+
+        const speakBtn = document.createElement('button');
+        speakBtn.type = 'button';
+        speakBtn.className = 'speaker-btn-sm';
+        speakBtn.title = 'Listen to word';
+        speakBtn.innerHTML = '🔊';
+        speakBtn.onclick = () => speakWord(missed.word, false);
+
+        card.appendChild(info);
+        card.appendChild(speakBtn);
+        UI.wrongWordsList.appendChild(card);
+    });
+}
+
 function gameOver() {
     UI.answerInput.style.color = ''; // reset style
     UI.finalScore.textContent = score;
     UI.rightAnswersDisplay.textContent = rightAnswersCount;
     updateCoinUI();
-    
-    UI.wrongWordsList.innerHTML = '';
-    wrongWordsSet.forEach(word => {
-        const li = document.createElement('li');
-        li.textContent = word;
-        UI.wrongWordsList.appendChild(li);
-    });
+    updateMisspelledCounts();
+    renderGameOverMissedWords();
     
     UI.gameOverTitle.textContent = score > 200 ? "Amazing Job!" : "Game Over";
     switchScreen(UI.gameScreen, UI.gameOverScreen);
@@ -1545,6 +1732,177 @@ function renderWallpapers() {
     });
 }
 
+// ==========================================
+// Misspelled Words Bank Controllers
+// ==========================================
+function renderMisspelledWordsList() {
+    if (!UI.misspelledWordsList) return;
+    UI.misspelledWordsList.innerHTML = '';
+
+    try {
+        let filtered = misspelledBank.filter(item => item && item.word);
+
+        if (misspelledSearchQuery && misspelledSearchQuery.trim() !== "") {
+            const query = misspelledSearchQuery.trim().toLowerCase();
+            filtered = filtered.filter(item =>
+                (item.word && item.word.toLowerCase().includes(query)) ||
+                (item.definition && item.definition.toLowerCase().includes(query))
+            );
+        }
+
+        if (filtered.length === 0) {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.className = 'no-words-message';
+            emptyMsg.style.padding = '24px';
+            emptyMsg.style.textAlign = 'center';
+            emptyMsg.style.color = 'var(--text-muted)';
+            emptyMsg.textContent = misspelledSearchQuery
+                ? "No misspelled words match your search."
+                : "No misspelled words recorded yet! Play a game to practice spelling.";
+            UI.misspelledWordsList.appendChild(emptyMsg);
+            return;
+        }
+
+        // Sort by count descending, then alphabetically
+        filtered.sort((a, b) => (b.count || 1) - (a.count || 1) || String(a.word).localeCompare(String(b.word)));
+
+        filtered.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'admin-word-row';
+
+            const info = document.createElement('div');
+            info.className = 'admin-word-info';
+
+            const title = document.createElement('div');
+            title.className = 'admin-word-title';
+            title.innerHTML = `<strong>${item.word}</strong> <span class="admin-word-difficulty diff-${item.difficulty || 'medium'}">${item.count || 1}x Missed</span>`;
+
+            const def = document.createElement('div');
+            def.className = 'admin-word-spellings';
+            def.style.color = 'var(--text-muted)';
+            def.style.fontSize = '0.85rem';
+            def.textContent = item.definition ? `${item.partOfSpeech ? `(${item.partOfSpeech}) ` : ''}${item.definition}` : "Definition unavailable";
+
+            info.appendChild(title);
+            info.appendChild(def);
+
+            const actions = document.createElement('div');
+            actions.className = 'admin-word-actions';
+
+            const speakBtn = document.createElement('button');
+            speakBtn.className = 'action-btn-sm';
+            speakBtn.title = 'Listen to word';
+            speakBtn.innerHTML = '🔊';
+            speakBtn.onclick = () => speakWord(item.word, false);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'action-btn-sm delete-btn';
+            deleteBtn.title = 'Remove word from bank';
+            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.onclick = () => {
+                misspelledBank = misspelledBank.filter(m => m.word.toLowerCase() !== item.word.toLowerCase());
+                saveMisspelledBank();
+                renderMisspelledWordsList();
+            };
+
+            actions.appendChild(speakBtn);
+            actions.appendChild(deleteBtn);
+
+            row.appendChild(info);
+            row.appendChild(actions);
+            UI.misspelledWordsList.appendChild(row);
+        });
+    } catch (e) {
+        console.error("Error rendering misspelled words list", e);
+    }
+}
+
+function exportMisspelledToCSV() {
+    if (!misspelledBank || misspelledBank.length === 0) {
+        showFeedback(false);
+        return;
+    }
+
+    const headers = ["Word", "Difficulty", "Times Missed", "Part of Speech", "Definition", "Last Missed Date"];
+    const rows = misspelledBank.map(item => [
+        `"${(item.word || '').replace(/"/g, '""')}"`,
+        `"${(item.difficulty || '').replace(/"/g, '""')}"`,
+        `"${item.count || 1}"`,
+        `"${(item.partOfSpeech || '').replace(/"/g, '""')}"`,
+        `"${(item.definition || '').replace(/"/g, '""')}"`,
+        `"${(item.lastMissed || '').replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `misspelled_words_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function clearAllMisspelled() {
+    if (!misspelledBank || misspelledBank.length === 0) return;
+    if (confirm("Are you sure you want to clear all words from your Misspelled Words Bank?")) {
+        misspelledBank = [];
+        saveMisspelledBank();
+        renderMisspelledWordsList();
+    }
+}
+
+// Misspelled Screen Event Listeners
+if (UI.startMisspelledBtn) {
+    UI.startMisspelledBtn.addEventListener('click', () => {
+        switchScreen(UI.startScreen, UI.misspelledScreen);
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.gameoverMisspelledBtn) {
+    UI.gameoverMisspelledBtn.addEventListener('click', () => {
+        switchScreen(UI.gameOverScreen, UI.misspelledScreen);
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.misspelledExitBtn) {
+    UI.misspelledExitBtn.addEventListener('click', () => {
+        switchScreen(UI.misspelledScreen, UI.startScreen);
+    });
+}
+
+if (UI.misspelledSearchInput) {
+    UI.misspelledSearchInput.addEventListener('input', (e) => {
+        misspelledSearchQuery = e.target.value;
+        renderMisspelledWordsList();
+    });
+}
+
+if (UI.exportCsvBtn) {
+    UI.exportCsvBtn.addEventListener('click', exportMisspelledToCSV);
+}
+
+if (UI.clearAllMisspelledBtn) {
+    UI.clearAllMisspelledBtn.addEventListener('click', clearAllMisspelled);
+}
+
+if (UI.livesSelect) {
+    UI.livesSelect.addEventListener('change', (e) => {
+        selectedStartingLives = parseInt(e.target.value, 10) || 10;
+        try {
+            localStorage.setItem('spelling_bee_starting_lives', String(selectedStartingLives));
+        } catch (err) {
+            console.error("Error saving starting lives", err);
+        }
+        if (UI.startLivesDesc) {
+            UI.startLivesDesc.textContent = String(selectedStartingLives);
+        }
+    });
+}
+
 // Gamification Modal Event Listeners
 if (UI.openStickersBtn) {
     UI.openStickersBtn.addEventListener('click', () => openStickerShop("shop"));
@@ -1599,5 +1957,6 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
 
 

@@ -16,9 +16,10 @@
     <div id="app">
         <!-- Start Screen -->
         <main id="start-screen" class="screen active">
+            <img src="bee_logo.png" alt="Spell Bee Mascot" class="start-mascot-logo">
             <h1>Spell Bee</h1>
             <p>Listen to the word, spell it correctly.</p>
-            <p>10 Lives. Increasing Difficulty. Can you survive?</p>
+            <p><span id="start-lives-desc">10</span> Lives. Increasing Difficulty. Can you survive?</p>
             
             <div class="coin-badge-container" style="margin: 10px 0 5px 0;">
                 <div class="coin-badge"><span class="coin-icon">🍯</span> <span id="start-honey-coins">0</span> Honey Coins</div>
@@ -39,6 +40,14 @@
                 </select>
             </div>
 
+            <div class="lives-selector-container" style="margin: 15px 0 10px 0;">
+                <label for="lives-select">Starting Lives</label>
+                <select id="lives-select" class="word-list-select" aria-label="Select starting lives count">
+                    <option value="10">10 Lives (Default)</option>
+                    <option value="5">5 Lives (Challenge Mode)</option>
+                </select>
+            </div>
+
             <div class="keyboard-selector-container" style="margin: 15px 0 10px 0;">
                 <label for="keyboard-select">Keyboard</label>
                 <select id="keyboard-select" class="word-list-select" aria-label="Select keyboard input mode">
@@ -49,9 +58,10 @@
             
             <button id="start-btn" class="primary-btn">Start Game</button>
             
-            <div class="start-extras-row" style="display: flex; gap: 10px; width: 100%; margin-top: 18px;">
-                <button type="button" id="open-stickers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🍯 Sticker Shop (<span id="start-sticker-count">0</span>/500)</button>
-                <button type="button" id="open-wallpapers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🖼️ Wallpapers</button>
+            <div class="start-extras-row" style="display: flex; gap: 10px; width: 100%; margin-top: 18px; flex-wrap: wrap;">
+                <button type="button" id="open-stickers-btn" class="secondary-btn" style="flex: 1; min-width: 130px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🍯 Stickers (<span id="start-sticker-count">0</span>/500)</button>
+                <button type="button" id="open-wallpapers-btn" class="secondary-btn" style="flex: 1; min-width: 120px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🖼️ Wallpapers</button>
+                <button type="button" id="start-misspelled-btn" class="secondary-btn" style="flex: 1; min-width: 140px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">📖 Misspelled (<span id="start-misspelled-count">0</span>)</button>
             </div>
 
             <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 15px; font-size: 0.9rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 8px 18px;">Admin Panel</button>
@@ -114,6 +124,12 @@
                 </div>
                 
                 <div id="feedback" class="feedback-toast hidden" role="alert">Correct!</div>
+                
+                <!-- Fun Mascot Feedback Reaction Popup -->
+                <div id="mascot-popup" class="mascot-popup hidden">
+                    <img id="mascot-popup-img" src="bee_oops.png" alt="Mascot Reaction" class="mascot-popup-graphic">
+                    <div id="mascot-popup-text" class="mascot-popup-message">Oops! Keep trying!</div>
+                </div>
                 
                 <form id="answer-form">
                     <label for="answer-input" class="sr-only">Type word spelling</label>
@@ -180,15 +196,44 @@
             <p>Your Final Score: <span id="final-score">0</span></p>
             <p>Right Answers: <span id="right-answers">0</span></p>
             <p style="font-weight: 700; color: #f59e0b;">Total Honey Coins: <span id="gameover-honey-coins">0</span> 🍯</p>
-            <div class="wrong-words-container" style="margin: 15px 0;">
-                <p>Words you missed:</p>
-                <ul id="wrong-words-list" style="list-style: none; padding: 0; max-height: 140px; overflow-y: auto; text-align: center; color: var(--danger);"></ul>
+            <div class="wrong-words-container" style="margin: 15px 0; width: 100%;">
+                <p style="font-weight: 600;">Words you missed this game:</p>
+                <div id="wrong-words-list" class="wrong-words-cards-list" style="max-height: 180px; overflow-y: auto;"></div>
             </div>
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
-            <div style="display: flex; gap: 10px; width: 100%; margin-top: 15px;">
-                <button type="button" id="gameover-stickers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🍯 Sticker Shop</button>
-                <button type="button" id="gameover-wallpapers-btn" class="secondary-btn" style="flex: 1; margin: 0; font-size: 0.95rem; padding: 10px 14px;">🖼️ Wallpapers</button>
+            <div style="display: flex; gap: 8px; width: 100%; margin-top: 15px; flex-wrap: wrap;">
+                <button type="button" id="gameover-misspelled-btn" class="secondary-btn" style="flex: 1; min-width: 140px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">📖 Misspelled Bank (<span id="gameover-misspelled-count">0</span>)</button>
+                <button type="button" id="gameover-stickers-btn" class="secondary-btn" style="flex: 1; min-width: 120px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🍯 Stickers</button>
+                <button type="button" id="gameover-wallpapers-btn" class="secondary-btn" style="flex: 1; min-width: 110px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🖼️ Wallpapers</button>
+            </div>
+        </section>
+
+        <!-- Misspelled Words Review Screen -->
+        <section id="misspelled-screen" class="screen hidden" style="padding: 30px 20px; max-width: 650px;">
+            <h2>Misspelled Words Bank</h2>
+            <p>Review and practice all words missed across your spelling games.</p>
+
+            <div style="width: 100%; margin-top: 15px;">
+                <!-- Search and Stats Bar -->
+                <div class="admin-search-bar-row" style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <input type="text" id="misspelled-search-input" placeholder="🔍 Search missed words..." style="font-size: 1rem; padding: 10px 14px; text-align: left; border-radius: 10px; flex: 2; min-width: 180px;">
+                    <button id="export-csv-btn" class="primary-btn" style="margin: 0; padding: 10px 16px; font-size: 0.9rem; border-radius: 10px; box-shadow: none; white-space: nowrap; background: linear-gradient(135deg, #10b981, #059669);">Export CSV</button>
+                    <button id="clear-all-misspelled-btn" class="secondary-btn" style="margin: 0; padding: 10px 16px; font-size: 0.9rem; border-radius: 10px; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); white-space: nowrap;">Clear All</button>
+                </div>
+
+                <!-- Misspelled List Container -->
+                <div class="admin-words-list-wrapper">
+                    <div class="admin-words-list-header">
+                        <span>Word & Definition</span>
+                        <span>Actions</span>
+                    </div>
+                    <div id="misspelled-words-list" class="admin-words-list" style="max-height: 380px;">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <button id="misspelled-exit-btn" class="secondary-btn" style="margin: 20px auto 0 auto; padding: 12px 30px;">Back to Main</button>
             </div>
         </section>
 
