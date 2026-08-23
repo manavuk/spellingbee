@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spell Bee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spell Bee - 11+ Spelling Challenge</title>
     <!-- SEO Best Practices -->
-    <meta name="description" content="A gamified application to test your spelling skills. Listen, spell, and score points! Features increasing difficulty and a 10-life survival mode.">
+    <meta name="description" content="A gamified application to test your spelling skills. Listen, spell, and score points! Features 11+ exam words, 500 collectible stickers, art wallpapers, and spelling mastery studio.">
+    
+    <!-- PWA & Mobile Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#090d16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Spell Bee">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,108 +25,96 @@
     <div id="app">
         <!-- Start Screen -->
         <main id="start-screen" class="screen active landing-screen">
-            <!-- Top Status Bar -->
+            <!-- Top Status Bar with Coins, Install Button, and Settings Button -->
             <div class="landing-top-bar">
                 <div class="coin-badge">
                     <span class="coin-icon">🍯</span>
                     <span id="start-honey-coins">0</span> Coins
                 </div>
+                <div class="landing-top-actions">
+                    <button type="button" id="pwa-install-btn" class="pwa-install-btn hidden" title="Install App to Home Screen" aria-label="Install App">
+                        <span class="pwa-install-icon">📲</span>
+                        <span class="pwa-install-text">Install App</span>
+                    </button>
+                    <button type="button" id="open-settings-btn" class="settings-circle-btn" title="Game Settings" aria-label="Game Settings">
+                        <span class="settings-gear-icon">⚙️</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Hero Branding -->
             <div class="hero-brand">
-                <div class="mascot-badge-wrapper">
-                    <img src="bee_logo.png" alt="Spell Bee Mascot" class="start-mascot-logo">
-                    <div class="mascot-glow-ring"></div>
-                </div>
+                <img src="bee_logo.png" alt="Spell Bee Mascot" class="start-mascot-logo">
+                
                 <h1 class="landing-title">Spell Bee</h1>
-                <p class="landing-subtitle">Listen &bull; Spell &bull; Master Words</p>
-                <div class="landing-meta-pill">
-                    <span>❤️ <span id="start-lives-desc">10</span> Lives</span>
-                    <span>•</span>
-                    <span>📈 Adaptive Difficulty</span>
+                <p class="landing-subtitle">Listen &bull; Spell &bull; Master High-Frequency Words</p>
+                
+                <div class="landing-meta-pills-row">
+                    <span class="rich-pill pill-amber">
+                        <span>❤️ <span id="start-lives-desc">10</span> Lives</span>
+                    </span>
+                    <span class="rich-pill pill-indigo">
+                        <span>📈 Adaptive Difficulty</span>
+                    </span>
+                    <span class="rich-pill pill-purple">
+                        <span>🎯 11+ Ready</span>
+                    </span>
                 </div>
             </div>
 
             <!-- Primary Action Callout -->
             <div class="landing-cta-container">
                 <button id="start-btn" class="primary-btn landing-play-btn">
-                    <span class="btn-play-icon">▶</span> Play Game
+                    <span class="btn-play-icon">▶</span>
+                    <span>Start Spelling Challenge</span>
+                    <span class="btn-shine-effect"></span>
                 </button>
             </div>
 
-            <!-- Gamification Feature Cards -->
+            <!-- Gamification Feature Hub Cards -->
             <div class="landing-hub-grid">
-                <button type="button" id="open-stickers-btn" class="hub-card">
-                    <span class="hub-card-icon">🍯</span>
+                <button type="button" id="open-stickers-btn" class="hub-card hub-card-stickers">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">🍯</span>
+                    </div>
                     <div class="hub-card-text">
                         <span class="hub-card-title">Sticker Shop</span>
-                        <span class="hub-card-sub"><span id="start-sticker-count">0</span>/500 Collected</span>
+                        <span class="hub-card-badge-pill"><span id="start-sticker-count">0</span>/500 Collected</span>
                     </div>
                 </button>
                 
-                <button type="button" id="open-wallpapers-btn" class="hub-card">
-                    <span class="hub-card-icon">🖼️</span>
+                <button type="button" id="open-wallpapers-btn" class="hub-card hub-card-wallpapers">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">🖼️</span>
+                    </div>
                     <div class="hub-card-text">
                         <span class="hub-card-title">Wallpapers</span>
-                        <span class="hub-card-sub">Art Gallery</span>
+                        <span class="hub-card-badge-pill">6 Art Galleries</span>
                     </div>
                 </button>
                 
-                <button type="button" id="start-misspelled-btn" class="hub-card">
-                    <span class="hub-card-icon">📖</span>
+                <button type="button" id="start-misspelled-btn" class="hub-card hub-card-misspelled">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">📖</span>
+                    </div>
                     <div class="hub-card-text">
                         <span class="hub-card-title">Misspelled</span>
-                        <span class="hub-card-sub"><span id="start-misspelled-count">0</span> to Review</span>
+                        <span class="hub-card-badge-pill highlight"><span id="start-misspelled-count">0</span> To Review</span>
                     </div>
                 </button>
             </div>
 
-            <!-- Compact Game Settings 2x2 Grid -->
-            <div class="landing-settings-card">
-                <div class="settings-card-header">
-                    <span class="settings-card-title">⚙️ Game Preferences</span>
+            <!-- Footer Meta & Version / Admin Entry -->
+            <div class="landing-footer" style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div class="footer-links-row" style="display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" id="open-version-btn" class="version-pill-btn" aria-label="Version History">
+                        <span class="version-dot"></span>
+                        <span id="landing-app-version">v1.4.0</span> &bull; <span>Changelog</span>
+                    </button>
+                    <button type="button" id="admin-entrance-btn" class="admin-footer-btn" aria-label="Admin Portal">
+                        🔒 Admin Portal
+                    </button>
                 </div>
-                
-                <div class="settings-grid">
-                    <div class="setting-field">
-                        <label for="word-list-select">📚 Word Bank</label>
-                        <select id="word-list-select" class="compact-select" aria-label="Select word bank">
-                            <option value="default">General Vocabulary</option>
-                            <option value="11plus">11+ Exam Words</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-field">
-                        <label for="lives-select">❤️ Starting Lives</label>
-                        <select id="lives-select" class="compact-select" aria-label="Select starting lives count">
-                            <option value="10">10 Lives (Default)</option>
-                            <option value="5">5 Lives (Challenge)</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-field">
-                        <label for="keyboard-select">⌨️ Keyboard</label>
-                        <select id="keyboard-select" class="compact-select" aria-label="Select keyboard mode">
-                            <option value="virtual">Virtual Keyboard</option>
-                            <option value="both">Virtual + Native</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-field">
-                        <label for="voice-select">🎙️ Speech Voice</label>
-                        <select id="voice-select" class="compact-select" aria-label="Select speech voice">
-                            <option value="">Default Voice</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Meta & Admin Entry -->
-            <div class="landing-footer">
-                <button type="button" id="admin-entrance-btn" class="admin-footer-btn" aria-label="Admin Portal">
-                    🔒 Admin Portal
-                </button>
             </div>
         </main>
 
@@ -256,38 +253,102 @@
             </div>
             <p id="game-over-message">Better luck next time!</p>
             <button id="restart-btn" class="primary-btn">Play Again</button>
-            <div style="display: flex; gap: 8px; width: 100%; margin-top: 15px; flex-wrap: wrap;">
-                <button type="button" id="gameover-misspelled-btn" class="secondary-btn" style="flex: 1; min-width: 140px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">📖 Misspelled Bank (<span id="gameover-misspelled-count">0</span>)</button>
-                <button type="button" id="gameover-stickers-btn" class="secondary-btn" style="flex: 1; min-width: 120px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🍯 Stickers</button>
-                <button type="button" id="gameover-wallpapers-btn" class="secondary-btn" style="flex: 1; min-width: 110px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🖼️ Wallpapers</button>
+            <!-- Gamification Feature Hub Cards (matching landing screen) -->
+            <div class="landing-hub-grid" style="margin-top: 18px;">
+                <button type="button" id="gameover-stickers-btn" class="hub-card hub-card-stickers">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">🍯</span>
+                    </div>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Sticker Shop</span>
+                        <span class="hub-card-badge-pill"><span id="gameover-sticker-count">0</span>/500 Collected</span>
+                    </div>
+                </button>
+                
+                <button type="button" id="gameover-wallpapers-btn" class="hub-card hub-card-wallpapers">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">🖼️</span>
+                    </div>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Wallpapers</span>
+                        <span class="hub-card-badge-pill">6 Art Galleries</span>
+                    </div>
+                </button>
+                
+                <button type="button" id="gameover-misspelled-btn" class="hub-card hub-card-misspelled">
+                    <div class="hub-card-icon-wrap">
+                        <span class="hub-card-icon">📖</span>
+                    </div>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Misspelled</span>
+                        <span class="hub-card-badge-pill highlight"><span id="gameover-misspelled-count">0</span> To Review</span>
+                    </div>
+                </button>
             </div>
         </section>
 
         <!-- Misspelled Words Review Screen -->
-        <section id="misspelled-screen" class="screen hidden" style="padding: 30px 20px; max-width: 650px;">
-            <h2>Misspelled Words Bank</h2>
-            <p>Review and practice all words missed across your spelling games.</p>
+        <section id="misspelled-screen" class="screen hidden misspelled-studio-screen">
+            <div class="misspelled-header-banner">
+                <div class="misspelled-badge-icon">📖</div>
+                <div class="misspelled-header-text">
+                    <h2>Misspelled Words Studio</h2>
+                    <p>Review, listen, and master words missed during your spelling challenges.</p>
+                </div>
+            </div>
 
-            <div style="width: 100%; margin-top: 15px;">
-                <!-- Search and Stats Bar -->
-                <div class="admin-search-bar-row" style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
-                    <input type="text" id="misspelled-search-input" placeholder="🔍 Search missed words..." style="font-size: 1rem; padding: 10px 14px; text-align: left; border-radius: 10px; flex: 2; min-width: 180px;">
-                    <button id="export-csv-btn" class="primary-btn" style="margin: 0; padding: 10px 16px; font-size: 0.9rem; border-radius: 10px; box-shadow: none; white-space: nowrap; background: linear-gradient(135deg, #10b981, #059669);">Export CSV</button>
-                    <button id="clear-all-misspelled-btn" class="secondary-btn" style="margin: 0; padding: 10px 16px; font-size: 0.9rem; border-radius: 10px; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); white-space: nowrap;">Clear All</button>
+            <!-- Rich Stat Summary Pills Bar -->
+            <div class="misspelled-stats-row">
+                <div class="stat-pill">
+                    <span class="stat-pill-icon">📊</span>
+                    <span class="stat-pill-label">Total Missed:</span>
+                    <span id="misspelled-total-pill" class="stat-pill-val">0</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-icon">🔥</span>
+                    <span class="stat-pill-label">Most Challenging:</span>
+                    <span id="misspelled-top-pill" class="stat-pill-val">None</span>
+                </div>
+                <button type="button" id="practice-misspelled-btn" class="practice-cta-pill">
+                    <span>🎯 Practice Missed Words</span>
+                </button>
+            </div>
+
+            <div class="misspelled-workspace">
+                <!-- Search and Quick Filter Chips Bar -->
+                <div class="misspelled-search-container">
+                    <div class="misspelled-search-input-wrap">
+                        <span class="search-icon-prefix">🔍</span>
+                        <input type="text" id="misspelled-search-input" placeholder="Search missed words, definitions, or attempts..." autocomplete="off">
+                        <button type="button" id="clear-misspelled-search-btn" class="search-clear-btn hidden">✕</button>
+                    </div>
+                    
+                    <div class="misspelled-action-btns">
+                        <button id="export-csv-btn" class="secondary-btn-pill export-pill" title="Export to CSV">📥 Export CSV</button>
+                        <button id="clear-all-misspelled-btn" class="secondary-btn-pill clear-pill" title="Clear all words">🗑️ Clear All</button>
+                    </div>
                 </div>
 
-                <!-- Misspelled List Container -->
-                <div class="admin-words-list-wrapper">
-                    <div class="admin-words-list-header">
-                        <span>Word & Definition</span>
-                        <span>Actions</span>
-                    </div>
-                    <div id="misspelled-words-list" class="admin-words-list" style="max-height: 380px;">
-                        <!-- Populated dynamically -->
+                <!-- Filter Chips Row -->
+                <div class="misspelled-filter-chips">
+                    <button type="button" class="filter-chip active" data-filter="all">🌟 All (<span id="chip-all-count">0</span>)</button>
+                    <button type="button" class="filter-chip" data-filter="11plus">📚 11+ Words (<span id="chip-11plus-count">0</span>)</button>
+                    <button type="button" class="filter-chip" data-filter="frequent">🔥 Frequent Mistakes</button>
+                    <button type="button" class="filter-chip" data-filter="hard">🔴 Hard</button>
+                    <button type="button" class="filter-chip" data-filter="medium">🟡 Medium</button>
+                    <button type="button" class="filter-chip" data-filter="easy">🟢 Easy</button>
+                </div>
+
+                <!-- Rich Word Cards Container -->
+                <div class="misspelled-cards-wrapper">
+                    <div id="misspelled-words-list" class="misspelled-cards-grid">
+                        <!-- Populated dynamically via JS with Rich Word Mastery Cards -->
                     </div>
                 </div>
 
-                <button id="misspelled-exit-btn" class="secondary-btn" style="margin: 20px auto 0 auto; padding: 12px 30px;">Back to Main</button>
+                <div class="misspelled-bottom-bar">
+                    <button id="misspelled-exit-btn" class="primary-btn back-main-btn">← Back to Main Menu</button>
+                </div>
             </div>
         </section>
 
@@ -464,14 +525,131 @@
                     </div>
                     <button type="button" id="close-wallpapers-btn" class="modal-close-btn" aria-label="Close">&times;</button>
                 </div>
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin: 6px 0 16px 0; text-align: left;">Earn points in games to progressively reveal tiles and unlock custom bee art backgrounds!</p>
+                <p style="font-size: 0.95rem; color: var(--text-muted); margin: 6px 0 16px 0; text-align: left;">Earn points in spelling challenges to progressively reduce blur and reveal magnificent custom bee art up to 250,000 pts!</p>
                 
                 <div id="wallpapers-grid" class="wallpapers-grid">
                     <!-- Populated by JS -->
                 </div>
             </div>
         </div>
+
+        <!-- Game Settings Modal Dialog -->
+        <div id="settings-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+            <div class="modal-card settings-modal-card">
+                <div class="shop-header">
+                    <div class="shop-header-title">
+                        <h3 id="settings-modal-title" class="modal-title" style="margin: 0; font-size: 1.5rem;">⚙️ Game Preferences</h3>
+                    </div>
+                    <button type="button" id="close-settings-btn" class="modal-close-btn" aria-label="Close">&times;</button>
+                </div>
+
+                <div class="settings-modal-body">
+                    <!-- Word Bank Setting -->
+                    <div class="setting-item-card">
+                        <div class="setting-item-info">
+                            <div class="setting-item-title">📚 Word Bank</div>
+                            <div class="setting-item-desc">Choose between 11+ Exam vocabulary or general words.</div>
+                        </div>
+                        <div class="setting-item-control">
+                            <select id="word-list-select" class="compact-select modal-select" aria-label="Select word bank">
+                                <option value="11plus" selected>11+ Exam Words (Default)</option>
+                                <option value="default">General Vocabulary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Starting Lives Setting -->
+                    <div class="setting-item-card">
+                        <div class="setting-item-info">
+                            <div class="setting-item-title">❤️ Starting Lives</div>
+                            <div class="setting-item-desc">Standard 10 lives or 5 lives challenge mode.</div>
+                        </div>
+                        <div class="setting-item-control">
+                            <select id="lives-select" class="compact-select modal-select" aria-label="Select starting lives count">
+                                <option value="10">10 Lives (Standard)</option>
+                                <option value="5">5 Lives (Challenge Mode)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Keyboard Input Setting -->
+                    <div class="setting-item-card">
+                        <div class="setting-item-info">
+                            <div class="setting-item-title">⌨️ Keyboard Input Mode</div>
+                            <div class="setting-item-desc">Virtual keyboard only or enable physical/device keyboard.</div>
+                        </div>
+                        <div class="setting-item-control">
+                            <select id="keyboard-select" class="compact-select modal-select" aria-label="Select keyboard mode">
+                                <option value="virtual">Virtual Keyboard Only (Clean)</option>
+                                <option value="both">Virtual + Device Keyboard</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Voice Synthesizer Setting -->
+                    <div class="setting-item-card">
+                        <div class="setting-item-info">
+                            <div class="setting-item-title">🎙️ Speech Synthesizer Voice</div>
+                            <div class="setting-item-desc">Select text-to-speech accent and pronunciation voice.</div>
+                        </div>
+                        <div class="setting-item-control">
+                            <select id="voice-select" class="compact-select modal-select" aria-label="Select speech voice">
+                                <option value="">Default System Voice</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-modal-footer" style="display: flex; flex-direction: column; gap: 8px;">
+                    <button type="button" id="modal-pwa-install-btn" class="secondary-btn hidden" style="margin: 0; width: 100%; font-size: 0.95rem; padding: 10px 16px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #60a5fa; border-color: rgba(96, 165, 250, 0.4);">
+                        <span>📲</span> <span>Install App to Home Screen</span>
+                    </button>
+                    <button type="button" id="save-settings-btn" class="primary-btn save-settings-btn">Save & Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Version History & Changelog Modal -->
+        <div id="version-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="version-modal-title">
+            <div class="modal-card version-modal-card">
+                <div class="shop-header">
+                    <div class="shop-header-title">
+                        <h3 id="version-modal-title" class="modal-title" style="margin: 0; font-size: 1.5rem;">📜 Version History</h3>
+                        <span id="version-current-badge" class="version-current-badge">v1.4.0 (Latest)</span>
+                    </div>
+                    <button type="button" id="close-version-btn" class="modal-close-btn" aria-label="Close">&times;</button>
+                </div>
+                
+                <div id="version-history-list" class="version-history-list">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="version-modal-footer">
+                    <button type="button" id="check-updates-btn" class="secondary-btn check-updates-btn">
+                        <span>🔄 Check for App Updates</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Update Available Notification Toast -->
+        <div id="update-toast" class="update-toast hidden" role="alert">
+            <div class="update-toast-content">
+                <div class="update-toast-icon-wrap">
+                    <span class="update-toast-icon">🚀</span>
+                </div>
+                <div class="update-toast-text">
+                    <div class="update-toast-title">New Update Available!</div>
+                    <div class="update-toast-sub">Tap update to get the latest features. Your scores & words are safe.</div>
+                </div>
+            </div>
+            <div class="update-toast-actions">
+                <button type="button" id="update-app-btn" class="update-toast-btn">Update Now</button>
+                <button type="button" id="dismiss-update-btn" class="update-dismiss-btn" aria-label="Dismiss">✕</button>
+            </div>
+        </div>
     </div>
+    <script src="versions.js"></script>
     <script src="words.js"></script>
     <script src="stickers.js"></script>
     <script src="wallpapers.js"></script>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spelling-bee-v1';
+const CACHE_NAME = 'spelling-bee-v1.4.0';
 const ASSETS = [
     './',
     './index.html',
@@ -6,6 +6,9 @@ const ASSETS = [
     './app.js',
     './words.js',
     './words_filtered.js',
+    './stickers.js',
+    './wallpapers.js',
+    './versions.js',
     './manifest.json',
     './favicon.png',
     './bee_logo.png',
@@ -21,16 +24,18 @@ const ASSETS = [
     './apple-touch-icon.png'
 ];
 
-self.addEventListener('install', (e) => {
-    e.waitUntil(
+// Install: Cache all core assets and wait for user update or auto-activate
+self.addEventListener('install', (event) => {
+    event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS);
-        }).then(() => self.skipWaiting())
+        })
     );
 });
 
-self.addEventListener('activate', (e) => {
-    e.waitUntil(
+// Activate: Clean up any old version caches
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
@@ -43,17 +48,37 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-self.addEventListener('fetch', (e) => {
-    // Network first for dictionary API calls, Cache first for app static shell
-    if (e.request.url.includes('api.dictionaryapi.dev') || e.request.url.includes('api.datamuse.com') || e.request.url.includes('wiktionary.org')) {
-        e.respondWith(
-            fetch(e.request).catch(() => caches.match(e.request))
-        );
-    } else {
-        e.respondWith(
-            caches.match(e.request).then((response) => {
-                return response || fetch(e.request);
-            })
-        );
+// Message listener for skip waiting prompt triggered by UI
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
     }
+});
+
+// Fetch: Stale-While-Revalidate for app assets, Network-First for external dictionaries
+self.addEventListener('fetch', (event) => {
+    // Dictionary API calls: Network first, cache fallback
+    if (event.request.url.includes('api.dictionaryapi.dev') || event.request.url.includes('api.datamuse.com') || event.request.url.includes('wiktionary.org')) {
+        event.respondWith(
+            fetch(event.request).catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Static Assets: Stale-While-Revalidate to ensure fast startup + automatic background refresh
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            const fetchPromise = fetch(event.request).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                    const responseClone = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => cachedResponse);
+
+            return cachedResponse || fetchPromise;
+        })
+    );
 });

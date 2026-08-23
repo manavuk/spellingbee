@@ -1,12 +1,15 @@
 {
-  "name": "Spell Bee",
-  "short_name": "SpellBee",
-  "description": "A gamified application to test your spelling skills with 10 lives survival mode.",
+  "id": "/spelling-bee/",
+  "name": "Spell Bee - 11+ Spelling Challenge",
+  "short_name": "Spell Bee",
+  "description": "Gamified spelling challenge with 11+ Exam vocabulary, 500 collectible stickers, art wallpapers, and spelling mastery studio.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#090d16",
+  "theme_color": "#090d16",
   "orientation": "portrait-primary",
+  "categories": ["education", "games", "kids"],
   "icons": [
     {
       "src": "icon-96.png",

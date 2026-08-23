@@ -8,7 +8,7 @@ let synthMessage = null;
 let speakTimeout = null;
 let turnTimeout = null;
 let selectedVoiceName = "";
-let selectedWordListType = "default";
+let selectedWordListType = "11plus";
 let selectedKeyboardMode = "virtual";
 let selectedStartingLives = 10;
 let rightAnswersCount = 0;
@@ -36,53 +36,6 @@ let stickerSearchQuery = "";
 let currentWordList = [];
 let currentWordList11Plus = [];
 
-function loadWordLists() {
-    try {
-        const stored = localStorage.getItem('spelling_bee_word_list');
-        currentWordList = stored ? JSON.parse(stored) : WORD_LIST;
-    } catch (e) {
-        console.error("Error loading word list", e);
-        currentWordList = WORD_LIST;
-    }
-    
-    try {
-        const stored11 = localStorage.getItem('spelling_bee_word_list_11plus');
-        currentWordList11Plus = stored11 ? JSON.parse(stored11) : WORD_LIST_11PLUS;
-    } catch (e) {
-        console.error("Error loading 11plus word list", e);
-        currentWordList11Plus = WORD_LIST_11PLUS;
-    }
-}
-loadWordLists();
-
-function loadMisspelledBank() {
-    try {
-        const stored = localStorage.getItem(MISSPELLED_STORAGE_KEY);
-        misspelledBank = stored ? JSON.parse(stored) : [];
-    } catch (e) {
-        console.error("Error loading misspelled bank", e);
-        misspelledBank = [];
-    }
-    updateMisspelledCounts();
-}
-loadMisspelledBank();
-
-function saveMisspelledBank() {
-    try {
-        localStorage.setItem(MISSPELLED_STORAGE_KEY, JSON.stringify(misspelledBank));
-    } catch (e) {
-        console.error("Error saving misspelled bank", e);
-    }
-    updateMisspelledCounts();
-}
-
-function updateMisspelledCounts() {
-    const count = misspelledBank.length;
-    if (UI.startMisspelledCount) UI.startMisspelledCount.textContent = count;
-    if (UI.gameoverMisspelledCount) UI.gameoverMisspelledCount.textContent = count;
-}
-
-
 const synth = window.speechSynthesis;
 
 const UI = {
@@ -104,6 +57,24 @@ const UI = {
     livesSelect: document.getElementById('lives-select'),
     startLivesDesc: document.getElementById('start-lives-desc'),
     keyboardSelect: document.getElementById('keyboard-select'),
+    openSettingsBtn: document.getElementById('open-settings-btn'),
+    settingsModal: document.getElementById('settings-modal'),
+    closeSettingsBtn: document.getElementById('close-settings-btn'),
+    saveSettingsBtn: document.getElementById('save-settings-btn'),
+    
+    // PWA & Versioning UI Elements
+    pwaInstallBtn: document.getElementById('pwa-install-btn'),
+    modalPwaInstallBtn: document.getElementById('modal-pwa-install-btn'),
+    landingAppVersion: document.getElementById('landing-app-version'),
+    openVersionBtn: document.getElementById('open-version-btn'),
+    versionModal: document.getElementById('version-modal'),
+    closeVersionBtn: document.getElementById('close-version-btn'),
+    versionHistoryList: document.getElementById('version-history-list'),
+    versionCurrentBadge: document.getElementById('version-current-badge'),
+    checkUpdatesBtn: document.getElementById('check-updates-btn'),
+    updateToast: document.getElementById('update-toast'),
+    updateAppBtn: document.getElementById('update-app-btn'),
+    dismissUpdateBtn: document.getElementById('dismiss-update-btn'),
     
     startMisspelledBtn: document.getElementById('start-misspelled-btn'),
     startMisspelledCount: document.getElementById('start-misspelled-count'),
@@ -140,16 +111,23 @@ const UI = {
     // Misspelled Words Review Screen
     misspelledScreen: document.getElementById('misspelled-screen'),
     misspelledSearchInput: document.getElementById('misspelled-search-input'),
+    clearMisspelledSearchBtn: document.getElementById('clear-misspelled-search-btn'),
     exportCsvBtn: document.getElementById('export-csv-btn'),
     clearAllMisspelledBtn: document.getElementById('clear-all-misspelled-btn'),
     misspelledWordsList: document.getElementById('misspelled-words-list'),
     misspelledExitBtn: document.getElementById('misspelled-exit-btn'),
+    misspelledTotalPill: document.getElementById('misspelled-total-pill'),
+    misspelledTopPill: document.getElementById('misspelled-top-pill'),
+    practiceMisspelledBtn: document.getElementById('practice-misspelled-btn'),
+    chipAllCount: document.getElementById('chip-all-count'),
+    chip11plusCount: document.getElementById('chip-11plus-count'),
 
     // Gamification UI Elements
     startHoneyCoins: document.getElementById('start-honey-coins'),
     gameHoneyCoins: document.getElementById('game-honey-coins'),
     gameoverHoneyCoins: document.getElementById('gameover-honey-coins'),
     startStickerCount: document.getElementById('start-sticker-count'),
+    gameoverStickerCount: document.getElementById('gameover-sticker-count'),
     openStickersBtn: document.getElementById('open-stickers-btn'),
     gameoverStickersBtn: document.getElementById('gameover-stickers-btn'),
     openWallpapersBtn: document.getElementById('open-wallpapers-btn'),
@@ -203,6 +181,52 @@ const UI = {
     adminFormCancelBtn: document.getElementById('admin-form-cancel-btn')
 };
 
+function loadWordLists() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_word_list');
+        currentWordList = stored ? JSON.parse(stored) : WORD_LIST;
+    } catch (e) {
+        console.error("Error loading word list", e);
+        currentWordList = WORD_LIST;
+    }
+    
+    try {
+        const stored11 = localStorage.getItem('spelling_bee_word_list_11plus');
+        currentWordList11Plus = stored11 ? JSON.parse(stored11) : WORD_LIST_11PLUS;
+    } catch (e) {
+        console.error("Error loading 11plus word list", e);
+        currentWordList11Plus = WORD_LIST_11PLUS;
+    }
+}
+loadWordLists();
+
+function updateMisspelledCounts() {
+    const count = misspelledBank.length;
+    if (UI.startMisspelledCount) UI.startMisspelledCount.textContent = count;
+    if (UI.gameoverMisspelledCount) UI.gameoverMisspelledCount.textContent = count;
+}
+
+function loadMisspelledBank() {
+    try {
+        const stored = localStorage.getItem(MISSPELLED_STORAGE_KEY);
+        misspelledBank = stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error("Error loading misspelled bank", e);
+        misspelledBank = [];
+    }
+    updateMisspelledCounts();
+}
+loadMisspelledBank();
+
+function saveMisspelledBank() {
+    try {
+        localStorage.setItem(MISSPELLED_STORAGE_KEY, JSON.stringify(misspelledBank));
+    } catch (e) {
+        console.error("Error saving misspelled bank", e);
+    }
+    updateMisspelledCounts();
+}
+
 function openRestartModal() {
     if (UI.modalCurrentScore) {
         UI.modalCurrentScore.textContent = score;
@@ -221,6 +245,18 @@ function closeRestartModal() {
     }
 }
 
+function openSettingsModal() {
+    if (UI.settingsModal) {
+        UI.settingsModal.classList.remove('hidden');
+    }
+}
+
+function closeSettingsModal() {
+    if (UI.settingsModal) {
+        UI.settingsModal.classList.add('hidden');
+    }
+}
+
 function loadKeyboardSetting() {
     try {
         const stored = localStorage.getItem('spelling_bee_keyboard_mode');
@@ -235,6 +271,38 @@ function loadKeyboardSetting() {
     }
 }
 loadKeyboardSetting();
+
+function loadWordListSetting() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_word_list_type');
+        if (stored) {
+            selectedWordListType = stored;
+        } else {
+            selectedWordListType = "11plus";
+        }
+        if (UI.wordListSelect) {
+            UI.wordListSelect.value = selectedWordListType;
+        }
+    } catch (e) {
+        console.error("Error loading word list type setting", e);
+    }
+}
+loadWordListSetting();
+
+function loadVoiceSetting() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_selected_voice');
+        if (stored) {
+            selectedVoiceName = stored;
+            if (UI.voiceSelect) {
+                UI.voiceSelect.value = selectedVoiceName;
+            }
+        }
+    } catch (e) {
+        console.error("Error loading voice setting", e);
+    }
+}
+loadVoiceSetting();
 
 function applyKeyboardMode() {
     if (!UI.answerInput) return;
@@ -291,6 +359,7 @@ function updateCoinUI() {
     if (UI.modalShopCoins) UI.modalShopCoins.textContent = currentHoneyCoins;
     if (UI.modalWpPoints) UI.modalWpPoints.textContent = totalLifetimePoints;
     if (UI.startStickerCount) UI.startStickerCount.textContent = unlockedStickers.size;
+    if (UI.gameoverStickerCount) UI.gameoverStickerCount.textContent = unlockedStickers.size;
     if (UI.albumCollectedCount) UI.albumCollectedCount.textContent = unlockedStickers.size;
 }
 
@@ -1134,12 +1203,22 @@ if (UI.sentenceBtn) {
 if (UI.voiceSelect) {
     UI.voiceSelect.addEventListener('change', (e) => {
         selectedVoiceName = e.target.value;
+        try {
+            localStorage.setItem('spelling_bee_selected_voice', selectedVoiceName);
+        } catch (err) {
+            console.error("Error saving voice setting", err);
+        }
     });
 }
 
 if (UI.wordListSelect) {
     UI.wordListSelect.addEventListener('change', (e) => {
         selectedWordListType = e.target.value;
+        try {
+            localStorage.setItem('spelling_bee_word_list_type', selectedWordListType);
+        } catch (err) {
+            console.error("Error saving word list setting", err);
+        }
     });
 }
 
@@ -1640,11 +1719,15 @@ function renderWallpapers() {
     WALLPAPERS.forEach(wp => {
         const isUnlocked = totalLifetimePoints >= wp.pointsRequired;
         const isEquipped = activeWallpaperId === wp.id;
-        const revealedTiles = Math.min(wp.totalTiles, Math.floor((totalLifetimePoints / wp.pointsRequired) * wp.totalTiles));
-        const progressPct = Math.min(100, Math.floor((totalLifetimePoints / wp.pointsRequired) * 100));
+        const progressRatio = Math.min(1, totalLifetimePoints / wp.pointsRequired);
+        const progressPct = Math.min(100, Math.floor(progressRatio * 100));
+        
+        // Dynamic Blur & Clarity: starts at 22px blur, smoothly drops to 0px at 100%
+        const blurPx = isUnlocked ? 0 : Math.max(0, (1 - progressRatio) * 22);
+        const grayscalePct = isUnlocked ? 0 : Math.max(0, (1 - progressRatio) * 70);
 
         const card = document.createElement('div');
-        card.className = 'wallpaper-card';
+        card.className = `wallpaper-card ${isUnlocked ? 'unlocked-card' : 'locked-card'}`;
 
         // Header
         const header = document.createElement('div');
@@ -1656,29 +1739,41 @@ function renderWallpapers() {
 
         const badge = document.createElement('span');
         badge.className = `wp-status-badge ${isUnlocked ? 'unlocked' : 'locked'}`;
-        badge.textContent = isUnlocked ? 'Unlocked' : `${totalLifetimePoints}/${wp.pointsRequired} Pts`;
+        badge.textContent = isUnlocked 
+            ? '✨ Crystal Clear' 
+            : `${totalLifetimePoints.toLocaleString()} / ${wp.pointsRequired.toLocaleString()} Pts (${progressPct}% Clear)`;
 
         header.appendChild(title);
         header.appendChild(badge);
 
-        // Preview Box with Mystery Tiles
+        // Preview Box with Progressive Blur Layer & Center Art Emoji
         const previewBox = document.createElement('div');
         previewBox.className = 'wp-preview-box';
-        previewBox.style.background = wp.bgStyle;
+
+        // Blur Artwork Layer
+        const artworkLayer = document.createElement('div');
+        artworkLayer.className = 'wp-artwork-layer';
+        artworkLayer.style.background = wp.bgStyle;
+        artworkLayer.style.filter = `blur(${blurPx.toFixed(1)}px) grayscale(${grayscalePct.toFixed(0)}%)`;
+        previewBox.appendChild(artworkLayer);
 
         const centerEmoji = document.createElement('div');
         centerEmoji.className = 'wp-preview-center-emoji';
+        centerEmoji.style.filter = `blur(${Math.min(blurPx * 0.35, 6).toFixed(1)}px)`;
         centerEmoji.textContent = wp.emoji;
         previewBox.appendChild(centerEmoji);
 
-        const tileGrid = document.createElement('div');
-        tileGrid.className = 'wp-tile-grid';
-        for (let i = 0; i < wp.totalTiles; i++) {
-            const tile = document.createElement('div');
-            tile.className = `wp-tile ${i < revealedTiles ? 'revealed' : ''}`;
-            tileGrid.appendChild(tile);
+        // Center Blur Clarity Overlay Badge when locked
+        if (!isUnlocked) {
+            const blurOverlay = document.createElement('div');
+            blurOverlay.className = 'wp-blur-overlay';
+            blurOverlay.innerHTML = `
+                <div class="wp-blur-chip">
+                    <span>🔒</span> <span>${progressPct}% Visible</span>
+                </div>
+            `;
+            previewBox.appendChild(blurOverlay);
         }
-        previewBox.appendChild(tileGrid);
 
         // Progress Bar
         const progContainer = document.createElement('div');
@@ -1701,7 +1796,7 @@ function renderWallpapers() {
         if (!isUnlocked) {
             btn.className = 'wp-equip-btn';
             btn.disabled = true;
-            btn.textContent = `🔒 Unlocks at ${wp.pointsRequired} Pts (${revealedTiles}/${wp.totalTiles} Revealed)`;
+            btn.textContent = `🔒 Fully Unlocks at ${wp.pointsRequired.toLocaleString()} Pts (${Math.max(0, wp.pointsRequired - totalLifetimePoints).toLocaleString()} pts remaining)`;
         } else if (isEquipped) {
             btn.className = 'wp-equip-btn equipped';
             btn.textContent = '✅ Currently Equipped (Click to Default)';
@@ -1732,89 +1827,257 @@ function renderWallpapers() {
     });
 }
 
-// ==========================================
-// Misspelled Words Bank Controllers
-// ==========================================
+let misspelledActiveFilter = "all";
+
 function renderMisspelledWordsList() {
     if (!UI.misspelledWordsList) return;
     UI.misspelledWordsList.innerHTML = '';
 
     try {
+        if (!Array.isArray(misspelledBank)) misspelledBank = [];
+
+        // Update Stat Summary Pills
+        const totalMissedCount = misspelledBank.length;
+        if (UI.misspelledTotalPill) UI.misspelledTotalPill.textContent = `${totalMissedCount} Word${totalMissedCount === 1 ? '' : 's'}`;
+        if (UI.chipAllCount) UI.chipAllCount.textContent = totalMissedCount;
+
+        // Count 11plus words in misspelled bank
+        const count11plus = misspelledBank.filter(item => {
+            const w = item.word.toLowerCase();
+            return (typeof WORD_LIST_11PLUS !== 'undefined') && WORD_LIST_11PLUS.some(wl => wl.word.toLowerCase() === w || (wl.valid && wl.valid.some(v => v.toLowerCase() === w)));
+        }).length;
+        if (UI.chip11plusCount) UI.chip11plusCount.textContent = count11plus;
+
+        // Top challenging word
+        if (misspelledBank.length > 0) {
+            const topWord = [...misspelledBank].sort((a, b) => (b.count || 1) - (a.count || 1))[0];
+            if (UI.misspelledTopPill) {
+                UI.misspelledTopPill.textContent = `${topWord.word} (${topWord.count || 1}x)`;
+            }
+            if (UI.practiceMisspelledBtn) {
+                UI.practiceMisspelledBtn.disabled = false;
+            }
+        } else {
+            if (UI.misspelledTopPill) UI.misspelledTopPill.textContent = "None yet 🎉";
+            if (UI.practiceMisspelledBtn) UI.practiceMisspelledBtn.disabled = true;
+        }
+
+        // Show/hide search clear button
+        if (UI.clearMisspelledSearchBtn) {
+            if (misspelledSearchQuery && misspelledSearchQuery.trim() !== '') {
+                UI.clearMisspelledSearchBtn.classList.remove('hidden');
+            } else {
+                UI.clearMisspelledSearchBtn.classList.add('hidden');
+            }
+        }
+
         let filtered = misspelledBank.filter(item => item && item.word);
 
+        // Filter chips logic
+        if (misspelledActiveFilter === '11plus') {
+            filtered = filtered.filter(item => {
+                const w = item.word.toLowerCase();
+                return (typeof WORD_LIST_11PLUS !== 'undefined') && WORD_LIST_11PLUS.some(wl => wl.word.toLowerCase() === w || (wl.valid && wl.valid.some(v => v.toLowerCase() === w)));
+            });
+        } else if (misspelledActiveFilter === 'frequent') {
+            filtered = filtered.filter(item => (item.count || 1) >= 2);
+        } else if (misspelledActiveFilter === 'hard') {
+            filtered = filtered.filter(item => (item.difficulty || '').toLowerCase() === 'hard' || (item.difficulty || '').toLowerCase() === 'expert');
+        } else if (misspelledActiveFilter === 'medium') {
+            filtered = filtered.filter(item => (item.difficulty || '').toLowerCase() === 'medium');
+        } else if (misspelledActiveFilter === 'easy') {
+            filtered = filtered.filter(item => (item.difficulty || '').toLowerCase() === 'easy');
+        }
+
+        // Search text query logic
         if (misspelledSearchQuery && misspelledSearchQuery.trim() !== "") {
             const query = misspelledSearchQuery.trim().toLowerCase();
             filtered = filtered.filter(item =>
                 (item.word && item.word.toLowerCase().includes(query)) ||
-                (item.definition && item.definition.toLowerCase().includes(query))
+                (item.definition && item.definition.toLowerCase().includes(query)) ||
+                (item.sentence && item.sentence.toLowerCase().includes(query)) ||
+                (Array.isArray(item.attempts) && item.attempts.some(a => a && a.toLowerCase().includes(query)))
             );
         }
 
         if (filtered.length === 0) {
             const emptyMsg = document.createElement('div');
             emptyMsg.className = 'no-words-message';
-            emptyMsg.style.padding = '24px';
+            emptyMsg.style.padding = '36px 20px';
             emptyMsg.style.textAlign = 'center';
             emptyMsg.style.color = 'var(--text-muted)';
-            emptyMsg.textContent = misspelledSearchQuery
-                ? "No misspelled words match your search."
-                : "No misspelled words recorded yet! Play a game to practice spelling.";
+            emptyMsg.innerHTML = `
+                <div style="font-size: 2.2rem; margin-bottom: 8px;">🌟</div>
+                <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
+                    ${misspelledSearchQuery ? "No matching words found" : "Clean Slate!"}
+                </div>
+                <div style="font-size: 0.88rem;">
+                    ${misspelledSearchQuery ? "Try a different search keyword or switch filter category." : "No misspelled words recorded yet! Play a game to practice spelling."}
+                </div>
+            `;
             UI.misspelledWordsList.appendChild(emptyMsg);
             return;
         }
 
-        // Sort by count descending, then alphabetically
+        // Sort by count descending (most missed first), then alphabetically
         filtered.sort((a, b) => (b.count || 1) - (a.count || 1) || String(a.word).localeCompare(String(b.word)));
 
         filtered.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'admin-word-row';
+            const card = document.createElement('div');
+            card.className = 'word-mastery-card';
 
-            const info = document.createElement('div');
-            info.className = 'admin-word-info';
+            // Top Row (Word, Diff Badge, Missed Count, Actions)
+            const topRow = document.createElement('div');
+            topRow.className = 'card-top-row';
 
-            const title = document.createElement('div');
-            title.className = 'admin-word-title';
-            title.innerHTML = `<strong>${item.word}</strong> <span class="admin-word-difficulty diff-${item.difficulty || 'medium'}">${item.count || 1}x Missed</span>`;
+            const titleGroup = document.createElement('div');
+            titleGroup.className = 'card-word-title-group';
 
-            const def = document.createElement('div');
-            def.className = 'admin-word-spellings';
-            def.style.color = 'var(--text-muted)';
-            def.style.fontSize = '0.85rem';
-            def.textContent = item.definition ? `${item.partOfSpeech ? `(${item.partOfSpeech}) ` : ''}${item.definition}` : "Definition unavailable";
+            const wordText = document.createElement('span');
+            wordText.className = 'card-word-text';
+            wordText.textContent = item.word;
 
-            info.appendChild(title);
-            info.appendChild(def);
+            const pillTags = document.createElement('div');
+            pillTags.className = 'card-pill-tags';
 
-            const actions = document.createElement('div');
-            actions.className = 'admin-word-actions';
+            const diffBadge = document.createElement('span');
+            const diffClass = (item.difficulty || 'medium').toLowerCase();
+            diffBadge.className = `badge-diff diff-${diffClass}`;
+            diffBadge.textContent = item.difficulty || 'Medium';
 
-            const speakBtn = document.createElement('button');
-            speakBtn.className = 'action-btn-sm';
-            speakBtn.title = 'Listen to word';
-            speakBtn.innerHTML = '🔊';
-            speakBtn.onclick = () => speakWord(item.word, false);
+            const freqBadge = document.createElement('span');
+            freqBadge.className = 'badge-freq';
+            freqBadge.textContent = `🔥 ${item.count || 1}x Missed`;
 
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'action-btn-sm delete-btn';
-            deleteBtn.title = 'Remove word from bank';
-            deleteBtn.innerHTML = '🗑️';
-            deleteBtn.onclick = () => {
+            pillTags.appendChild(diffBadge);
+            pillTags.appendChild(freqBadge);
+
+            titleGroup.appendChild(wordText);
+            titleGroup.appendChild(pillTags);
+
+            const headerActions = document.createElement('div');
+            headerActions.className = 'card-header-actions';
+
+            const audioBtn = document.createElement('button');
+            audioBtn.type = 'button';
+            audioBtn.className = 'audio-pulse-btn';
+            audioBtn.title = 'Listen to pronunciation';
+            audioBtn.innerHTML = '<span>🔊</span> <span>Listen</span>';
+            audioBtn.onclick = () => speakWord(item.word, false);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'card-remove-btn';
+            removeBtn.title = 'Mark as mastered & remove';
+            removeBtn.innerHTML = '🗑️';
+            removeBtn.onclick = () => {
                 misspelledBank = misspelledBank.filter(m => m.word.toLowerCase() !== item.word.toLowerCase());
                 saveMisspelledBank();
                 renderMisspelledWordsList();
             };
 
-            actions.appendChild(speakBtn);
-            actions.appendChild(deleteBtn);
+            headerActions.appendChild(audioBtn);
+            headerActions.appendChild(removeBtn);
 
-            row.appendChild(info);
-            row.appendChild(actions);
-            UI.misspelledWordsList.appendChild(row);
+            topRow.appendChild(titleGroup);
+            topRow.appendChild(headerActions);
+            card.appendChild(topRow);
+
+            // Definition Block
+            if (item.definition) {
+                const defBlock = document.createElement('div');
+                defBlock.className = 'card-def-block';
+                
+                if (item.partOfSpeech) {
+                    const posTag = document.createElement('span');
+                    posTag.className = 'pos-tag';
+                    posTag.textContent = `[${item.partOfSpeech}]`;
+                    defBlock.appendChild(posTag);
+                }
+
+                const defText = document.createTextNode(item.definition);
+                defBlock.appendChild(defText);
+                card.appendChild(defBlock);
+            }
+
+            // Example Sentence Block
+            if (item.sentence) {
+                const sentenceBlock = document.createElement('div');
+                sentenceBlock.className = 'card-sentence-block';
+                sentenceBlock.textContent = `💬 "${item.sentence}"`;
+                card.appendChild(sentenceBlock);
+            }
+
+            // Past Mistakes / Attempts Pill Row
+            if (Array.isArray(item.attempts) && item.attempts.length > 0) {
+                const attemptsWrap = document.createElement('div');
+                attemptsWrap.className = 'attempts-container';
+
+                const label = document.createElement('span');
+                label.className = 'attempts-label';
+                label.textContent = 'Past attempts:';
+                attemptsWrap.appendChild(label);
+
+                item.attempts.slice(0, 4).forEach(att => {
+                    const tag = document.createElement('span');
+                    tag.className = 'attempt-tag';
+                    tag.textContent = att;
+                    attemptsWrap.appendChild(tag);
+                });
+
+                card.appendChild(attemptsWrap);
+            }
+
+            UI.misspelledWordsList.appendChild(card);
         });
     } catch (e) {
         console.error("Error rendering misspelled words list", e);
     }
+}
+
+function practiceMisspelledWords() {
+    if (!misspelledBank || misspelledBank.length === 0) return;
+    
+    // Create practice pool from misspelled bank
+    const customPracticePool = misspelledBank.map(item => ({
+        word: item.word,
+        valid: item.valid || [item.word],
+        difficulty: item.difficulty || 'medium',
+        status: 'active',
+        definition: item.definition || '',
+        sentence: item.sentence || '',
+        partOfSpeech: item.partOfSpeech || ''
+    }));
+
+    if (turnTimeout) {
+        clearTimeout(turnTimeout);
+        turnTimeout = null;
+    }
+    if (speakTimeout) {
+        clearTimeout(speakTimeout);
+        speakTimeout = null;
+    }
+    synth.cancel();
+
+    currentLives = selectedStartingLives;
+    score = 0;
+    consecutiveCorrectStreak = 0;
+    rightAnswersCount = 0;
+    wrongWordsSet.clear();
+    currentSessionMissedWords = [];
+    usedWords.clear();
+    
+    wordsPool = customPracticePool;
+    
+    applyKeyboardMode();
+    updateUI();
+    if (UI.difficultyBadge) {
+        UI.difficultyBadge.textContent = "🎯 Practice Studio";
+    }
+    
+    switchScreen(UI.misspelledScreen, UI.gameScreen);
+    switchScreen(UI.startScreen, UI.gameScreen);
+    nextTurn();
 }
 
 function exportMisspelledToCSV() {
@@ -1874,12 +2137,35 @@ if (UI.misspelledExitBtn) {
     });
 }
 
+if (UI.practiceMisspelledBtn) {
+    UI.practiceMisspelledBtn.addEventListener('click', practiceMisspelledWords);
+}
+
 if (UI.misspelledSearchInput) {
     UI.misspelledSearchInput.addEventListener('input', (e) => {
         misspelledSearchQuery = e.target.value;
         renderMisspelledWordsList();
     });
 }
+
+if (UI.clearMisspelledSearchBtn) {
+    UI.clearMisspelledSearchBtn.addEventListener('click', () => {
+        misspelledSearchQuery = '';
+        if (UI.misspelledSearchInput) UI.misspelledSearchInput.value = '';
+        renderMisspelledWordsList();
+    });
+}
+
+// Filter chips click handling
+const filterChips = document.querySelectorAll('.misspelled-filter-chips .filter-chip');
+filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        misspelledActiveFilter = chip.getAttribute('data-filter') || 'all';
+        renderMisspelledWordsList();
+    });
+});
 
 if (UI.exportCsvBtn) {
     UI.exportCsvBtn.addEventListener('click', exportMisspelledToCSV);
@@ -1946,9 +2232,33 @@ if (UI.closeWallpapersBtn) {
     UI.closeWallpapersBtn.addEventListener('click', closeWallpaperGallery);
 }
 
+if (UI.openSettingsBtn) {
+    UI.openSettingsBtn.addEventListener('click', openSettingsModal);
+}
+if (UI.closeSettingsBtn) {
+    UI.closeSettingsBtn.addEventListener('click', closeSettingsModal);
+}
+if (UI.saveSettingsBtn) {
+    UI.saveSettingsBtn.addEventListener('click', closeSettingsModal);
+}
+
+// Version History Modal Listeners
+if (UI.openVersionBtn) {
+    UI.openVersionBtn.addEventListener('click', openVersionModal);
+}
+if (UI.closeVersionBtn) {
+    UI.closeVersionBtn.addEventListener('click', closeVersionModal);
+}
+
 // Close modals on Escape key
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+        if (UI.versionModal && !UI.versionModal.classList.contains('hidden')) {
+            closeVersionModal();
+        }
+        if (UI.settingsModal && !UI.settingsModal.classList.contains('hidden')) {
+            closeSettingsModal();
+        }
         if (UI.stickerShopModal && !UI.stickerShopModal.classList.contains('hidden')) {
             closeStickerShop();
         }
@@ -1957,6 +2267,208 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// ==========================================
+// PWA Installation & Service Worker Updates
+// ==========================================
+let deferredPrompt = null;
+let swRegistration = null;
+let newWorkerWaiting = null;
+
+function initPWA() {
+    // Sync Version Tag
+    if (typeof APP_VERSION !== 'undefined') {
+        if (UI.landingAppVersion) UI.landingAppVersion.textContent = APP_VERSION;
+        if (UI.versionCurrentBadge) UI.versionCurrentBadge.textContent = `${APP_VERSION} (Latest)`;
+    }
+
+    // Capture install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (UI.pwaInstallBtn) UI.pwaInstallBtn.classList.remove('hidden');
+        if (UI.modalPwaInstallBtn) UI.modalPwaInstallBtn.classList.remove('hidden');
+    });
+
+    // Handle install button clicks
+    const triggerInstall = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const choiceResult = await deferredPrompt.userChoice;
+        if (choiceResult && choiceResult.outcome === 'accepted') {
+            console.log('User accepted the PWA install prompt');
+        }
+        deferredPrompt = null;
+        if (UI.pwaInstallBtn) UI.pwaInstallBtn.classList.add('hidden');
+        if (UI.modalPwaInstallBtn) UI.modalPwaInstallBtn.classList.add('hidden');
+    };
+
+    if (UI.pwaInstallBtn) UI.pwaInstallBtn.addEventListener('click', triggerInstall);
+    if (UI.modalPwaInstallBtn) UI.modalPwaInstallBtn.addEventListener('click', triggerInstall);
+
+    window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        if (UI.pwaInstallBtn) UI.pwaInstallBtn.classList.add('hidden');
+        if (UI.modalPwaInstallBtn) UI.modalPwaInstallBtn.classList.add('hidden');
+        console.log('Spell Bee PWA was successfully installed');
+    });
+
+    // Register Service Worker and manage updates
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').then((reg) => {
+                swRegistration = reg;
+
+                // Check if an updated worker is already waiting
+                if (reg.waiting) {
+                    newWorkerWaiting = reg.waiting;
+                    showUpdateToast();
+                }
+
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    if (!newWorker) return;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            newWorkerWaiting = newWorker;
+                            showUpdateToast();
+                        }
+                    });
+                });
+            }).catch((err) => {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+
+            // Reload when the new service worker activates
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
+            });
+        });
+    }
+
+    if (UI.updateAppBtn) {
+        UI.updateAppBtn.addEventListener('click', () => {
+            if (newWorkerWaiting) {
+                newWorkerWaiting.postMessage({ type: 'SKIP_WAITING' });
+            } else if (swRegistration && swRegistration.waiting) {
+                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            } else {
+                window.location.reload();
+            }
+        });
+    }
+
+    if (UI.dismissUpdateBtn) {
+        UI.dismissUpdateBtn.addEventListener('click', () => {
+            if (UI.updateToast) UI.updateToast.classList.add('hidden');
+        });
+    }
+
+    if (UI.checkUpdatesBtn) {
+        UI.checkUpdatesBtn.addEventListener('click', () => {
+            UI.checkUpdatesBtn.disabled = true;
+            UI.checkUpdatesBtn.innerHTML = '<span>🔄 Checking for updates...</span>';
+            if (swRegistration) {
+                swRegistration.update().then(() => {
+                    setTimeout(() => {
+                        UI.checkUpdatesBtn.disabled = false;
+                        UI.checkUpdatesBtn.innerHTML = '<span>🔄 Check for App Updates</span>';
+                        if (!swRegistration.waiting && (!UI.updateToast || UI.updateToast.classList.contains('hidden'))) {
+                            alert("You are on the latest version of Spell Bee (" + (typeof APP_VERSION !== 'undefined' ? APP_VERSION : 'v1.4.0') + ")! 🎉");
+                        }
+                    }, 1200);
+                }).catch(() => {
+                    UI.checkUpdatesBtn.disabled = false;
+                    UI.checkUpdatesBtn.innerHTML = '<span>🔄 Check for App Updates</span>';
+                });
+            } else {
+                setTimeout(() => {
+                    UI.checkUpdatesBtn.disabled = false;
+                    UI.checkUpdatesBtn.innerHTML = '<span>🔄 Check for App Updates</span>';
+                    alert("Spell Bee is up to date!");
+                }, 1000);
+            }
+        });
+    }
+}
+
+function showUpdateToast() {
+    if (UI.updateToast) {
+        UI.updateToast.classList.remove('hidden');
+    }
+}
+
+// ==========================================
+// Version History Modal Controllers
+// ==========================================
+function openVersionModal() {
+    renderVersionHistory();
+    if (UI.versionModal) {
+        UI.versionModal.classList.remove('hidden');
+    }
+}
+
+function closeVersionModal() {
+    if (UI.versionModal) {
+        UI.versionModal.classList.add('hidden');
+    }
+}
+
+function renderVersionHistory() {
+    if (!UI.versionHistoryList || typeof VERSION_HISTORY === 'undefined') return;
+    UI.versionHistoryList.innerHTML = '';
+
+    VERSION_HISTORY.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = `version-item-card ${index === 0 ? 'is-latest' : ''}`;
+
+        const header = document.createElement('div');
+        header.className = 'version-item-header';
+
+        const tagWrap = document.createElement('div');
+        tagWrap.className = 'version-item-tag';
+        tagWrap.innerHTML = `<span>${item.version}</span>`;
+
+        if (item.badge) {
+            const badge = document.createElement('span');
+            badge.className = `version-badge-tag badge-${item.badge.toLowerCase()}`;
+            badge.textContent = item.badge;
+            tagWrap.appendChild(badge);
+        }
+
+        const date = document.createElement('span');
+        date.className = 'version-item-date';
+        date.textContent = item.date;
+
+        header.appendChild(tagWrap);
+        header.appendChild(date);
+
+        const title = document.createElement('div');
+        title.className = 'version-item-title';
+        title.textContent = item.title;
+
+        const highlights = document.createElement('ul');
+        highlights.className = 'version-highlights-list';
+        item.highlights.forEach(h => {
+            const li = document.createElement('li');
+            li.textContent = h;
+            highlights.appendChild(li);
+        });
+
+        card.appendChild(header);
+        card.appendChild(title);
+        card.appendChild(highlights);
+
+        UI.versionHistoryList.appendChild(card);
+    });
+}
+
+// Initialize PWA Lifecycle
+initPWA();
 
 
 
