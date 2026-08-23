@@ -15,56 +15,110 @@
 <body>
     <div id="app">
         <!-- Start Screen -->
-        <main id="start-screen" class="screen active">
-            <img src="bee_logo.png" alt="Spell Bee Mascot" class="start-mascot-logo">
-            <h1>Spell Bee</h1>
-            <p>Listen to the word, spell it correctly.</p>
-            <p><span id="start-lives-desc">10</span> Lives. Increasing Difficulty. Can you survive?</p>
-            
-            <div class="coin-badge-container" style="margin: 10px 0 5px 0;">
-                <div class="coin-badge"><span class="coin-icon">🍯</span> <span id="start-honey-coins">0</span> Honey Coins</div>
+        <main id="start-screen" class="screen active landing-screen">
+            <!-- Top Status Bar -->
+            <div class="landing-top-bar">
+                <div class="coin-badge">
+                    <span class="coin-icon">🍯</span>
+                    <span id="start-honey-coins">0</span> Coins
+                </div>
             </div>
 
-            <div class="voice-selector-container">
-                <label for="voice-select">Choose Voice</label>
-                <select id="voice-select" class="voice-select" aria-label="Select voice font">
-                    <option value="">Default System Voice</option>
-                </select>
-            </div>
-            
-            <div class="word-list-selector-container" style="margin: 15px 0 10px 0;">
-                <label for="word-list-select">Word Bank</label>
-                <select id="word-list-select" class="word-list-select" aria-label="Select spelling word list">
-                    <option value="default">General Vocabulary (Default)</option>
-                    <option value="11plus">11+ Exam Words</option>
-                </select>
-            </div>
-
-            <div class="lives-selector-container" style="margin: 15px 0 10px 0;">
-                <label for="lives-select">Starting Lives</label>
-                <select id="lives-select" class="word-list-select" aria-label="Select starting lives count">
-                    <option value="10">10 Lives (Default)</option>
-                    <option value="5">5 Lives (Challenge Mode)</option>
-                </select>
+            <!-- Hero Branding -->
+            <div class="hero-brand">
+                <div class="mascot-badge-wrapper">
+                    <img src="bee_logo.png" alt="Spell Bee Mascot" class="start-mascot-logo">
+                    <div class="mascot-glow-ring"></div>
+                </div>
+                <h1 class="landing-title">Spell Bee</h1>
+                <p class="landing-subtitle">Listen &bull; Spell &bull; Master Words</p>
+                <div class="landing-meta-pill">
+                    <span>❤️ <span id="start-lives-desc">10</span> Lives</span>
+                    <span>•</span>
+                    <span>📈 Adaptive Difficulty</span>
+                </div>
             </div>
 
-            <div class="keyboard-selector-container" style="margin: 15px 0 10px 0;">
-                <label for="keyboard-select">Keyboard</label>
-                <select id="keyboard-select" class="word-list-select" aria-label="Select keyboard input mode">
-                    <option value="virtual">Virtual Keyboard Only (Default)</option>
-                    <option value="both">Virtual + Native Device Keyboard</option>
-                </select>
-            </div>
-            
-            <button id="start-btn" class="primary-btn">Start Game</button>
-            
-            <div class="start-extras-row" style="display: flex; gap: 10px; width: 100%; margin-top: 18px; flex-wrap: wrap;">
-                <button type="button" id="open-stickers-btn" class="secondary-btn" style="flex: 1; min-width: 130px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🍯 Stickers (<span id="start-sticker-count">0</span>/500)</button>
-                <button type="button" id="open-wallpapers-btn" class="secondary-btn" style="flex: 1; min-width: 120px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">🖼️ Wallpapers</button>
-                <button type="button" id="start-misspelled-btn" class="secondary-btn" style="flex: 1; min-width: 140px; margin: 0; font-size: 0.92rem; padding: 10px 12px;">📖 Misspelled (<span id="start-misspelled-count">0</span>)</button>
+            <!-- Primary Action Callout -->
+            <div class="landing-cta-container">
+                <button id="start-btn" class="primary-btn landing-play-btn">
+                    <span class="btn-play-icon">▶</span> Play Game
+                </button>
             </div>
 
-            <button id="admin-entrance-btn" class="tertiary-btn" style="margin-top: 15px; font-size: 0.9rem; border-style: solid; border-color: rgba(255, 255, 255, 0.15); width: auto; padding: 8px 18px;">Admin Panel</button>
+            <!-- Gamification Feature Cards -->
+            <div class="landing-hub-grid">
+                <button type="button" id="open-stickers-btn" class="hub-card">
+                    <span class="hub-card-icon">🍯</span>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Sticker Shop</span>
+                        <span class="hub-card-sub"><span id="start-sticker-count">0</span>/500 Collected</span>
+                    </div>
+                </button>
+                
+                <button type="button" id="open-wallpapers-btn" class="hub-card">
+                    <span class="hub-card-icon">🖼️</span>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Wallpapers</span>
+                        <span class="hub-card-sub">Art Gallery</span>
+                    </div>
+                </button>
+                
+                <button type="button" id="start-misspelled-btn" class="hub-card">
+                    <span class="hub-card-icon">📖</span>
+                    <div class="hub-card-text">
+                        <span class="hub-card-title">Misspelled</span>
+                        <span class="hub-card-sub"><span id="start-misspelled-count">0</span> to Review</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Compact Game Settings 2x2 Grid -->
+            <div class="landing-settings-card">
+                <div class="settings-card-header">
+                    <span class="settings-card-title">⚙️ Game Preferences</span>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="setting-field">
+                        <label for="word-list-select">📚 Word Bank</label>
+                        <select id="word-list-select" class="compact-select" aria-label="Select word bank">
+                            <option value="default">General Vocabulary</option>
+                            <option value="11plus">11+ Exam Words</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-field">
+                        <label for="lives-select">❤️ Starting Lives</label>
+                        <select id="lives-select" class="compact-select" aria-label="Select starting lives count">
+                            <option value="10">10 Lives (Default)</option>
+                            <option value="5">5 Lives (Challenge)</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-field">
+                        <label for="keyboard-select">⌨️ Keyboard</label>
+                        <select id="keyboard-select" class="compact-select" aria-label="Select keyboard mode">
+                            <option value="virtual">Virtual Keyboard</option>
+                            <option value="both">Virtual + Native</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-field">
+                        <label for="voice-select">🎙️ Speech Voice</label>
+                        <select id="voice-select" class="compact-select" aria-label="Select speech voice">
+                            <option value="">Default Voice</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Meta & Admin Entry -->
+            <div class="landing-footer">
+                <button type="button" id="admin-entrance-btn" class="admin-footer-btn" aria-label="Admin Portal">
+                    🔒 Admin Portal
+                </button>
+            </div>
         </main>
 
         <!-- Game Interface -->
