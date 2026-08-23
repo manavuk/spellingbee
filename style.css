@@ -1,15 +1,133 @@
 :root {
     --bg-color: #0f172a;
+    --bg-body-gradient: radial-gradient(circle at top left, #1e1b4b, #0f172a 40%),
+                        radial-gradient(circle at bottom right, #312e81, #0f172a 60%);
     --card-bg: rgba(30, 41, 59, 0.85); /* Glassmorphism */
+    --modal-bg: #0f172a;
+    --item-card-bg: rgba(30, 41, 59, 0.65);
+    --item-card-hover: rgba(30, 41, 59, 0.85);
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-focus: rgba(59, 130, 246, 0.5);
     --primary: #3b82f6;
     --primary-hover: #2563eb;
     --success: #10b981;
     --danger: #ef4444;
+    --accent-gold: #f59e0b;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
+    --input-bg: rgba(15, 23, 42, 0.9);
+    --input-color: #ffffff;
+    --key-bg: rgba(30, 41, 59, 0.75);
+    --key-hover: rgba(51, 65, 85, 0.95);
+    --key-text: #f8fafc;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-family: var(--font-body);
+}
+
+/* Light Mode (Daylight Honey) */
+html[data-theme="light"] {
+    --bg-color: #fdfbf7;
+    --bg-body-gradient: radial-gradient(circle at top left, #fef3c7, #fdfbf7 50%),
+                        radial-gradient(circle at bottom right, #fed7aa, #fffbeb 60%);
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --modal-bg: #ffffff;
+    --item-card-bg: #f8fafc;
+    --item-card-hover: #f1f5f9;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-focus: rgba(37, 99, 235, 0.5);
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --success: #059669;
+    --danger: #dc2626;
+    --accent-gold: #d97706;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --input-bg: #ffffff;
+    --input-color: #0f172a;
+    --key-bg: #f1f5f9;
+    --key-hover: #e2e8f0;
+    --key-text: #0f172a;
+    --shadow-main: 0 20px 40px -10px rgba(0, 0, 0, 0.09);
+}
+
+/* Forest Meadow (Emerald) */
+html[data-theme="forest"] {
+    --bg-color: #062319;
+    --bg-body-gradient: radial-gradient(circle at top left, #064e3b, #062319 50%),
+                        radial-gradient(circle at bottom right, #042f2e, #021a12 60%);
+    --card-bg: rgba(6, 44, 33, 0.88);
+    --modal-bg: #062319;
+    --item-card-bg: rgba(6, 78, 59, 0.5);
+    --item-card-hover: rgba(6, 78, 59, 0.75);
+    --border-subtle: rgba(52, 211, 153, 0.2);
+    --border-focus: rgba(16, 185, 129, 0.6);
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --success: #34d399;
+    --danger: #f87171;
+    --accent-gold: #fbbf24;
+    --text-main: #f0fdf4;
+    --text-muted: #86efac;
+    --input-bg: rgba(2, 26, 18, 0.9);
+    --input-color: #f0fdf4;
+    --key-bg: rgba(6, 78, 59, 0.7);
+    --key-hover: rgba(6, 95, 70, 0.9);
+    --key-text: #f0fdf4;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Cyberpunk Synthwave (Neon Violet & Pink) */
+html[data-theme="cyberpunk"] {
+    --bg-color: #0d0720;
+    --bg-body-gradient: radial-gradient(circle at top left, #2e1065, #0d0720 50%),
+                        radial-gradient(circle at bottom right, #4a044e, #090314 60%);
+    --card-bg: rgba(30, 16, 60, 0.88);
+    --modal-bg: #120826;
+    --item-card-bg: rgba(49, 21, 95, 0.6);
+    --item-card-hover: rgba(74, 4, 78, 0.7);
+    --border-subtle: rgba(236, 72, 153, 0.25);
+    --border-focus: rgba(236, 72, 153, 0.6);
+    --primary: #ec4899;
+    --primary-hover: #db2777;
+    --success: #06b6d4;
+    --danger: #f43f5e;
+    --accent-gold: #38bdf8;
+    --text-main: #fdf4ff;
+    --text-muted: #c084fc;
+    --input-bg: rgba(13, 7, 32, 0.9);
+    --input-color: #fdf4ff;
+    --key-bg: rgba(49, 21, 95, 0.75);
+    --key-hover: rgba(74, 4, 78, 0.9);
+    --key-text: #fdf4ff;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* Sunset Amber (Warm Gold & Crimson) */
+html[data-theme="sunset"] {
+    --bg-color: #1c0a00;
+    --bg-body-gradient: radial-gradient(circle at top left, #451a03, #1c0a00 50%),
+                        radial-gradient(circle at bottom right, #701a75, #14050a 60%);
+    --card-bg: rgba(45, 17, 10, 0.88);
+    --modal-bg: #1f0b05;
+    --item-card-bg: rgba(67, 26, 15, 0.6);
+    --item-card-hover: rgba(120, 53, 15, 0.7);
+    --border-subtle: rgba(251, 146, 60, 0.25);
+    --border-focus: rgba(249, 115, 22, 0.6);
+    --primary: #ea580c;
+    --primary-hover: #c2410c;
+    --success: #eab308;
+    --danger: #ef4444;
+    --accent-gold: #facc15;
+    --text-main: #fff7ed;
+    --text-muted: #fdba74;
+    --input-bg: rgba(28, 10, 0, 0.9);
+    --input-color: #fff7ed;
+    --key-bg: rgba(67, 26, 15, 0.75);
+    --key-hover: rgba(120, 53, 15, 0.9);
+    --key-text: #fff7ed;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -31,9 +149,7 @@
 
 body {
     background-color: var(--bg-color);
-    /* Subtle vivid gradient background behind glass */
-    background: radial-gradient(circle at top left, #1e1b4b, #0f172a 40%),
-                radial-gradient(circle at bottom right, #312e81, #0f172a 60%);
+    background: var(--bg-body-gradient);
     color: var(--text-main);
     font-family: var(--font-family);
     -webkit-font-smoothing: antialiased;
@@ -45,6 +161,7 @@ body {
     min-height: 100dvh;
     overflow-x: hidden;
     overflow-y: auto;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app {
@@ -2873,5 +2990,426 @@ input.success-pop {
     color: var(--text-main);
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* ==========================================================================
+   Daylight Honey (Light Theme) High-Legibility Polish
+   ========================================================================== */
+html[data-theme="light"] .landing-title {
+    background: linear-gradient(135deg, #1e40af, #7c3aed, #db2777);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+html[data-theme="light"] .landing-subtitle {
+    color: #334155;
+    font-weight: 600;
+}
+
+html[data-theme="light"] .pill-amber {
+    background: #fef3c7;
+    border-color: #fcd34d;
+    color: #92400e;
+}
+html[data-theme="light"] .pill-amber .pill-dot { background: #d97706; box-shadow: 0 0 6px #d97706; }
+
+html[data-theme="light"] .pill-indigo {
+    background: #e0e7ff;
+    border-color: #a5b4fc;
+    color: #3730a3;
+}
+html[data-theme="light"] .pill-indigo .pill-dot { background: #4f46e5; box-shadow: 0 0 6px #4f46e5; }
+
+html[data-theme="light"] .pill-purple {
+    background: #f3e8ff;
+    border-color: #d8b4fe;
+    color: #6b21a8;
+}
+html[data-theme="light"] .pill-purple .pill-dot { background: #9333ea; box-shadow: 0 0 6px #9333ea; }
+
+html[data-theme="light"] .coin-badge {
+    background: #fef3c7;
+    border-color: #fcd34d;
+    color: #92400e;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
+}
+
+html[data-theme="light"] .settings-circle-btn {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #1e293b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="light"] .pwa-install-btn {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
+html[data-theme="light"] .hub-card {
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .hub-card-icon-wrap {
+    background: #f1f5f9;
+    box-shadow: none;
+}
+
+html[data-theme="light"] .hub-card-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .hub-card-badge-pill {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+html[data-theme="light"] .hub-card-badge-pill.highlight {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+html[data-theme="light"] .version-pill-btn {
+    background: #ffffff;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .admin-footer-btn {
+    color: #475569;
+}
+html[data-theme="light"] .admin-footer-btn:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+}
+
+html[data-theme="light"] .word-mastery-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="light"] .card-word-text {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .card-def-block {
+    color: #1e293b;
+    background: #f8fafc;
+    border-left-color: #2563eb;
+}
+
+html[data-theme="light"] .pos-tag {
+    color: #1d4ed8;
+}
+
+html[data-theme="light"] .card-sentence-block {
+    color: #475569;
+}
+
+html[data-theme="light"] .badge-diff.diff-easy {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+}
+
+html[data-theme="light"] .badge-diff.diff-medium {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
+}
+
+html[data-theme="light"] .badge-diff.diff-hard {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+html[data-theme="light"] .badge-diff.diff-expert {
+    background: #f3e8ff;
+    color: #6b21a8;
+    border-color: #d8b4fe;
+}
+
+html[data-theme="light"] .badge-freq {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+html[data-theme="light"] .attempt-tag {
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .attempts-label {
+    color: #64748b;
+}
+
+html[data-theme="light"] .stat-pill {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="light"] .stat-pill-label {
+    color: #475569;
+}
+
+html[data-theme="light"] .stat-pill-val {
+    color: #b45309;
+}
+
+html[data-theme="light"] .filter-chip {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+html[data-theme="light"] .filter-chip:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .filter-chip.active {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+html[data-theme="light"] .audio-pulse-btn {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+}
+
+html[data-theme="light"] .card-remove-btn {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+html[data-theme="light"] .card-remove-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+html[data-theme="light"] .key-btn {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+    box-shadow: 0 3px 0 #cbd5e1;
+}
+
+html[data-theme="light"] .key-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+html[data-theme="light"] .key-btn.action-key {
+    background: #e2e8f0;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .key-btn.enter-key {
+    background: #10b981;
+    color: #ffffff;
+    border-color: #059669;
+}
+
+html[data-theme="light"] .key-btn.backspace-key {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+html[data-theme="light"] .setting-item-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .setting-item-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .setting-item-desc {
+    color: #475569;
+}
+
+html[data-theme="light"] .modal-select {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .modal-close-btn {
+    color: #64748b;
+}
+
+html[data-theme="light"] .modal-close-btn:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+}
+
+html[data-theme="light"] .version-item-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .version-item-tag {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .version-item-title {
+    color: #1e293b;
+}
+
+html[data-theme="light"] .version-highlights-list {
+    color: #475569;
+}
+
+html[data-theme="light"] .sticker-item-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .sticker-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .sticker-price {
+    color: #b45309;
+}
+
+html[data-theme="light"] .shop-coins-pill {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
+}
+
+html[data-theme="light"] .shop-tab-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .shop-tab-btn.active {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .sticker-cat-chip {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .sticker-cat-chip.active {
+    background: #1e293b;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .sticker-search-input {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .wallpaper-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .wp-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .wp-status-badge.locked {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+html[data-theme="light"] .wp-equip-btn:disabled {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+html[data-theme="light"] .misspelled-search-input-wrap input {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .secondary-btn-pill {
+    background: #ffffff;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .secondary-btn {
+    background: #ffffff;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .secondary-btn:hover {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .hint-btn {
+    background: #ffffff;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .hint-display {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .hint-badge {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+html[data-theme="light"] .hint-text {
+    color: #1e293b;
+}
+
+html[data-theme="light"] .wrong-words-card {
+    background: #ffffff;
+    border-color: #fca5a5;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .wrong-words-card .word-title {
+    color: #991b1b;
+}
+
+html[data-theme="light"] .wrong-words-card .word-def {
+    color: #475569;
+}
+
+html[data-theme="light"] .update-toast {
+    background: #ffffff;
+    border-color: #bfdbfe;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light"] .update-toast-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .update-toast-sub {
+    color: #475569;
+}
+
 
 

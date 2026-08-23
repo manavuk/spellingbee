@@ -53,6 +53,7 @@ const UI = {
     cancelRestartBtn: document.getElementById('cancel-restart-btn'),
     confirmRestartBtn: document.getElementById('confirm-restart-btn'),
     voiceSelect: document.getElementById('voice-select'),
+    themeSelect: document.getElementById('theme-select'),
     wordListSelect: document.getElementById('word-list-select'),
     livesSelect: document.getElementById('lives-select'),
     startLivesDesc: document.getElementById('start-lives-desc'),
@@ -303,6 +304,27 @@ function loadVoiceSetting() {
     }
 }
 loadVoiceSetting();
+
+let selectedTheme = "midnight";
+
+function applyTheme(theme) {
+    selectedTheme = theme || "midnight";
+    document.documentElement.setAttribute('data-theme', selectedTheme);
+}
+
+function loadThemeSetting() {
+    try {
+        const stored = localStorage.getItem('spelling_bee_theme');
+        selectedTheme = stored ? stored : "midnight";
+        applyTheme(selectedTheme);
+        if (UI.themeSelect) {
+            UI.themeSelect.value = selectedTheme;
+        }
+    } catch (e) {
+        console.error("Error loading theme setting", e);
+    }
+}
+loadThemeSetting();
 
 function applyKeyboardMode() {
     if (!UI.answerInput) return;
@@ -1207,6 +1229,18 @@ if (UI.voiceSelect) {
             localStorage.setItem('spelling_bee_selected_voice', selectedVoiceName);
         } catch (err) {
             console.error("Error saving voice setting", err);
+        }
+    });
+}
+
+if (UI.themeSelect) {
+    UI.themeSelect.addEventListener('change', (e) => {
+        selectedTheme = e.target.value;
+        applyTheme(selectedTheme);
+        try {
+            localStorage.setItem('spelling_bee_theme', selectedTheme);
+        } catch (err) {
+            console.error("Error saving theme setting", err);
         }
     });
 }
