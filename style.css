@@ -7,7 +7,9 @@
     --danger: #ef4444;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
-    --font-family: 'Inter', sans-serif;
+    --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family: var(--font-body);
 }
 
 * {
@@ -34,6 +36,8 @@ body {
                 radial-gradient(circle at bottom right, #312e81, #0f172a 60%);
     color: var(--text-main);
     font-family: var(--font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,9 +101,14 @@ body {
     animation: shake 0.4s ease;
 }
 
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
 h1, h2 {
     font-size: 3.5rem;
-    font-weight: 800;
     margin-bottom: 20px;
     background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6);
     background-size: 200% 200%;
@@ -120,6 +129,7 @@ p {
     color: var(--text-muted);
     margin-bottom: 12px;
     line-height: 1.6;
+    font-weight: 450;
 }
 
 button {
@@ -218,15 +228,19 @@ button {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 800;
+    font-variant-numeric: tabular-nums;
     color: var(--danger);
     text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
 }
 
 .score {
+    font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 800;
+    font-variant-numeric: tabular-nums;
     color: var(--success);
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
@@ -243,10 +257,11 @@ button {
     transform: translateX(-50%);
     padding: 6px 16px;
     border-radius: 20px;
+    font-family: var(--font-display);
     font-size: 0.85rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     color: white;
 }
@@ -266,8 +281,10 @@ form {
 input {
     width: 100%;
     padding: 20px;
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
     background: rgba(15, 23, 42, 0.6);
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
@@ -303,6 +320,7 @@ input.success-pop {
     color: white;
     padding: 12px 24px;
     border-radius: 14px;
+    font-family: var(--font-display);
     font-weight: 800;
     font-size: 1.5rem;
     z-index: 10;
@@ -357,7 +375,8 @@ input.success-pop {
     color: var(--text-main);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
-    font-size: 1.15rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.08s ease, background-color 0.1s ease, box-shadow 0.1s ease;
