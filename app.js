@@ -178,9 +178,66 @@ const UI = {
     adminWordInput: document.getElementById('admin-word-input'),
     adminValidInput: document.getElementById('admin-valid-input'),
     adminDifficultySelect: document.getElementById('admin-difficulty-select'),
+    adminPosInput: document.getElementById('admin-pos-input'),
+    adminDefinitionInput: document.getElementById('admin-definition-input'),
+    adminSentenceInput: document.getElementById('admin-sentence-input'),
     adminStatusSelect: document.getElementById('admin-status-select'),
     adminFormCancelBtn: document.getElementById('admin-form-cancel-btn')
 };
+
+const WORD_DICT = new Map();
+function buildWordDict() {
+    if (typeof WORD_LIST_11PLUS !== 'undefined' && Array.isArray(WORD_LIST_11PLUS)) {
+        WORD_LIST_11PLUS.forEach(w => {
+            if (w && w.word && w.definition) WORD_DICT.set(w.word.toLowerCase(), w);
+        });
+    }
+    if (typeof WORD_LIST !== 'undefined' && Array.isArray(WORD_LIST)) {
+        WORD_LIST.forEach(w => {
+            if (w && w.word && w.definition && !WORD_DICT.has(w.word.toLowerCase())) {
+                WORD_DICT.set(w.word.toLowerCase(), w);
+            }
+        });
+    }
+}
+buildWordDict();
+
+function getWordDetails(word) {
+    if (!word) return null;
+    const w = word.toLowerCase();
+    if (WORD_DICT.has(w)) {
+        return WORD_DICT.get(w);
+    }
+    if (typeof currentWordList11Plus !== 'undefined' && Array.isArray(currentWordList11Plus)) {
+        const found = currentWordList11Plus.find(x => x.word && x.word.toLowerCase() === w);
+        if (found) return found;
+    }
+    if (typeof currentWordList !== 'undefined' && Array.isArray(currentWordList)) {
+        const found = currentWordList.find(x => x.word && x.word.toLowerCase() === w);
+        if (found) return found;
+    }
+    return null;
+}
+
+function enrichLoadedWordList(list, defaultList) {
+    if (!Array.isArray(list)) return defaultList;
+    const defaultMap = new Map();
+    if (Array.isArray(defaultList)) {
+        defaultList.forEach(w => {
+            if (w && w.word) defaultMap.set(w.word.toLowerCase(), w);
+        });
+    }
+    return list.map(item => {
+        if (!item || !item.word) return item;
+        const fallback = defaultMap.get(item.word.toLowerCase()) || getWordDetails(item.word);
+        if (fallback) {
+            if (!item.definition) item.definition = fallback.definition;
+            if (!item.sentence) item.sentence = fallback.sentence;
+            if (!item.partOfSpeech) item.partOfSpeech = fallback.partOfSpeech;
+        }
+        return item;
+    });
+}
 
 function loadWordLists() {
     try {
@@ -190,6 +247,7 @@ function loadWordLists() {
         console.error("Error loading word list", e);
         currentWordList = WORD_LIST;
     }
+    currentWordList = enrichLoadedWordList(currentWordList, WORD_LIST);
     
     try {
         const stored11 = localStorage.getItem('spelling_bee_word_list_11plus');
@@ -198,6 +256,7 @@ function loadWordLists() {
         console.error("Error loading 11plus word list", e);
         currentWordList11Plus = WORD_LIST_11PLUS;
     }
+    currentWordList11Plus = enrichLoadedWordList(currentWordList11Plus, WORD_LIST_11PLUS);
 }
 loadWordLists();
 
@@ -211,6 +270,18 @@ function loadMisspelledBank() {
     try {
         const stored = localStorage.getItem(MISSPELLED_STORAGE_KEY);
         misspelledBank = stored ? JSON.parse(stored) : [];
+        if (Array.isArray(misspelledBank)) {
+            misspelledBank.forEach(item => {
+                if (item && item.word) {
+                    const fallback = getWordDetails(item.word);
+                    if (fallback) {
+                        if (!item.definition) item.definition = fallback.definition;
+                        if (!item.sentence) item.sentence = fallback.sentence;
+                        if (!item.partOfSpeech) item.partOfSpeech = fallback.partOfSpeech;
+                    }
+                }
+            });
+        }
     } catch (e) {
         console.error("Error loading misspelled bank", e);
         misspelledBank = [];
@@ -439,17 +510,20 @@ function triggerBeeCheer() {
 
 function applyActiveWallpaper() {
     if (typeof WALLPAPERS === 'undefined') return;
-    
-    // Remove existing wallpaper background classes
-    WALLPAPERS.forEach(wp => {
-        document.body.classList.remove(wp.cssClass);
-    });
 
     const activeWp = WALLPAPERS.find(w => w.id === activeWallpaperId);
     if (activeWp) {
         document.body.style.background = activeWp.bgStyle;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundAttachment = 'fixed';
     } else {
         document.body.style.background = '';
+        document.body.style.backgroundSize = '';
+        document.body.style.backgroundPosition = '';
+        document.body.style.backgroundRepeat = '';
+        document.body.style.backgroundAttachment = '';
     }
 }
 loadGamificationState();
@@ -501,8 +575,8 @@ function recordMisspelledWord(wordObj, userAttempt) {
         currentSessionMissedWords.push({
             word: wordObj.valid[0],
             definition: currentWordDefinition || wordObj.definition || "",
-            partOfSpeech: currentWordPartOfSpeech || "",
-            sentence: currentWordSentence || "",
+            partOfSpeech: currentWordPartOfSpeech || wordObj.partOfSpeech || "",
+            sentence: currentWordSentence || wordObj.sentence || "",
             userAttempt: userAttempt || ""
         });
     }
@@ -512,9 +586,9 @@ function recordMisspelledWord(wordObj, userAttempt) {
     if (bankItem) {
         bankItem.count = (bankItem.count || 1) + 1;
         bankItem.lastMissed = new Date().toISOString();
-        if (currentWordDefinition && !bankItem.definition) bankItem.definition = currentWordDefinition;
-        if (currentWordSentence && !bankItem.sentence) bankItem.sentence = currentWordSentence;
-        if (currentWordPartOfSpeech && !bankItem.partOfSpeech) bankItem.partOfSpeech = currentWordPartOfSpeech;
+        if ((currentWordDefinition || wordObj.definition) && !bankItem.definition) bankItem.definition = currentWordDefinition || wordObj.definition;
+        if ((currentWordSentence || wordObj.sentence) && !bankItem.sentence) bankItem.sentence = currentWordSentence || wordObj.sentence;
+        if ((currentWordPartOfSpeech || wordObj.partOfSpeech) && !bankItem.partOfSpeech) bankItem.partOfSpeech = currentWordPartOfSpeech || wordObj.partOfSpeech;
         if (userAttempt && Array.isArray(bankItem.attempts) && !bankItem.attempts.includes(userAttempt)) {
             bankItem.attempts.push(userAttempt);
         }
@@ -524,8 +598,8 @@ function recordMisspelledWord(wordObj, userAttempt) {
             valid: wordObj.valid,
             difficulty: wordObj.difficulty,
             definition: currentWordDefinition || wordObj.definition || "",
-            partOfSpeech: currentWordPartOfSpeech || "",
-            sentence: currentWordSentence || "",
+            partOfSpeech: currentWordPartOfSpeech || wordObj.partOfSpeech || "",
+            sentence: currentWordSentence || wordObj.sentence || "",
             attempts: userAttempt ? [userAttempt] : [],
             count: 1,
             lastMissed: new Date().toISOString()
@@ -669,16 +743,30 @@ function nextTurn() {
     
     updateBadge();
     
-    // Reset and hide hint card and buttons for the new turn
-    if (UI.hintContainer) UI.hintContainer.classList.add('hidden');
+    // Reset hint card for the new turn
     if (UI.hintDisplay) UI.hintDisplay.classList.add('hidden');
-    if (UI.defineBtn) UI.defineBtn.disabled = true;
-    if (UI.sentenceBtn) UI.sentenceBtn.disabled = true;
     if (UI.hintText) UI.hintText.textContent = '';
+    
+    // Ensure currentWordObj is enriched with definition & sentence
+    const dictEntry = getWordDetails(currentWordObj.word);
+    if (dictEntry) {
+        if (!currentWordObj.definition) currentWordObj.definition = dictEntry.definition;
+        if (!currentWordObj.sentence) currentWordObj.sentence = dictEntry.sentence;
+        if (!currentWordObj.partOfSpeech) currentWordObj.partOfSpeech = dictEntry.partOfSpeech;
+    }
+    
+    currentWordDefinition = currentWordObj.definition || (dictEntry ? dictEntry.definition : "") || `A word used in the spelling bee.`;
+    currentWordSentence = currentWordObj.sentence || (dictEntry ? dictEntry.sentence : "") || `Please spell the word ${currentWordObj.word} correctly.`;
+    currentWordPartOfSpeech = currentWordObj.partOfSpeech || (dictEntry ? dictEntry.partOfSpeech : "") || "noun";
+    
+    // Both buttons and hint container are guaranteed to always be available and active on every turn
+    if (UI.defineBtn) UI.defineBtn.disabled = false;
+    if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
+    if (UI.hintContainer) UI.hintContainer.classList.remove('hidden');
     
     speakWord(currentWordObj.word);
     
-    // Fetch definition and example sentence asynchronously
+    // Ensure details are verified or filled if anything is missing
     fetchWordDetails(currentWordObj.word);
 }
 
@@ -1020,58 +1108,31 @@ function populateVoiceList() {
 }
 
 async function fetchWordDetails(word) {
-    currentWordDefinition = "";
-    currentWordSentence = "";
-    currentWordPartOfSpeech = "";
-    
-    try {
-        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
-        if (!response.ok) return;
-        
-        const data = await response.json();
-        if (!data || data.length === 0) return;
-        
-        const firstEntry = data[0];
-        
-        if (firstEntry.meanings && firstEntry.meanings.length > 0) {
-            // Find a meaning with a definition
-            for (const meaning of firstEntry.meanings) {
-                if (meaning.definitions && meaning.definitions.length > 0) {
-                    currentWordDefinition = meaning.definitions[0].definition || "";
-                    currentWordPartOfSpeech = meaning.partOfSpeech || "";
-                    break;
-                }
-            }
-            
-            // Find an example sentence from any definition in any meaning
-            for (const meaning of firstEntry.meanings) {
-                for (const definition of meaning.definitions) {
-                    if (definition.example) {
-                        currentWordSentence = definition.example;
-                        break;
-                    }
-                }
-                if (currentWordSentence) break;
-            }
-        }
-        
-        // Show/enable buttons
-        let hasHints = false;
-        if (currentWordDefinition) {
-            if (UI.defineBtn) UI.defineBtn.disabled = false;
-            hasHints = true;
-        }
-        if (currentWordSentence) {
-            if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
-            hasHints = true;
-        }
-        
-        if (hasHints && UI.hintContainer) {
-            UI.hintContainer.classList.remove('hidden');
-        }
-    } catch (err) {
-        console.error("Error fetching word details:", err);
+    if (currentWordObj && currentWordObj.word.toLowerCase() === word.toLowerCase()) {
+        if (!currentWordDefinition && currentWordObj.definition) currentWordDefinition = currentWordObj.definition;
+        if (!currentWordSentence && currentWordObj.sentence) currentWordSentence = currentWordObj.sentence;
+        if (!currentWordPartOfSpeech && currentWordObj.partOfSpeech) currentWordPartOfSpeech = currentWordObj.partOfSpeech;
     }
+    
+    // Check if both definition and sentence are already present from words.js
+    if (currentWordDefinition && currentWordSentence) {
+        if (UI.defineBtn) UI.defineBtn.disabled = false;
+        if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
+        if (UI.hintContainer) UI.hintContainer.classList.remove('hidden');
+        return;
+    }
+    
+    // If definition or sentence is still missing (e.g., custom user word added without definition)
+    if (!currentWordDefinition) {
+        currentWordDefinition = `The word "${word}" is used in the spelling bee.`;
+    }
+    if (!currentWordSentence) {
+        currentWordSentence = `Please spell the word ${word} correctly.`;
+    }
+    
+    if (UI.defineBtn) UI.defineBtn.disabled = false;
+    if (UI.sentenceBtn) UI.sentenceBtn.disabled = false;
+    if (UI.hintContainer) UI.hintContainer.classList.remove('hidden');
 }
 
 function speakAnnouncement(phrase) {
@@ -1221,8 +1282,12 @@ if (UI.sentenceBtn) {
         if (currentWordSentence) {
             speakAnnouncement(`Sentence: ${currentWordSentence}`);
             if (UI.hintDisplay && UI.hintBadge && UI.hintText && currentWordObj) {
-                const regex = new RegExp(`\\b${currentWordObj.word}\\b`, 'gi');
-                const maskedSentence = currentWordSentence.replace(regex, '______');
+                const escapedWord = currentWordObj.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
+                let maskedSentence = currentWordSentence.replace(regex, '______');
+                if (maskedSentence === currentWordSentence) {
+                    maskedSentence = currentWordSentence.replace(new RegExp(escapedWord, 'gi'), '______');
+                }
                 
                 UI.hintDisplay.classList.remove('hidden');
                 UI.hintBadge.textContent = "Sentence";
@@ -1363,6 +1428,29 @@ function renderAdminWordsList() {
         validSpellings.textContent = `Valid: ${item.valid.join(', ')}`;
         details.appendChild(validSpellings);
 
+        if (item.definition) {
+            const defSpan = document.createElement('span');
+            defSpan.className = 'admin-word-def-preview';
+            defSpan.style.display = 'block';
+            defSpan.style.fontSize = '0.82rem';
+            defSpan.style.color = 'var(--text-muted)';
+            defSpan.style.marginTop = '3px';
+            defSpan.textContent = `📖 ${item.partOfSpeech ? `(${item.partOfSpeech}) ` : ''}${item.definition}`;
+            details.appendChild(defSpan);
+        }
+
+        if (item.sentence) {
+            const sentSpan = document.createElement('span');
+            sentSpan.className = 'admin-word-sent-preview';
+            sentSpan.style.display = 'block';
+            sentSpan.style.fontSize = '0.82rem';
+            sentSpan.style.color = 'var(--text-muted)';
+            sentSpan.style.fontStyle = 'italic';
+            sentSpan.style.marginTop = '2px';
+            sentSpan.textContent = `💬 "${item.sentence}"`;
+            details.appendChild(sentSpan);
+        }
+
         row.appendChild(details);
 
         const actions = document.createElement('div');
@@ -1418,6 +1506,9 @@ function openAddWordForm() {
     UI.adminWordInput.disabled = false;
     UI.adminValidInput.value = "";
     UI.adminDifficultySelect.value = adminCurrentDifficulty;
+    if (UI.adminPosInput) UI.adminPosInput.value = "";
+    if (UI.adminDefinitionInput) UI.adminDefinitionInput.value = "";
+    if (UI.adminSentenceInput) UI.adminSentenceInput.value = "";
     UI.adminStatusSelect.value = "active";
     
     UI.adminDashboardContainer.classList.add('hidden');
@@ -1431,6 +1522,9 @@ function openEditWordForm(wordObj) {
     UI.adminWordInput.disabled = true;
     UI.adminValidInput.value = wordObj.valid.join(', ');
     UI.adminDifficultySelect.value = wordObj.difficulty;
+    if (UI.adminPosInput) UI.adminPosInput.value = wordObj.partOfSpeech || "";
+    if (UI.adminDefinitionInput) UI.adminDefinitionInput.value = wordObj.definition || "";
+    if (UI.adminSentenceInput) UI.adminSentenceInput.value = wordObj.sentence || "";
     UI.adminStatusSelect.value = wordObj.status || "active";
     
     UI.adminDashboardContainer.classList.add('hidden');
@@ -1451,6 +1545,9 @@ function saveWordForm(e) {
         .filter(s => s.length > 0);
     const difficulty = UI.adminDifficultySelect.value;
     const status = UI.adminStatusSelect.value;
+    const pos = UI.adminPosInput ? UI.adminPosInput.value.trim().toLowerCase() : "";
+    let definition = UI.adminDefinitionInput ? UI.adminDefinitionInput.value.trim() : "";
+    let sentence = UI.adminSentenceInput ? UI.adminSentenceInput.value.trim() : "";
 
     if (!wordText) {
         showAdminToast("Word cannot be empty", true);
@@ -1461,12 +1558,22 @@ function saveWordForm(e) {
         return;
     }
 
+    if (!definition) {
+        definition = `A word used in the spelling bee.`;
+    }
+    if (!sentence) {
+        sentence = `Please spell the word ${wordText} correctly.`;
+    }
+
     const activeList = (adminCurrentWordBank === "11plus") ? currentWordList11Plus : currentWordList;
 
     if (adminEditingWord) {
         adminEditingWord.valid = validSpellings;
         adminEditingWord.difficulty = difficulty;
         adminEditingWord.status = status;
+        adminEditingWord.partOfSpeech = pos;
+        adminEditingWord.definition = definition;
+        adminEditingWord.sentence = sentence;
         showAdminToast("Word Saved");
     } else {
         const exists = activeList.some(w => w.word === wordText);
@@ -1479,7 +1586,10 @@ function saveWordForm(e) {
             word: wordText,
             valid: validSpellings,
             difficulty: difficulty,
-            status: status
+            status: status,
+            partOfSpeech: pos,
+            definition: definition,
+            sentence: sentence
         };
         activeList.push(newWordObj);
         showAdminToast("Word Added");
@@ -1803,22 +1913,28 @@ function renderWallpapers() {
         header.appendChild(title);
         header.appendChild(badge);
 
-        // Preview Box with Progressive Blur Layer & Center Art Emoji
+        // Preview Box with Progressive Blur Layer & Real Artwork
         const previewBox = document.createElement('div');
         previewBox.className = 'wp-preview-box';
 
-        // Blur Artwork Layer
+        // Blur Artwork Layer displaying real wallpaper artwork
         const artworkLayer = document.createElement('div');
         artworkLayer.className = 'wp-artwork-layer';
-        artworkLayer.style.background = wp.bgStyle;
+        if (wp.image) {
+            artworkLayer.style.backgroundImage = `url('${wp.image}')`;
+            artworkLayer.style.backgroundSize = 'cover';
+            artworkLayer.style.backgroundPosition = 'center';
+            artworkLayer.style.backgroundRepeat = 'no-repeat';
+        } else {
+            artworkLayer.style.background = wp.bgStyle;
+        }
         artworkLayer.style.filter = `blur(${blurPx.toFixed(1)}px) grayscale(${grayscalePct.toFixed(0)}%)`;
         previewBox.appendChild(artworkLayer);
 
-        const centerEmoji = document.createElement('div');
-        centerEmoji.className = 'wp-preview-center-emoji';
-        centerEmoji.style.filter = `blur(${Math.min(blurPx * 0.35, 6).toFixed(1)}px)`;
-        centerEmoji.textContent = wp.emoji;
-        previewBox.appendChild(centerEmoji);
+        const emojiBadge = document.createElement('div');
+        emojiBadge.className = 'wp-art-emoji-badge';
+        emojiBadge.textContent = wp.emoji;
+        previewBox.appendChild(emojiBadge);
 
         // Center Blur Clarity Overlay Badge when locked
         if (!isUnlocked) {
@@ -2096,15 +2212,18 @@ function practiceMisspelledWords() {
     if (!misspelledBank || misspelledBank.length === 0) return;
     
     // Create practice pool from misspelled bank
-    const customPracticePool = misspelledBank.map(item => ({
-        word: item.word,
-        valid: item.valid || [item.word],
-        difficulty: item.difficulty || 'medium',
-        status: 'active',
-        definition: item.definition || '',
-        sentence: item.sentence || '',
-        partOfSpeech: item.partOfSpeech || ''
-    }));
+    const customPracticePool = misspelledBank.map(item => {
+        const fallback = getWordDetails(item.word);
+        return {
+            word: item.word,
+            valid: item.valid || [item.word],
+            difficulty: item.difficulty || 'medium',
+            status: 'active',
+            definition: item.definition || (fallback ? fallback.definition : `A word used in the spelling bee.`),
+            sentence: item.sentence || (fallback ? fallback.sentence : `Please spell the word ${item.word} correctly.`),
+            partOfSpeech: item.partOfSpeech || (fallback ? fallback.partOfSpeech : 'noun')
+        };
+    });
 
     if (turnTimeout) {
         clearTimeout(turnTimeout);

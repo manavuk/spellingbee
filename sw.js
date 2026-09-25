@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spelling-bee-v1.5.0';
+const CACHE_NAME = 'spelling-bee-v1.5.3';
 const ASSETS = [
     './',
     './index.html',
@@ -34,7 +34,20 @@ const ASSETS = [
     './assets/stickers/cosmic_whale.jpg',
     './assets/stickers/solar_explorer.jpg',
     './assets/stickers/rainbow_boba.jpg',
-    './assets/stickers/magic_crystal_dragon.jpg'
+    './assets/stickers/magic_crystal_dragon.jpg',
+    './assets/stickers/buzzy_antennae.jpg',
+    './assets/stickers/honey_drop.jpg',
+    './assets/stickers/bee_hive_box.jpg',
+    './assets/stickers/garden_bumble.jpg',
+    './assets/stickers/pollen_basket.jpg',
+    './assets/stickers/pollen_collector_bee.jpg',
+    './assets/stickers/baby_larva_bee.jpg',
+    './assets/wallpapers/honeycomb_kingdom.jpg',
+    './assets/wallpapers/enchanted_meadow.jpg',
+    './assets/wallpapers/cosmic_galaxy.jpg',
+    './assets/wallpapers/sunflower_sanctuary.jpg',
+    './assets/wallpapers/cyber_neon_hive.jpg',
+    './assets/wallpapers/mythic_golden_hive.jpg'
 ];
 
 // Install: Cache all core assets and wait for user update or auto-activate

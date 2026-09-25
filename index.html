@@ -447,6 +447,18 @@
                             <option value="expert">Expert</option>
                         </select>
                     </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-pos-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Part of Speech (optional)</label>
+                        <input type="text" id="admin-pos-input" placeholder="e.g. noun, verb, adjective, adverb" style="font-size: 1.1rem; padding: 12px; text-align: left; border-radius: 10px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-definition-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Definition (optional)</label>
+                        <textarea id="admin-definition-input" rows="2" placeholder="e.g. Provide lodging or sufficient space for." style="font-size: 1rem; padding: 12px; text-align: left; border-radius: 10px; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="admin-sentence-input" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Example Sentence (optional - will mask word with ______)</label>
+                        <textarea id="admin-sentence-input" rows="2" placeholder="e.g. The hotel can accommodate all our guests." style="font-size: 1rem; padding: 12px; text-align: left; border-radius: 10px; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
+                    </div>
                     <div class="form-group" style="margin-bottom: 25px;">
                         <label for="admin-status-select" style="display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Word Status</label>
                         <select id="admin-status-select" class="word-list-select" style="max-width: 100%; text-align: left; text-align-last: left; border-radius: 10px;">

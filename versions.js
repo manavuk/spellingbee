@@ -1,11 +1,36 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.0";
+const APP_VERSION = "v1.5.2";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.0",
+        version: "v1.5.2",
         date: "Latest Release",
-        badge: "New",
+        badge: "Art",
+        title: "Master Bee Art Wallpapers",
+        highlights: [
+            "6 high-resolution custom bee art wallpapers created and integrated as offline progressive unlocks up to 250,000 points",
+            "Cinematic widescreen previews with dynamic clarity & blur-reduction engine based on cumulative player points",
+            "Full-screen ambient background art rendering with fixed cover layout when equipped",
+            "Offline caching of all 6 wallpaper artwork assets in service worker for instantaneous loading"
+        ]
+    },
+    {
+        version: "v1.5.1",
+        date: "Previous Release",
+        badge: "Hints",
+        title: "Guaranteed Word Definitions & Sentence Hints",
+        highlights: [
+            "All words across 11+ and Standard vocabulary now have complete definitions, parts of speech, and contextual example sentences",
+            "Guaranteed 100% availability of 'Define Word' and 'Use in Sentence' hint buttons on every turn with zero network dependency",
+            "Automatic masked sentence hints (______ in place of target word) with natural audio speech synthesis playback",
+            "Enhanced Admin Word Manager with direct viewing and editing for definitions, parts of speech, and example sentences",
+            "Automatic offline migration and enrichment of existing cached words in local storage"
+        ]
+    },
+    {
+        version: "v1.5.0",
+        date: "Previous Release",
+        badge: "Themes",
         title: "Visual Themes & Mobile-First Experience",
         highlights: [
             "Real custom AI die-cut vinyl stickers with realistic glossy finish, 3D drop-shadows & hover tilt",

@@ -2495,7 +2495,7 @@ input.success-pop {
 
 .wp-preview-box {
     width: 100%;
-    height: 125px;
+    height: 160px;
     border-radius: 14px;
     position: relative;
     overflow: hidden;
@@ -2514,6 +2514,23 @@ input.success-pop {
     bottom: -12px;
     transition: filter 0.4s ease-out;
     transform: scale(1.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.wp-art-emoji-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 3px 8px;
+    font-size: 0.95rem;
+    z-index: 2;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .wp-preview-center-emoji {
