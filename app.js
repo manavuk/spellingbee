@@ -383,6 +383,16 @@ function updateCoinUI() {
     if (UI.startStickerCount) UI.startStickerCount.textContent = unlockedStickers.size;
     if (UI.gameoverStickerCount) UI.gameoverStickerCount.textContent = unlockedStickers.size;
     if (UI.albumCollectedCount) UI.albumCollectedCount.textContent = unlockedStickers.size;
+    
+    const totalStickersCount = (typeof ALL_STICKERS !== 'undefined' && Array.isArray(ALL_STICKERS)) ? ALL_STICKERS.length : 150;
+    const startStickerTotal = document.getElementById('start-sticker-total');
+    if (startStickerTotal) startStickerTotal.textContent = totalStickersCount;
+    const gameoverStickerTotal = document.getElementById('gameover-sticker-total');
+    if (gameoverStickerTotal) gameoverStickerTotal.textContent = totalStickersCount;
+    const shopTotalCount = document.getElementById('shop-total-count');
+    if (shopTotalCount) shopTotalCount.textContent = totalStickersCount;
+    const albumTotalCount = document.getElementById('album-total-count');
+    if (albumTotalCount) albumTotalCount.textContent = totalStickersCount;
 }
 
 const CHEER_MASCOT_IMAGES = ['bee_happy.png', 'bee_superhero.png', 'bee_thinking.png'];
@@ -1665,7 +1675,7 @@ function renderStickers() {
         const matchesSearch = s.name.toLowerCase().includes(stickerSearchQuery.toLowerCase());
         const matchesTab = (activeStickerTab === 'shop') ? true : unlockedStickers.has(s.id);
         return matchesCategory && matchesSearch && matchesTab;
-    });
+    }).sort((a, b) => a.price - b.price || a.name.localeCompare(b.name));
 
     if (filtered.length === 0) {
         const emptyMsg = document.createElement('div');
@@ -1685,7 +1695,20 @@ function renderStickers() {
 
         const iconEl = document.createElement('div');
         iconEl.className = 'sticker-icon';
-        iconEl.textContent = sticker.icon;
+        if (sticker.img) {
+            const imgEl = document.createElement('img');
+            imgEl.src = sticker.img;
+            imgEl.alt = sticker.name;
+            imgEl.className = 'custom-sticker-art';
+            imgEl.loading = 'lazy';
+            imgEl.onerror = () => {
+                imgEl.style.display = 'none';
+                iconEl.textContent = sticker.icon;
+            };
+            iconEl.appendChild(imgEl);
+        } else {
+            iconEl.textContent = sticker.icon;
+        }
 
         const nameEl = document.createElement('div');
         nameEl.className = 'sticker-name';

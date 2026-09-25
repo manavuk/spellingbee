@@ -1,4 +1,4 @@
-// 500 Unique Collectible Stickers Catalog
+// Unique Collectible Stickers Catalog
 const STICKER_CATEGORIES = [
     { id: "bees", name: "🐝 Bee Buddies", icon: "🐝" },
     { id: "animals", name: "🐾 Cute Animals", icon: "🐾" },
@@ -10,16 +10,16 @@ const STICKER_CATEGORIES = [
     { id: "superstars", name: "⭐ Science & Superstars", icon: "⭐" }
 ];
 
-// Base sticker definitions expanded programmatically to produce 500 distinct stickers
+// Curated unique sticker definitions without repetitive prefix modifiers
 const RAW_STICKER_SEEDS = [
     // Bee Buddies (65 items)
-    { cat: "bees", name: "Honey Queen Bee", icon: "👑🐝", rarity: "Legendary", price: 600 },
-    { cat: "bees", name: "Superhero Bee", icon: "🦸🐝", rarity: "Legendary", price: 580 },
-    { cat: "bees", name: "Astronaut Bee", icon: "👨‍🚀🐝", rarity: "Legendary", price: 600 },
-    { cat: "bees", name: "Golden Honey Pot", icon: "🍯✨", rarity: "Legendary", price: 550 },
-    { cat: "bees", name: "Cyberpunk Mecha Bee", icon: "🤖🐝", rarity: "Legendary", price: 600 },
-    { cat: "bees", name: "Detective Bee", icon: "🕵️🐝", rarity: "Epic", price: 500 },
-    { cat: "bees", name: "Wizard Spell Bee", icon: "🧙🐝", rarity: "Epic", price: 520 },
+    { cat: "bees", name: "Honey Queen Bee", icon: "👑🐝", img: "assets/stickers/honey_queen_bee.jpg", rarity: "Legendary", price: 600 },
+    { cat: "bees", name: "Superhero Bee", icon: "🦸🐝", img: "assets/stickers/superhero_bee.jpg", rarity: "Legendary", price: 580 },
+    { cat: "bees", name: "Astronaut Bee", icon: "👨‍🚀🐝", img: "assets/stickers/astronaut_bee.jpg", rarity: "Legendary", price: 600 },
+    { cat: "bees", name: "Golden Honey Pot", icon: "🍯✨", img: "assets/stickers/golden_honey_pot.jpg", rarity: "Legendary", price: 550 },
+    { cat: "bees", name: "Cyberpunk Mecha Bee", icon: "🤖🐝", img: "assets/stickers/mecha_cyber_bee.jpg", rarity: "Legendary", price: 600 },
+    { cat: "bees", name: "Detective Bee", icon: "🕵️🐝", img: "assets/stickers/detective_bee.jpg", rarity: "Epic", price: 500 },
+    { cat: "bees", name: "Wizard Spell Bee", icon: "🧙🐝", img: "assets/stickers/wizard_spell_bee.jpg", rarity: "Epic", price: 520 },
     { cat: "bees", name: "Bumblebee Champion", icon: "🏆🐝", rarity: "Epic", price: 480 },
     { cat: "bees", name: "Chef Baker Bee", icon: "👨‍🍳🐝", rarity: "Epic", price: 490 },
     { cat: "bees", name: "Ninja Stealth Bee", icon: "🥷🐝", rarity: "Epic", price: 510 },
@@ -50,10 +50,10 @@ const RAW_STICKER_SEEDS = [
     { cat: "bees", name: "Garden Bumble", icon: "🌱🐝", rarity: "Common", price: 330 },
 
     // Cute Animals (70 items)
-    { cat: "animals", name: "Golden Lion King", icon: "🦁👑", rarity: "Legendary", price: 600 },
-    { cat: "animals", name: "Mythic Unicorn", icon: "🦄✨", rarity: "Legendary", price: 600 },
+    { cat: "animals", name: "Golden Lion King", icon: "🦁👑", img: "assets/stickers/golden_lion_king.jpg", rarity: "Legendary", price: 600 },
+    { cat: "animals", name: "Mythic Unicorn", icon: "🦄✨", img: "assets/stickers/mythic_unicorn.jpg", rarity: "Legendary", price: 600 },
     { cat: "animals", name: "Giant Panda Bear", icon: "🐼🎋", rarity: "Legendary", price: 570 },
-    { cat: "animals", name: "Cosmic Whale", icon: "🐋🌌", rarity: "Legendary", price: 590 },
+    { cat: "animals", name: "Cosmic Whale", icon: "🐋🌌", img: "assets/stickers/cosmic_whale.jpg", rarity: "Legendary", price: 590 },
     { cat: "animals", name: "Royal Tiger", icon: "🐯👑", rarity: "Epic", price: 520 },
     { cat: "animals", name: "Golden Retriever Puppy", icon: "🐕🦺", rarity: "Epic", price: 500 },
     { cat: "animals", name: "Fluffy Calico Kitten", icon: "🐱🧶", rarity: "Epic", price: 490 },
@@ -86,7 +86,7 @@ const RAW_STICKER_SEEDS = [
     { cat: "animals", name: "Lucky Ladybug", icon: "🐞🍀", rarity: "Common", price: 340 },
 
     // Space Explorers (65 items)
-    { cat: "space", name: "Solar System Explorer", icon: "🪐✨", rarity: "Legendary", price: 600 },
+    { cat: "space", name: "Solar System Explorer", icon: "🪐✨", img: "assets/stickers/solar_explorer.jpg", rarity: "Legendary", price: 600 },
     { cat: "space", name: "Supernova Explosion", icon: "💥🌌", rarity: "Legendary", price: 590 },
     { cat: "space", name: "Alien Star Cruiser", icon: "🛸👽", rarity: "Legendary", price: 600 },
     { cat: "space", name: "Galactic Black Hole", icon: "🕳️🌀", rarity: "Legendary", price: 580 },
@@ -114,7 +114,7 @@ const RAW_STICKER_SEEDS = [
     // Sweets & Treats (65 items)
     { cat: "sweets", name: "Royal Honey Sundae", icon: "🍨👑", rarity: "Legendary", price: 600 },
     { cat: "sweets", name: "Triple Tier Cake", icon: "🎂✨", rarity: "Legendary", price: 580 },
-    { cat: "sweets", name: "Rainbow Boba Blast", icon: "🧋🌈", rarity: "Epic", price: 530 },
+    { cat: "sweets", name: "Rainbow Boba Blast", icon: "🧋🌈", img: "assets/stickers/rainbow_boba.jpg", rarity: "Epic", price: 530 },
     { cat: "sweets", name: "Golden Honey Waffle", icon: "🧇🍯", rarity: "Epic", price: 510 },
     { cat: "sweets", name: "Glazed Galaxy Donut", icon: "🍩🌌", rarity: "Epic", price: 500 },
     { cat: "sweets", name: "Strawberry Shortcake", icon: "🍰🍓", rarity: "Epic", price: 490 },
@@ -136,6 +136,7 @@ const RAW_STICKER_SEEDS = [
     { cat: "sweets", name: "Hot Popcorn Bucket", icon: "🍿", rarity: "Common", price: 320 },
 
     // Magic & Fantasy (60 items)
+    { cat: "fantasy", name: "Magic Crystal Dragon", icon: "🐉💎", img: "assets/stickers/magic_crystal_dragon.jpg", rarity: "Legendary", price: 600 },
     { cat: "fantasy", name: "Fire Dragon Lord", icon: "🐉🔥", rarity: "Legendary", price: 600 },
     { cat: "fantasy", name: "Phoenix Reborn", icon: "🦅🔥", rarity: "Legendary", price: 600 },
     { cat: "fantasy", name: "Enchanted Castle", icon: "🏰✨", rarity: "Legendary", price: 590 },
@@ -212,75 +213,16 @@ const RAW_STICKER_SEEDS = [
     { cat: "superstars", name: "Gold Ribbon", icon: "🎖️", rarity: "Common", price: 320 }
 ];
 
-// Helper to expand seed items into a deterministic full set of exactly 500 stickers
-function generate500Stickers() {
-    const stickers = [];
-    let idCounter = 1;
-    
-    // First, insert all curated seeds
-    RAW_STICKER_SEEDS.forEach(seed => {
-        stickers.push({
-            id: idCounter++,
-            name: seed.name,
-            category: seed.cat,
-            icon: seed.icon,
-            rarity: seed.rarity,
-            price: seed.price
-        });
-    });
-
-    const MODIFIERS = [
-        { prefix: "Super", suffix: "Star", priceMod: 40, rarity: "Rare" },
-        { prefix: "Mega", suffix: "Hero", priceMod: 90, rarity: "Epic" },
-        { prefix: "Neon", suffix: "Glow", priceMod: 60, rarity: "Rare" },
-        { prefix: "Glitter", suffix: "Sparkle", priceMod: 70, rarity: "Epic" },
-        { prefix: "Cosmic", suffix: "Prime", priceMod: 110, rarity: "Legendary" },
-        { prefix: "Royal", suffix: "Crown", priceMod: 100, rarity: "Legendary" },
-        { prefix: "Golden", suffix: "Delight", priceMod: 80, rarity: "Epic" },
-        { prefix: "Cyber", suffix: "Bot", priceMod: 85, rarity: "Epic" },
-        { prefix: "Chibi", suffix: "Friend", priceMod: 20, rarity: "Common" },
-        { prefix: "Mini", suffix: "Buddy", priceMod: 10, rarity: "Common" },
-        { prefix: "Crystal", suffix: "Gem", priceMod: 75, rarity: "Rare" },
-        { prefix: "Hyper", suffix: "Flash", priceMod: 65, rarity: "Rare" }
-    ];
-
-    const EMOJI_ACCENTS = ["✨", "💫", "🌟", "⭐", "💎", "🔥", "💖", "⚡", "🍀", "🌈", "👑", "🚀"];
-
-    let seedIdx = 0;
-    let modIdx = 0;
-
-    // Fill remaining up to 500
-    while (stickers.length < 500) {
-        const baseSeed = RAW_STICKER_SEEDS[seedIdx % RAW_STICKER_SEEDS.length];
-        const mod = MODIFIERS[modIdx % MODIFIERS.length];
-        const accent = EMOJI_ACCENTS[(seedIdx + modIdx) % EMOJI_ACCENTS.length];
-
-        let price = Math.min(600, Math.max(300, baseSeed.price + (mod.priceMod % 120) - 20));
-        // Round to nearest 10
-        price = Math.round(price / 10) * 10;
-        
-        let rarity = mod.rarity;
-        if (price >= 550) rarity = "Legendary";
-        else if (price >= 480) rarity = "Epic";
-        else if (price >= 380) rarity = "Rare";
-        else rarity = "Common";
-
-        stickers.push({
-            id: idCounter++,
-            name: `${mod.prefix} ${baseSeed.name}`,
-            category: baseSeed.cat,
-            icon: `${baseSeed.icon}${accent}`,
-            rarity: rarity,
-            price: price
-        });
-
-        seedIdx++;
-        if (seedIdx % RAW_STICKER_SEEDS.length === 0) {
-            modIdx++;
-        }
-    }
-
-    return stickers.slice(0, 500);
-}
-
-const ALL_STICKERS = generate500Stickers();
+// Build 100% unique collectible sticker catalog sorted from lowest value to highest value
+const ALL_STICKERS = RAW_STICKER_SEEDS
+    .slice()
+    .sort((a, b) => a.price - b.price || a.name.localeCompare(b.name))
+    .map((seed, idx) => ({
+        id: idx + 1,
+        name: seed.name,
+        category: seed.cat,
+        icon: seed.icon,
+        img: seed.img || null,
+        rarity: seed.rarity,
+        price: seed.price
+    }));

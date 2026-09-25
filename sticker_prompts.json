@@ -1,0 +1,982 @@
+[
+  {
+    "id": 3,
+    "name": "Buzzy Antennae",
+    "category": "bees",
+    "price": 300,
+    "current_icon": "📡🐝",
+    "target_filename": "buzzy_antennae.jpg",
+    "asset_path": "assets/stickers/buzzy_antennae.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute smiling cartoon bumblebee with glowing neon-blue radio antennae broadcasting cheerful sparkly signal waves, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 41,
+    "name": "Chubby Bunny Rabbit",
+    "category": "animals",
+    "price": 320,
+    "current_icon": "🐰🥕",
+    "target_filename": "chubby_bunny_rabbit.jpg",
+    "asset_path": "assets/stickers/chubby_bunny_rabbit.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable chubby fluffy white bunny rabbit happily hugging a fresh crunchy orange carrot with green leafy top, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 47,
+    "name": "Honey Drop",
+    "category": "bees",
+    "price": 320,
+    "current_icon": "💧🍯",
+    "target_filename": "honey_drop.jpg",
+    "asset_path": "assets/stickers/honey_drop.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute golden amber honey droplet character with big joyful sparkling eyes, blushing pink cheeks, and sweet glossy luster, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 52,
+    "name": "Bee Hive Box",
+    "category": "bees",
+    "price": 330,
+    "current_icon": "📦🐝",
+    "target_filename": "bee_hive_box.jpg",
+    "asset_path": "assets/stickers/bee_hive_box.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cozy rustic wooden apiary honey bee hive box surrounded by friendly little buzzing worker bees and honeycomb details, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 54,
+    "name": "Garden Bumble",
+    "category": "bees",
+    "price": 330,
+    "current_icon": "🌱🐝",
+    "target_filename": "garden_bumble.jpg",
+    "asset_path": "assets/stickers/garden_bumble.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cheerful fluffy bumblebee resting softly on a fresh blooming green flower sprout with dew drops, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 60,
+    "name": "Soccer Ball Goal",
+    "category": "sports",
+    "price": 330,
+    "current_icon": "⚽🥅",
+    "target_filename": "soccer_ball_goal.jpg",
+    "asset_path": "assets/stickers/soccer_ball_goal.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a vibrant classic soccer ball kicking right into the top corner of a white goal net with dynamic motion lines, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 62,
+    "name": "Lucky Ladybug",
+    "category": "animals",
+    "price": 340,
+    "current_icon": "🐞🍀",
+    "target_filename": "lucky_ladybug.jpg",
+    "asset_path": "assets/stickers/lucky_ladybug.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute shiny red ladybug with black spots perched happily upon a vibrant four-leaf clover with sparkling dew, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 64,
+    "name": "Pollen Basket",
+    "category": "bees",
+    "price": 340,
+    "current_icon": "🧺🌸",
+    "target_filename": "pollen_basket.jpg",
+    "asset_path": "assets/stickers/pollen_basket.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sweet woven wicker picnic basket overflowing with golden floral pollen dust and pink cherry blossom petals, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 70,
+    "name": "Hamster with Sunflower Seed",
+    "category": "animals",
+    "price": 380,
+    "current_icon": "🐹🌻",
+    "target_filename": "hamster_with_sunflower_seed.jpg",
+    "asset_path": "assets/stickers/hamster_with_sunflower_seed.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable chubby dwarf hamster with puffed cheeks holding a huge golden striped sunflower seed, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 71,
+    "name": "Pollen Collector Bee",
+    "category": "bees",
+    "price": 380,
+    "current_icon": "🌸🐝",
+    "target_filename": "pollen_collector_bee.jpg",
+    "asset_path": "assets/stickers/pollen_collector_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a hardworking smiling bumblebee dusted in glowing golden yellow pollen holding a lovely blooming pink flower, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 73,
+    "name": "Baby Larva Bee",
+    "category": "bees",
+    "price": 390,
+    "current_icon": "👶🐝",
+    "target_filename": "baby_larva_bee.jpg",
+    "asset_path": "assets/stickers/baby_larva_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ultra-cute baby bee larva swaddled cozily inside a hexagonal honeycomb crib with a tiny honey bottle, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 74,
+    "name": "Chill Sloth",
+    "category": "animals",
+    "price": 390,
+    "current_icon": "🦥🌴",
+    "target_filename": "chill_sloth.jpg",
+    "asset_path": "assets/stickers/chill_sloth.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a very relaxed and happy cartoon sloth hanging lazily from a tropical palm tree branch wearing cool sunglasses, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 76,
+    "name": "Sunflower Scout Bee",
+    "category": "bees",
+    "price": 390,
+    "current_icon": "🌻🐝",
+    "target_filename": "sunflower_scout_bee.jpg",
+    "asset_path": "assets/stickers/sunflower_scout_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a curious scout bumblebee wearing a tiny scout sash and cap, flying in front of a giant radiant yellow sunflower, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 77,
+    "name": "Baby Penguin",
+    "category": "animals",
+    "price": 400,
+    "current_icon": "🐧❄️",
+    "target_filename": "baby_penguin.jpg",
+    "asset_path": "assets/stickers/baby_penguin.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sweet baby emperor penguin wearing a cozy pastel winter scarf standing on a glistening ice floe with falling snowflakes, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 78,
+    "name": "Caramel Macaron",
+    "category": "sweets",
+    "price": 400,
+    "current_icon": "🥯✨",
+    "target_filename": "caramel_macaron.jpg",
+    "asset_path": "assets/stickers/caramel_macaron.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a delicious French gourmet caramel macaron with golden drizzled cream filling and sparkling sugar dust, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 79,
+    "name": "Comet Ice Tail",
+    "category": "space",
+    "price": 400,
+    "current_icon": "☄️❄️",
+    "target_filename": "comet_ice_tail.jpg",
+    "asset_path": "assets/stickers/comet_ice_tail.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cosmic glowing icy comet soaring across deep space with a shimmering turquoise and silver crystal dust tail, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 80,
+    "name": "Skateboard Kickflip",
+    "category": "sports",
+    "price": 400,
+    "current_icon": "🛹💨",
+    "target_filename": "skateboard_kickflip.jpg",
+    "asset_path": "assets/stickers/skateboard_kickflip.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a stylish street skateboard catching mid-air speed performing a kickflip with bright neon flame trail graphics, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 82,
+    "name": "Snowy Mountain Peak",
+    "category": "nature",
+    "price": 400,
+    "current_icon": "🏔️❄️",
+    "target_filename": "snowy_mountain_peak.jpg",
+    "asset_path": "assets/stickers/snowy_mountain_peak.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a majestic alpine mountain peak capped with pure white snow beneath a crisp starry winter sky, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 84,
+    "name": "Astronaut Helmet",
+    "category": "space",
+    "price": 410,
+    "current_icon": "👨‍🚀",
+    "target_filename": "astronaut_helmet.jpg",
+    "asset_path": "assets/stickers/astronaut_helmet.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sleek NASA astronaut helmet with a reflective golden visor displaying sparkling galaxy constellations, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 85,
+    "name": "Cozy Hedgehog",
+    "category": "animals",
+    "price": 410,
+    "current_icon": "🦔🍂",
+    "target_filename": "cozy_hedgehog.jpg",
+    "asset_path": "assets/stickers/cozy_hedgehog.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable little brown hedgehog curled up happily among golden autumn maple leaves and acorns, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 86,
+    "name": "Desert Blooming Cactus",
+    "category": "nature",
+    "price": 410,
+    "current_icon": "🌵🌸",
+    "target_filename": "desert_blooming_cactus.jpg",
+    "asset_path": "assets/stickers/desert_blooming_cactus.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute smiling saguaro desert cactus adorned with vibrant pink blooming flowers and golden sunlight, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 87,
+    "name": "Frosted Cupcake",
+    "category": "sweets",
+    "price": 410,
+    "current_icon": "🧁💖",
+    "target_filename": "frosted_cupcake.jpg",
+    "asset_path": "assets/stickers/frosted_cupcake.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a scrumptious vanilla cupcake with swirled pastel pink buttercream frosting, rainbow sprinkles, and a heart topper, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 88,
+    "name": "Hive Architect Bee",
+    "category": "bees",
+    "price": 410,
+    "current_icon": "📐🐝",
+    "target_filename": "hive_architect_bee.jpg",
+    "asset_path": "assets/stickers/hive_architect_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a clever engineer bumblebee wearing a yellow hardhat and holding a blueprint ruler next to golden honeycomb, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 89,
+    "name": "Sea Turtle",
+    "category": "animals",
+    "price": 410,
+    "current_icon": "🐢🌊",
+    "target_filename": "sea_turtle.jpg",
+    "asset_path": "assets/stickers/sea_turtle.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a friendly baby sea turtle gliding gracefully through crystal blue ocean waves with coral reef sparkles, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 90,
+    "name": "Slam Dunk Basketball",
+    "category": "sports",
+    "price": 410,
+    "current_icon": "🏀🔥",
+    "target_filename": "slam_dunk_basketball.jpg",
+    "asset_path": "assets/stickers/slam_dunk_basketball.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a basketball slamming down into a steel rim net engulfed in comic-style fiery action flames, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 91,
+    "name": "Bicycle Champion",
+    "category": "sports",
+    "price": 420,
+    "current_icon": "🚴💨",
+    "target_filename": "bicycle_champion.jpg",
+    "asset_path": "assets/stickers/bicycle_champion.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sleek championship racing bicycle with glowing speed streaks and gold winner accents, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 92,
+    "name": "Dancing Flamingo",
+    "category": "animals",
+    "price": 420,
+    "current_icon": "🦩💖",
+    "target_filename": "dancing_flamingo.jpg",
+    "asset_path": "assets/stickers/dancing_flamingo.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a graceful pink flamingo striking a fabulous ballet pose with heart sparkles in tropical paradise, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 93,
+    "name": "Electric Tesla Coil",
+    "category": "superstars",
+    "price": 420,
+    "current_icon": "⚡🔋",
+    "target_filename": "electric_tesla_coil.jpg",
+    "asset_path": "assets/stickers/electric_tesla_coil.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a futuristic scientific Tesla coil emitting crackling arcs of electric purple lightning and energy bolts, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 94,
+    "name": "Golden Crown of Kings",
+    "category": "fantasy",
+    "price": 420,
+    "current_icon": "👑✨",
+    "target_filename": "golden_crown_of_kings.jpg",
+    "asset_path": "assets/stickers/golden_crown_of_kings.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magnificent imperial royal golden crown encrusted with glittering ruby, sapphire, and emerald gems, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 95,
+    "name": "Gummy Bear Rainbow",
+    "category": "sweets",
+    "price": 420,
+    "current_icon": "🧸🍬",
+    "target_filename": "gummy_bear_rainbow.jpg",
+    "asset_path": "assets/stickers/gummy_bear_rainbow.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cheerful pack of translucent multi-colored gummy bears sitting together in a rainbow glow, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 96,
+    "name": "Happy River Otter",
+    "category": "animals",
+    "price": 420,
+    "current_icon": "🦦🐚",
+    "target_filename": "happy_river_otter.jpg",
+    "asset_path": "assets/stickers/happy_river_otter.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a playful cute river otter floating happily on its back cracking open a shiny seashell on its tummy, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 97,
+    "name": "Honey Drone Worker",
+    "category": "bees",
+    "price": 420,
+    "current_icon": "🐝⚙️",
+    "target_filename": "honey_drone_worker.jpg",
+    "asset_path": "assets/stickers/honey_drone_worker.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a high-tech mechanical worker drone bee equipped with tiny gears, copper wings, and a honey nectar canister, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 100,
+    "name": "Tropical Palm Island",
+    "category": "nature",
+    "price": 420,
+    "current_icon": "🏝️🥥",
+    "target_filename": "tropical_palm_island.jpg",
+    "asset_path": "assets/stickers/tropical_palm_island.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a scenic miniature desert island with two coconut palm trees, golden sand, and turquoise sea waves, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 101,
+    "name": "Crystal Ball of Truth",
+    "category": "fantasy",
+    "price": 430,
+    "current_icon": "🔮✨",
+    "target_filename": "crystal_ball_of_truth.jpg",
+    "asset_path": "assets/stickers/crystal_ball_of_truth.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glowing mystical crystal ball sitting on an ornate bronze stand revealing swirling purple cosmic mist, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 102,
+    "name": "Deep Space Telescope",
+    "category": "space",
+    "price": 430,
+    "current_icon": "🔭✨",
+    "target_filename": "deep_space_telescope.jpg",
+    "asset_path": "assets/stickers/deep_space_telescope.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a modern brass and gold astronomical observatory telescope pointed toward sparkling starlight nebulae, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 103,
+    "name": "Gentle Koala",
+    "category": "animals",
+    "price": 430,
+    "current_icon": "🐨🌿",
+    "target_filename": "gentle_koala.jpg",
+    "asset_path": "assets/stickers/gentle_koala.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable fluffy gray koala happily hugging a fresh eucalyptus tree branch with round fuzzy ears, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 104,
+    "name": "Golden Sunflower Meadow",
+    "category": "nature",
+    "price": 430,
+    "current_icon": "🌻☀️",
+    "target_filename": "golden_sunflower_meadow.jpg",
+    "asset_path": "assets/stickers/golden_sunflower_meadow.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a breathtaking golden sunflower field basking under a warm smiling summer sun, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 105,
+    "name": "Hummingbird Hover",
+    "category": "animals",
+    "price": 430,
+    "current_icon": "🐦🌸",
+    "target_filename": "hummingbird_hover.jpg",
+    "asset_path": "assets/stickers/hummingbird_hover.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a jewel-toned iridescent hummingbird frozen in mid-air sip drinking nectar from a pink tropical hibiscus flower, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 106,
+    "name": "Pancake Tower with Syrup",
+    "category": "sweets",
+    "price": 430,
+    "current_icon": "🥞🍯",
+    "target_filename": "pancake_tower_with_syrup.jpg",
+    "asset_path": "assets/stickers/pancake_tower_with_syrup.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a tall stack of fluffy golden buttermilk pancakes with melting butter and dripping sweet maple honey syrup, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 107,
+    "name": "Stinger of Valor",
+    "category": "bees",
+    "price": 430,
+    "current_icon": "🗡️🐝",
+    "target_filename": "stinger_of_valor.jpg",
+    "asset_path": "assets/stickers/stinger_of_valor.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a mythical knight bee stinger rapier sword forged from golden amber crystal with a gleaming honey guard, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 108,
+    "name": "Atom Molecule Model",
+    "category": "superstars",
+    "price": 440,
+    "current_icon": "⚛️💫",
+    "target_filename": "atom_molecule_model.jpg",
+    "asset_path": "assets/stickers/atom_molecule_model.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glowing science atom molecule model with colorful orbiting electrons leaving luminous particle trails, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 109,
+    "name": "Clever Red Fox",
+    "category": "animals",
+    "price": 440,
+    "current_icon": "🦊🍁",
+    "target_filename": "clever_red_fox.jpg",
+    "asset_path": "assets/stickers/clever_red_fox.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cunning and cute red fox with a bushy white-tipped tail sitting among vibrant autumn red leaves, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 112,
+    "name": "Magic Potion Cauldron",
+    "category": "fantasy",
+    "price": 440,
+    "current_icon": "🧪🔮",
+    "target_filename": "magic_potion_cauldron.jpg",
+    "asset_path": "assets/stickers/magic_potion_cauldron.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cast iron witch cauldron bubbling with sparkling neon-purple potion brew and floating magical orbs, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 113,
+    "name": "Solar Flare Sun",
+    "category": "space",
+    "price": 440,
+    "current_icon": "☀️🔥",
+    "target_filename": "solar_flare_sun.jpg",
+    "asset_path": "assets/stickers/solar_flare_sun.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glorious radiant sun with swirling solar flares, dancing prominences, and warm golden celestial rays, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 114,
+    "name": "Glow-in-the-dark Bee",
+    "category": "bees",
+    "price": 450,
+    "current_icon": "💡🐝",
+    "target_filename": "glow_in_the_dark_bee.jpg",
+    "asset_path": "assets/stickers/glow_in_the_dark_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magical bioluminescent firefly bee glowing brightly with emerald green light in the twilight, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 115,
+    "name": "Glowing Fairy Wings",
+    "category": "fantasy",
+    "price": 450,
+    "current_icon": "🧚‍♀️💖",
+    "target_filename": "glowing_fairy_wings.jpg",
+    "asset_path": "assets/stickers/glowing_fairy_wings.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a pair of ethereal gossamer fairy wings glowing with shimmering pastel pink and iridescent stardust, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 116,
+    "name": "Bumblebee Champion",
+    "category": "bees",
+    "price": 480,
+    "current_icon": "🏆🐝",
+    "target_filename": "bumblebee_champion.jpg",
+    "asset_path": "assets/stickers/bumblebee_champion.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a victorious bumblebee athlete lifting a massive shiny 1st place golden champion trophy cup, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 117,
+    "name": "Captain Pirate Bee",
+    "category": "bees",
+    "price": 480,
+    "current_icon": "🏴‍☠️🐝",
+    "target_filename": "captain_pirate_bee.jpg",
+    "asset_path": "assets/stickers/captain_pirate_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a swashbuckling pirate bee wearing a feathered tricorn captain hat, eye patch, and holding a mini cutlass, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 118,
+    "name": "Wise Snowy Owl",
+    "category": "animals",
+    "price": 480,
+    "current_icon": "🦉❄️",
+    "target_filename": "wise_snowy_owl.jpg",
+    "asset_path": "assets/stickers/wise_snowy_owl.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a majestic fluffy white snowy owl with piercing golden eyes perched gracefully upon a frosty pine bough, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 119,
+    "name": "Chameleon Color Shift",
+    "category": "animals",
+    "price": 490,
+    "current_icon": "🦎🌈",
+    "target_filename": "chameleon_color_shift.jpg",
+    "asset_path": "assets/stickers/chameleon_color_shift.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a charming cartoon chameleon resting on a branch while seamlessly blending through rainbow neon colors, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 120,
+    "name": "Chef Baker Bee",
+    "category": "bees",
+    "price": 490,
+    "current_icon": "👨‍🍳🐝",
+    "target_filename": "chef_baker_bee.jpg",
+    "asset_path": "assets/stickers/chef_baker_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a jolly baker bumblebee wearing a tall white chef toque hat proudly presenting a golden baked honey pie, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 121,
+    "name": "Fluffy Calico Kitten",
+    "category": "animals",
+    "price": 490,
+    "current_icon": "🐱🧶",
+    "target_filename": "fluffy_calico_kitten.jpg",
+    "asset_path": "assets/stickers/fluffy_calico_kitten.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ultra-cute fluffy calico kitten tangled happily playing with a bright ball of pink yarn, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 122,
+    "name": "Genius Scientist Flask",
+    "category": "superstars",
+    "price": 490,
+    "current_icon": "🧪🟢",
+    "target_filename": "genius_scientist_flask.jpg",
+    "asset_path": "assets/stickers/genius_scientist_flask.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a chemistry erlenmeyer flask fizzing with glowing emerald-green scientific solution and bubbling vapor, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 123,
+    "name": "Karate Black Belt",
+    "category": "sports",
+    "price": 490,
+    "current_icon": "🥋🥋",
+    "target_filename": "karate_black_belt.jpg",
+    "asset_path": "assets/stickers/karate_black_belt.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a determined martial arts black belt uniform wrapped around a golden emblem with energetic strike focus lines, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 124,
+    "name": "Knight in Shining Armor",
+    "category": "fantasy",
+    "price": 490,
+    "current_icon": "🛡️⚔️",
+    "target_filename": "knight_in_shining_armor.jpg",
+    "asset_path": "assets/stickers/knight_in_shining_armor.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a brave cartoon knight in polished silver plate armor holding a golden lion crest shield and broadsword, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 125,
+    "name": "Moon Base Lander",
+    "category": "space",
+    "price": 490,
+    "current_icon": "🌕🚀",
+    "target_filename": "moon_base_lander.jpg",
+    "asset_path": "assets/stickers/moon_base_lander.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a futuristic lunar exploration lander module touching down onto lunar craters with Earth shining in the background, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 126,
+    "name": "Royal Jelly Flask",
+    "category": "bees",
+    "price": 490,
+    "current_icon": "🧪🍯",
+    "target_filename": "royal_jelly_flask.jpg",
+    "asset_path": "assets/stickers/royal_jelly_flask.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ornate crystal potion flask filled with glowing golden Royal Jelly nectar sealed with a bee wax stamp, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 127,
+    "name": "Strawberry Shortcake",
+    "category": "sweets",
+    "price": 490,
+    "current_icon": "🍰🍓",
+    "target_filename": "strawberry_shortcake.jpg",
+    "asset_path": "assets/stickers/strawberry_shortcake.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a luscious slice of Japanese strawberry shortcake with fluffy vanilla sponge cake, fresh cream, and ripe red berries, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 129,
+    "name": "Glazed Galaxy Donut",
+    "category": "sweets",
+    "price": 500,
+    "current_icon": "🍩🌌",
+    "target_filename": "glazed_galaxy_donut.jpg",
+    "asset_path": "assets/stickers/glazed_galaxy_donut.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a mouth-watering gourmet donut topped with glossy cosmic purple and galaxy blue swirl icing and star sprinkles, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 130,
+    "name": "Golden Retriever Puppy",
+    "category": "animals",
+    "price": 500,
+    "current_icon": "🐕🦺",
+    "target_filename": "golden_retriever_puppy.jpg",
+    "asset_path": "assets/stickers/golden_retriever_puppy.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable golden retriever puppy wearing a blue bandana wagging its tail happily with joyful eyes, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 131,
+    "name": "Master Artist Palette",
+    "category": "sports",
+    "price": 500,
+    "current_icon": "🎨🖌️",
+    "target_filename": "master_artist_palette.jpg",
+    "asset_path": "assets/stickers/master_artist_palette.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a classic wooden artist paint palette filled with rich oil paint dollops, two paintbrushes, and colorful splatters, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 132,
+    "name": "Mighty Waterfall",
+    "category": "nature",
+    "price": 500,
+    "current_icon": "🌊🏞️",
+    "target_filename": "mighty_waterfall.jpg",
+    "asset_path": "assets/stickers/mighty_waterfall.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magnificent roaring mountain waterfall cascading into a crystal turquoise lagoon with lush greenery, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 133,
+    "name": "Mystic Spellbook",
+    "category": "fantasy",
+    "price": 500,
+    "current_icon": "📖✨",
+    "target_filename": "mystic_spellbook.jpg",
+    "asset_path": "assets/stickers/mystic_spellbook.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ancient leather-bound arcane spellbook with glowing gold runes, a magic lock, and levitating pages, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 135,
+    "name": "Butterfly Rainbow Wing",
+    "category": "animals",
+    "price": 510,
+    "current_icon": "🦋✨",
+    "target_filename": "butterfly_rainbow_wing.jpg",
+    "asset_path": "assets/stickers/butterfly_rainbow_wing.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a stunning tropical butterfly with prismatic rainbow wings dusted with sparkling glitter, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 137,
+    "name": "Giant Redwood Tree",
+    "category": "nature",
+    "price": 510,
+    "current_icon": "🌲✨",
+    "target_filename": "giant_redwood_tree.jpg",
+    "asset_path": "assets/stickers/giant_redwood_tree.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a towering ancient redwood sequoia tree reaching into sunlight beams with lush mossy woodland base, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 138,
+    "name": "Golden Honey Waffle",
+    "category": "sweets",
+    "price": 510,
+    "current_icon": "🧇🍯",
+    "target_filename": "golden_honey_waffle.jpg",
+    "asset_path": "assets/stickers/golden_honey_waffle.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a golden crispy Belgian waffle grid filled with pooled sweet amber honey and fresh butter slice, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 139,
+    "name": "High-Power Microscope",
+    "category": "superstars",
+    "price": 510,
+    "current_icon": "🔬🔍",
+    "target_filename": "high_power_microscope.jpg",
+    "asset_path": "assets/stickers/high_power_microscope.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sleek modern optical laboratory microscope focused on a glowing slide specimen with discovery sparkles, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 140,
+    "name": "Nebula Stardust Cloud",
+    "category": "space",
+    "price": 510,
+    "current_icon": "🌌💜",
+    "target_filename": "nebula_stardust_cloud.jpg",
+    "asset_path": "assets/stickers/nebula_stardust_cloud.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a mesmerizing deep space interstellar nebula cloud swirling with vibrant ultraviolet, magenta, and starlight, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 141,
+    "name": "Ninja Stealth Bee",
+    "category": "bees",
+    "price": 510,
+    "current_icon": "🥷🐝",
+    "target_filename": "ninja_stealth_bee.jpg",
+    "asset_path": "assets/stickers/ninja_stealth_bee.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a stealthy ninja bumblebee wearing black shinobi hood, throwing golden honeycomb shurikens through smoke, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 142,
+    "name": "Playful Dolphin",
+    "category": "animals",
+    "price": 510,
+    "current_icon": "🐬🌊",
+    "target_filename": "playful_dolphin.jpg",
+    "asset_path": "assets/stickers/playful_dolphin.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cheerful gray dolphin leaping playfully out of ocean waves in a graceful arc with water splashes, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 143,
+    "name": "Space Station Hub",
+    "category": "space",
+    "price": 510,
+    "current_icon": "🛸🏢",
+    "target_filename": "space_station_hub.jpg",
+    "asset_path": "assets/stickers/space_station_hub.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a massive modular orbital space station with solar array panels and docking spacecraft overlooking Earth, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 144,
+    "name": "Chocolate Lava Cake",
+    "category": "sweets",
+    "price": 520,
+    "current_icon": "🍫🌋",
+    "target_filename": "chocolate_lava_cake.jpg",
+    "asset_path": "assets/stickers/chocolate_lava_cake.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a rich dark chocolate lava cake with warm molten fudge oozing from its center topped with raspberry, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 145,
+    "name": "Graduation Honor Cap",
+    "category": "superstars",
+    "price": 520,
+    "current_icon": "🎓📜",
+    "target_filename": "graduation_honor_cap.jpg",
+    "asset_path": "assets/stickers/graduation_honor_cap.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a proud black graduation mortarboard cap with a golden tassel and a ribbon-tied diploma scroll, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 146,
+    "name": "Mars Rover Rover",
+    "category": "space",
+    "price": 520,
+    "current_icon": "🚜🔴",
+    "target_filename": "mars_rover_rover.jpg",
+    "asset_path": "assets/stickers/mars_rover_rover.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of the NASA Mars Curiosity rover vehicle rolling across red Martian soil with robot arm camera extended, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 147,
+    "name": "Pro Gaming Setup",
+    "category": "sports",
+    "price": 520,
+    "current_icon": "🎮🎧",
+    "target_filename": "pro_gaming_setup.jpg",
+    "asset_path": "assets/stickers/pro_gaming_setup.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ultra-cool esports gaming setup with RGB illuminated mechanical keyboard, glowing mouse, and gaming headset, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 148,
+    "name": "Royal Tiger",
+    "category": "animals",
+    "price": 520,
+    "current_icon": "🐯👑",
+    "target_filename": "royal_tiger.jpg",
+    "asset_path": "assets/stickers/royal_tiger.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a regal Bengal tiger wearing an ornate jeweled crown with fierce yet majestic sparkling eyes, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 150,
+    "name": "DNA Double Helix",
+    "category": "superstars",
+    "price": 530,
+    "current_icon": "🧬✨",
+    "target_filename": "dna_double_helix.jpg",
+    "asset_path": "assets/stickers/dna_double_helix.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glowing biological DNA double helix strand illuminated with neon cyan and magenta genetic base pairs, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 153,
+    "name": "Rainbow Mountain",
+    "category": "nature",
+    "price": 530,
+    "current_icon": "🏔️🌈",
+    "target_filename": "rainbow_mountain.jpg",
+    "asset_path": "assets/stickers/rainbow_mountain.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of the spectacular geological Rainbow Mountain of Peru painted in natural vibrant striped mineral layers, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 154,
+    "name": "Rockstar Electric Guitar",
+    "category": "sports",
+    "price": 530,
+    "current_icon": "🎸⚡",
+    "target_filename": "rockstar_electric_guitar.jpg",
+    "asset_path": "assets/stickers/rockstar_electric_guitar.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a fiery cherry red electric rock guitar with electric lightning bolts jumping off the chrome strings, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 155,
+    "name": "Sleepy Red Panda",
+    "category": "animals",
+    "price": 530,
+    "current_icon": "🦊💤",
+    "target_filename": "sleepy_red_panda.jpg",
+    "asset_path": "assets/stickers/sleepy_red_panda.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of an adorable fluffy red panda snoozing peacefully curled up around a thick mossy tree branch, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 156,
+    "name": "Space Shuttle Discovery",
+    "category": "space",
+    "price": 530,
+    "current_icon": "🚀🔥",
+    "target_filename": "space_shuttle_discovery.jpg",
+    "asset_path": "assets/stickers/space_shuttle_discovery.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a powerful space shuttle launching upward into the atmosphere with billowing golden rocket exhaust plumes, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 157,
+    "name": "Mermaid Princess",
+    "category": "fantasy",
+    "price": 540,
+    "current_icon": "🧜‍♀️🌊",
+    "target_filename": "mermaid_princess.jpg",
+    "asset_path": "assets/stickers/mermaid_princess.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a lovely anime-style mermaid princess with shimmering aquamarine tail scales and pearl shell crown in the sea, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 159,
+    "name": "Giant Panda Bear",
+    "category": "animals",
+    "price": 570,
+    "current_icon": "🐼🎋",
+    "target_filename": "giant_panda_bear.jpg",
+    "asset_path": "assets/stickers/giant_panda_bear.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute chubby giant panda happily munching on fresh green bamboo stalks sitting comfortably, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 160,
+    "name": "Galactic Black Hole",
+    "category": "space",
+    "price": 580,
+    "current_icon": "🕳️🌀",
+    "target_filename": "galactic_black_hole.jpg",
+    "asset_path": "assets/stickers/galactic_black_hole.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cosmic gravitational black hole with a blinding golden accretion disk bending space and time around it, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 161,
+    "name": "Grand Piano Maestro",
+    "category": "sports",
+    "price": 580,
+    "current_icon": "🎹🎶",
+    "target_filename": "grand_piano_maestro.jpg",
+    "asset_path": "assets/stickers/grand_piano_maestro.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sleek glossy black concert grand piano with musical notes and gold sparkles floating from the keys, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 164,
+    "name": "Triple Tier Cake",
+    "category": "sweets",
+    "price": 580,
+    "current_icon": "🎂✨",
+    "target_filename": "triple_tier_cake.jpg",
+    "asset_path": "assets/stickers/triple_tier_cake.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a luxurious 3-tier celebration cake decorated with pastel roses, golden frosting drips, and sparklers, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 166,
+    "name": "Enchanted Castle",
+    "category": "fantasy",
+    "price": 590,
+    "current_icon": "🏰✨",
+    "target_filename": "enchanted_castle.jpg",
+    "asset_path": "assets/stickers/enchanted_castle.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a fairy tale fairytale palace castle with soaring blue turrets, golden spires, and glowing magical lanterns, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 167,
+    "name": "Friendly AI Robot",
+    "category": "superstars",
+    "price": 590,
+    "current_icon": "🤖💖",
+    "target_filename": "friendly_ai_robot.jpg",
+    "asset_path": "assets/stickers/friendly_ai_robot.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cute futuristic companion robot with a digital heart screen, smooth white armor, and a waving hand, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 168,
+    "name": "Supernova Explosion",
+    "category": "space",
+    "price": 590,
+    "current_icon": "💥🌌",
+    "target_filename": "supernova_explosion.jpg",
+    "asset_path": "assets/stickers/supernova_explosion.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a breathtaking stellar supernova star explosion bursting with brilliant golden and cyan cosmic light, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 169,
+    "name": "Alien Star Cruiser",
+    "category": "space",
+    "price": 600,
+    "current_icon": "🛸👽",
+    "target_filename": "alien_star_cruiser.jpg",
+    "asset_path": "assets/stickers/alien_star_cruiser.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a sleek glowing UFO alien starship piloted by a friendly big-eyed green alien waving through the glass dome, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 171,
+    "name": "Aurora Borealis Northern Lights",
+    "category": "nature",
+    "price": 600,
+    "current_icon": "🌌💚",
+    "target_filename": "aurora_borealis_northern_lights.jpg",
+    "asset_path": "assets/stickers/aurora_borealis_northern_lights.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of the magical dancing emerald-green and violet Northern Lights aurora illuminating snow-covered pine forests, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 173,
+    "name": "Einstein Genius Brain",
+    "category": "superstars",
+    "price": 600,
+    "current_icon": "🧠💡",
+    "target_filename": "einstein_genius_brain.jpg",
+    "asset_path": "assets/stickers/einstein_genius_brain.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glowing animated genius brain surrounded by Einstein chalkboard physics formulas, lightbulbs, and eureka sparks, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 174,
+    "name": "Erupting Volcano",
+    "category": "nature",
+    "price": 600,
+    "current_icon": "🌋🔥",
+    "target_filename": "erupting_volcano.jpg",
+    "asset_path": "assets/stickers/erupting_volcano.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a dramatic volcanic mountain eruption spewing glowing red hot lava streams and billows of smoke, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 175,
+    "name": "Fire Dragon Lord",
+    "category": "fantasy",
+    "price": 600,
+    "current_icon": "🐉🔥",
+    "target_filename": "fire_dragon_lord.jpg",
+    "asset_path": "assets/stickers/fire_dragon_lord.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a majestic crimson red fire dragon with golden underbelly scales breathing a friendly golden flame wreath, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 177,
+    "name": "Golden World Cup Trophy",
+    "category": "sports",
+    "price": 600,
+    "current_icon": "🏆🌟",
+    "target_filename": "golden_world_cup_trophy.jpg",
+    "asset_path": "assets/stickers/golden_world_cup_trophy.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of the gleaming gold World Cup championship trophy cup radiating victory stars and confetti, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 181,
+    "name": "Phoenix Reborn",
+    "category": "fantasy",
+    "price": 600,
+    "current_icon": "🦅🔥",
+    "target_filename": "phoenix_reborn.jpg",
+    "asset_path": "assets/stickers/phoenix_reborn.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magnificent golden-orange phoenix bird rising with outstretched flaming wings from sparkling embers, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 182,
+    "name": "Quantum Computer Core",
+    "category": "superstars",
+    "price": 600,
+    "current_icon": "💻⚡",
+    "target_filename": "quantum_computer_core.jpg",
+    "asset_path": "assets/stickers/quantum_computer_core.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a futuristic golden quantum computing chandelier processor glowing with superconducting laser circuitry, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  },
+  {
+    "id": 183,
+    "name": "Royal Honey Sundae",
+    "category": "sweets",
+    "price": 600,
+    "current_icon": "🍨👑",
+    "target_filename": "royal_honey_sundae.jpg",
+    "asset_path": "assets/stickers/royal_honey_sundae.jpg",
+    "prompt": "Cute cartoon die-cut glossy vinyl sticker of a royal dessert sundae bowl piled high with artisan honey ice cream, honeycomb chunks, gold leaf, and cherry, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style"
+  }
+]

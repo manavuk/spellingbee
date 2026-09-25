@@ -21,7 +21,20 @@ const ASSETS = [
     './icon-144.png',
     './icon-192.png',
     './icon-512.png',
-    './apple-touch-icon.png'
+    './apple-touch-icon.png',
+    './assets/stickers/honey_queen_bee.jpg',
+    './assets/stickers/superhero_bee.jpg',
+    './assets/stickers/astronaut_bee.jpg',
+    './assets/stickers/mecha_cyber_bee.jpg',
+    './assets/stickers/wizard_spell_bee.jpg',
+    './assets/stickers/golden_honey_pot.jpg',
+    './assets/stickers/detective_bee.jpg',
+    './assets/stickers/mythic_unicorn.jpg',
+    './assets/stickers/golden_lion_king.jpg',
+    './assets/stickers/cosmic_whale.jpg',
+    './assets/stickers/solar_explorer.jpg',
+    './assets/stickers/rainbow_boba.jpg',
+    './assets/stickers/magic_crystal_dragon.jpg'
 ];
 
 // Install: Cache all core assets and wait for user update or auto-activate

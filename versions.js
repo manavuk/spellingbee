@@ -8,6 +8,7 @@ const VERSION_HISTORY = [
         badge: "New",
         title: "Visual Themes & Mobile-First Experience",
         highlights: [
+            "Real custom AI die-cut vinyl stickers with realistic glossy finish, 3D drop-shadows & hover tilt",
             "5 visual themes: Midnight Blue, Daylight Honey (Light), Forest Emerald, Cyberpunk Neon & Sunset Gold",
             "Enhanced typography and high-contrast styling across all light mode elements and keyboards",
             "Responsive layout optimizations for mobile phones, smaller touch viewports and compact keyboards",
