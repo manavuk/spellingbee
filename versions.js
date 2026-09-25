@@ -1,10 +1,22 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.2";
+const APP_VERSION = "v1.5.3";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.2",
+        version: "v1.5.3",
         date: "Latest Release",
+        badge: "Stickers",
+        title: "Sticker Collection Expansion & Status Tracking",
+        highlights: [
+            "7 new high-gloss die-cut vinyl bee stickers generated and added to the Sticker Shop and Album",
+            "Full offline caching of all 20 custom sticker assets and 6 wallpapers in service worker v1.5.3",
+            "Comprehensive status tracking system in STICKER_PROMPTS.md and sticker_prompts.json for idempotent bulk generation",
+            "Automatic synchronization of custom sticker artwork in Sticker Seeds catalog"
+        ]
+    },
+    {
+        version: "v1.5.2",
+        date: "Previous Release",
         badge: "Art",
         title: "Master Bee Art Wallpapers",
         highlights: [
