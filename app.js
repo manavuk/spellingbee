@@ -1801,10 +1801,10 @@ function renderStickers() {
     filtered.forEach(sticker => {
         const isOwned = unlockedStickers.has(sticker.id);
         const card = document.createElement('div');
-        card.className = `sticker-item rarity-${sticker.rarity}`;
+        card.className = `sticker-item rarity-${sticker.rarity} ${isOwned ? 'owned-sticker' : 'unowned-sticker'}`;
 
         const iconEl = document.createElement('div');
-        iconEl.className = 'sticker-icon';
+        iconEl.className = `sticker-icon ${isOwned ? 'owned' : 'unowned'}`;
         if (sticker.img) {
             const imgEl = document.createElement('img');
             imgEl.src = sticker.img;
@@ -1813,11 +1813,25 @@ function renderStickers() {
             imgEl.loading = 'lazy';
             imgEl.onerror = () => {
                 imgEl.style.display = 'none';
-                iconEl.textContent = sticker.icon;
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'sticker-icon-emoji';
+                emojiSpan.textContent = sticker.icon;
+                iconEl.appendChild(emojiSpan);
             };
             iconEl.appendChild(imgEl);
         } else {
-            iconEl.textContent = sticker.icon;
+            const emojiSpan = document.createElement('span');
+            emojiSpan.className = 'sticker-icon-emoji';
+            emojiSpan.textContent = sticker.icon;
+            iconEl.appendChild(emojiSpan);
+        }
+
+        if (!isOwned) {
+            const lockBadge = document.createElement('span');
+            lockBadge.className = 'sticker-lock-badge';
+            lockBadge.textContent = '🔒';
+            lockBadge.setAttribute('aria-label', 'Locked');
+            iconEl.appendChild(lockBadge);
         }
 
         const nameEl = document.createElement('div');

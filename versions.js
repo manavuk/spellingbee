@@ -1,10 +1,22 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.3";
+const APP_VERSION = "v1.5.4";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.3",
+        version: "v1.5.4",
         date: "Latest Release",
+        badge: "Fix",
+        title: "Sticker Shop Restoration & Mystery Blur",
+        highlights: [
+            "Fixed sticker catalog definitions to restore all category filters, sticker shop cards, and album views",
+            "Added mystery progressive blur and lock badges to unpurchased stickers with hover peek clarity",
+            "Instant crystal-clear reveal upon unlocking stickers with Honey Coins",
+            "Bumped service worker cache to v1.5.4 for seamless update delivery"
+        ]
+    },
+    {
+        version: "v1.5.3",
+        date: "Previous Release",
         badge: "Stickers",
         title: "Sticker Collection Expansion & Status Tracking",
         highlights: [
