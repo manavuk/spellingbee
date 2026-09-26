@@ -511,18 +511,27 @@ function triggerBeeCheer() {
 function applyActiveWallpaper() {
     if (typeof WALLPAPERS === 'undefined') return;
 
+    let bgEl = document.getElementById('app-wallpaper-bg');
+    if (!bgEl) {
+        bgEl = document.createElement('div');
+        bgEl.id = 'app-wallpaper-bg';
+        document.body.prepend(bgEl);
+    }
+
     const activeWp = WALLPAPERS.find(w => w.id === activeWallpaperId);
     if (activeWp) {
-        document.body.style.background = activeWp.bgStyle;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundPosition = 'center';
-        document.body.style.backgroundRepeat = 'no-repeat';
-        document.body.style.backgroundAttachment = 'fixed';
+        const bgImgUrl = activeWp.image || '';
+        bgEl.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.78)), url('${bgImgUrl}')`;
+        bgEl.style.opacity = '1';
+        document.body.classList.add('has-custom-wallpaper');
+        // Clear body inline fixed attachment so iOS Safari / mobile browsers don't suffer the fixed-background zoom bug
+        document.body.style.background = 'transparent';
+        document.body.style.backgroundAttachment = 'scroll';
     } else {
+        bgEl.style.backgroundImage = '';
+        bgEl.style.opacity = '0';
+        document.body.classList.remove('has-custom-wallpaper');
         document.body.style.background = '';
-        document.body.style.backgroundSize = '';
-        document.body.style.backgroundPosition = '';
-        document.body.style.backgroundRepeat = '';
         document.body.style.backgroundAttachment = '';
     }
 }
@@ -1972,9 +1981,7 @@ function renderWallpapers() {
 
         // Description
         const desc = document.createElement('p');
-        desc.style.fontSize = '0.88rem';
-        desc.style.color = 'var(--text-muted)';
-        desc.style.margin = '2px 0 6px 0';
+        desc.className = 'wp-desc';
         desc.textContent = wp.desc;
 
         // Button

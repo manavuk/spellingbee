@@ -1,10 +1,23 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.4";
+const APP_VERSION = "v1.5.5";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.4",
+        version: "v1.5.5",
         date: "Latest Release",
+        badge: "Mobile UI",
+        title: "Mobile Wallpaper Display & Gallery Optimization",
+        highlights: [
+            "Hardware-accelerated fixed viewport background container (#app-wallpaper-bg) eliminating iOS Safari background-attachment zoom bug",
+            "Responsive widescreen 16:9 wallpaper preview boxes and adaptive card layouts for phones and tablets",
+            "Smooth touch scrolling and dvh-aware viewport bounds for wallpaper gallery on mobile screens",
+            "Wrapping status badges and multi-line button labels preventing overflow on small screens",
+            "Bumped service worker cache to v1.5.5"
+        ]
+    },
+    {
+        version: "v1.5.4",
+        date: "Previous Release",
         badge: "Fix",
         title: "Sticker Shop Restoration & Mystery Blur",
         highlights: [

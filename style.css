@@ -2502,14 +2502,45 @@ html[data-theme="light"] .sticker-lock-badge {
 }
 
 /* Wallpapers Grid & Tile Matrix */
+/* Dedicated Full-Screen Fixed Viewport Wallpaper Background (Optimized for Mobile & Desktop) */
+#app-wallpaper-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -999;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    will-change: opacity;
+}
+
+body.has-custom-wallpaper {
+    background-color: transparent !important;
+}
+
+/* Wallpapers Grid & Tile Matrix */
 .wallpapers-grid {
     display: flex;
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
     max-height: 58vh;
+    max-height: 58dvh;
     padding-right: 4px;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .wallpaper-card {
@@ -2520,18 +2551,22 @@ html[data-theme="light"] .sticker-lock-badge {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    box-sizing: border-box;
 }
 
 .wallpaper-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .wp-title {
     font-size: 1.1rem;
     font-weight: 800;
     color: var(--text-main);
+    word-break: break-word;
 }
 
 .wp-status-badge {
@@ -2540,6 +2575,7 @@ html[data-theme="light"] .sticker-lock-badge {
     text-transform: uppercase;
     padding: 3px 8px;
     border-radius: 8px;
+    white-space: nowrap;
 }
 
 .wp-status-badge.unlocked {
@@ -2554,7 +2590,8 @@ html[data-theme="light"] .sticker-lock-badge {
 
 .wp-preview-box {
     width: 100%;
-    height: 160px;
+    aspect-ratio: 16 / 9;
+    max-height: 190px;
     border-radius: 14px;
     position: relative;
     overflow: hidden;
@@ -2644,6 +2681,13 @@ html[data-theme="light"] .sticker-lock-badge {
     transition: width 0.4s ease;
 }
 
+.wp-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin: 2px 0 6px 0;
+    line-height: 1.4;
+}
+
 .wp-equip-btn {
     padding: 10px 16px;
     font-size: 0.95rem;
@@ -2652,6 +2696,15 @@ html[data-theme="light"] .sticker-lock-badge {
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: normal;
+    text-align: center;
+    word-break: break-word;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .wp-equip-btn.equip {
@@ -3820,8 +3873,75 @@ html[data-theme="light"] .update-toast-sub {
     }
 
     .wallpapers-grid {
-        max-height: 52vh;
+        max-height: calc(86dvh - 120px);
+        max-height: calc(86vh - 120px);
         gap: 12px;
+        padding-right: 2px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    .wallpaper-gallery-card {
+        max-height: 92dvh !important;
+        max-height: 92vh !important;
+        padding: 18px 14px 14px 14px !important;
+        border-radius: 20px !important;
+    }
+
+    .wallpaper-card {
+        padding: 12px 14px;
+        border-radius: 14px;
+        gap: 10px;
+    }
+
+    .wallpaper-card-header {
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .wp-title {
+        font-size: 0.98rem;
+        line-height: 1.25;
+    }
+
+    .wp-status-badge {
+        font-size: 0.7rem;
+        padding: 2px 7px;
+        border-radius: 6px;
+        white-space: normal;
+        text-align: right;
+    }
+
+    .wp-preview-box {
+        aspect-ratio: 16 / 9;
+        min-height: 120px;
+        max-height: 165px;
+        border-radius: 12px;
+    }
+
+    .wp-art-emoji-badge {
+        bottom: 6px;
+        right: 6px;
+        font-size: 0.85rem;
+        padding: 2px 6px;
+    }
+
+    .wp-blur-chip {
+        font-size: 0.74rem;
+        padding: 3px 10px;
+        border-radius: 14px;
+    }
+
+    .wp-desc {
+        font-size: 0.82rem;
+        line-height: 1.35;
+    }
+
+    .wp-equip-btn {
+        font-size: 0.86rem;
+        padding: 10px 12px;
+        min-height: 42px;
+        border-radius: 10px;
     }
 
     .version-history-list {
@@ -3891,6 +4011,36 @@ html[data-theme="light"] .update-toast-sub {
     .stat-pill {
         font-size: 0.72rem;
         padding: 4px 7px;
+    }
+
+    .wallpaper-gallery-card {
+        padding: 14px 10px 10px 10px !important;
+        border-radius: 16px !important;
+    }
+
+    .wallpaper-card {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .wp-title {
+        font-size: 0.92rem;
+    }
+
+    .wp-status-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+
+    .wp-preview-box {
+        min-height: 100px;
+        max-height: 140px;
+    }
+
+    .wp-equip-btn {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+        min-height: 38px;
     }
 }
 
