@@ -1,10 +1,22 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.5";
+const APP_VERSION = "v1.5.6";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.5",
+        version: "v1.5.6",
         date: "Latest Release",
+        badge: "Stickers & Sync",
+        title: "Sports Category Completion & Resilient Sticker Sync",
+        highlights: [
+            "Added 13 new high-gloss collectible sticker assets, fully completing the Sports & Hobbies category (10/10) and expanding Nature & Wonders",
+            "Cached all new sticker image assets for instant offline album and shop availability in service worker v1.5.6",
+            "Resolved false 429 quota exhaustion bug in sticker scheduler with exponential backoff and rate-limit throttle",
+            "Added dual-model engine support for Imagen 3 and Gemini Flash with multi-model fallback and automated progress sync"
+        ]
+    },
+    {
+        version: "v1.5.5",
+        date: "Previous Release",
         badge: "Mobile UI",
         title: "Mobile Wallpaper Display & Gallery Optimization",
         highlights: [

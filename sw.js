@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spelling-bee-v1.5.5';
+const CACHE_NAME = 'spelling-bee-v1.5.6';
 const ASSETS = [
     './',
     './index.html',
@@ -55,6 +55,19 @@ const ASSETS = [
     './assets/stickers/chubby_bunny_rabbit.jpg',
     './assets/stickers/lucky_ladybug.jpg',
     './assets/stickers/hamster_with_sunflower_seed.jpg',
+    './assets/stickers/soccer_ball_goal.jpg',
+    './assets/stickers/skateboard_kickflip.jpg',
+    './assets/stickers/slam_dunk_basketball.jpg',
+    './assets/stickers/bicycle_champion.jpg',
+    './assets/stickers/karate_black_belt.jpg',
+    './assets/stickers/master_artist_palette.jpg',
+    './assets/stickers/pro_gaming_setup.jpg',
+    './assets/stickers/rockstar_electric_guitar.jpg',
+    './assets/stickers/grand_piano_maestro.jpg',
+    './assets/stickers/golden_world_cup_trophy.jpg',
+    './assets/stickers/snowy_mountain_peak.jpg',
+    './assets/stickers/desert_blooming_cactus.jpg',
+    './assets/stickers/tropical_palm_island.jpg',
     './assets/wallpapers/honeycomb_kingdom.jpg',
     './assets/wallpapers/enchanted_meadow.jpg',
     './assets/wallpapers/cosmic_galaxy.jpg',
