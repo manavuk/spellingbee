@@ -316,7 +316,7 @@
     "target_filename": "golden_crown_of_kings.jpg",
     "asset_path": "assets/stickers/golden_crown_of_kings.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magnificent imperial royal golden crown encrusted with glittering ruby, sapphire, and emerald gems, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 95,
@@ -371,7 +371,7 @@
     "target_filename": "crystal_ball_of_truth.jpg",
     "asset_path": "assets/stickers/crystal_ball_of_truth.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a glowing mystical crystal ball sitting on an ornate bronze stand revealing swirling purple cosmic mist, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 102,
@@ -470,7 +470,7 @@
     "target_filename": "magic_potion_cauldron.jpg",
     "asset_path": "assets/stickers/magic_potion_cauldron.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a cast iron witch cauldron bubbling with sparkling neon-purple potion brew and floating magical orbs, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 113,
@@ -503,7 +503,7 @@
     "target_filename": "glowing_fairy_wings.jpg",
     "asset_path": "assets/stickers/glowing_fairy_wings.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a pair of ethereal gossamer fairy wings glowing with shimmering pastel pink and iridescent stardust, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 116,
@@ -602,7 +602,7 @@
     "target_filename": "knight_in_shining_armor.jpg",
     "asset_path": "assets/stickers/knight_in_shining_armor.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a brave cartoon knight in polished silver plate armor holding a golden lion crest shield and broadsword, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 125,
@@ -690,7 +690,7 @@
     "target_filename": "mystic_spellbook.jpg",
     "asset_path": "assets/stickers/mystic_spellbook.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of an ancient leather-bound arcane spellbook with glowing gold runes, a magic lock, and levitating pages, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 135,
@@ -789,7 +789,7 @@
     "target_filename": "chocolate_lava_cake.jpg",
     "asset_path": "assets/stickers/chocolate_lava_cake.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a rich dark chocolate lava cake with warm molten fudge oozing from its center topped with raspberry, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 145,
@@ -899,7 +899,7 @@
     "target_filename": "mermaid_princess.jpg",
     "asset_path": "assets/stickers/mermaid_princess.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a lovely anime-style mermaid princess with shimmering aquamarine tail scales and pearl shell crown in the sea, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 159,
@@ -943,7 +943,7 @@
     "target_filename": "triple_tier_cake.jpg",
     "asset_path": "assets/stickers/triple_tier_cake.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a luxurious 3-tier celebration cake decorated with pastel roses, golden frosting drips, and sparklers, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 166,
@@ -954,7 +954,7 @@
     "target_filename": "enchanted_castle.jpg",
     "asset_path": "assets/stickers/enchanted_castle.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a fairy tale fairytale palace castle with soaring blue turrets, golden spires, and glowing magical lanterns, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 167,
@@ -1031,7 +1031,7 @@
     "target_filename": "fire_dragon_lord.jpg",
     "asset_path": "assets/stickers/fire_dragon_lord.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a majestic crimson red fire dragon with golden underbelly scales breathing a friendly golden flame wreath, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 177,
@@ -1053,7 +1053,7 @@
     "target_filename": "phoenix_reborn.jpg",
     "asset_path": "assets/stickers/phoenix_reborn.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a magnificent golden-orange phoenix bird rising with outstretched flaming wings from sparkling embers, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   },
   {
     "id": 182,
@@ -1075,6 +1075,6 @@
     "target_filename": "royal_honey_sundae.jpg",
     "asset_path": "assets/stickers/royal_honey_sundae.jpg",
     "prompt": "Cute cartoon die-cut glossy vinyl sticker of a royal dessert sundae bowl piled high with artisan honey ice cream, honeycomb chunks, gold leaf, and cherry, thick clean white sticker contour border, isolated on pure solid white background, sticker decal art, high detail vector style",
-    "status": "pending"
+    "status": "generated"
   }
 ]
