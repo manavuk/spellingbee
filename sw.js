@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spelling-bee-v1.5.6';
+const CACHE_NAME = 'spelling-bee-v1.5.7';
 const ASSETS = [
     './',
     './index.html',
@@ -129,6 +129,10 @@ const ASSETS = [
     './assets/stickers/fluffy_calico_kitten.jpg',
     './assets/stickers/golden_retriever_puppy.jpg',
     './assets/stickers/butterfly_rainbow_wing.jpg',
+    './assets/stickers/playful_dolphin.jpg',
+    './assets/stickers/royal_tiger.jpg',
+    './assets/stickers/sleepy_red_panda.jpg',
+    './assets/stickers/giant_panda_bear.jpg',
     './assets/wallpapers/honeycomb_kingdom.jpg',
     './assets/wallpapers/enchanted_meadow.jpg',
     './assets/wallpapers/cosmic_galaxy.jpg',

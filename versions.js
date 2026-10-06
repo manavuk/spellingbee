@@ -1,10 +1,22 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.6";
+const APP_VERSION = "v1.5.7";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.6",
+        version: "v1.5.7",
         date: "Latest Release",
+        badge: "100% Stickers",
+        title: "Complete Sticker Album & Offline Asset Caching",
+        highlights: [
+            "Completed 100% of the collectible sticker album (all 98 stickers across all 8 categories generated and active)",
+            "Finished all remaining Space & Astronomy and Animals & Wildlife sticker sets with die-cut glossy vinyl artwork",
+            "Updated service worker offline caching bundle with all newly created sticker assets",
+            "Enhanced sticker book collection album with full completion rewards and animations"
+        ]
+    },
+    {
+        version: "v1.5.6",
+        date: "Previous Release",
         badge: "Stickers & Sync",
         title: "Sports Category Completion & Resilient Sticker Sync",
         highlights: [
