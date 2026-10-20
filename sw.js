@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spelling-bee-v1.5.7';
+const CACHE_NAME = 'spelling-bee-v1.5.8';
 const ASSETS = [
     './',
     './index.html',
@@ -138,7 +138,14 @@ const ASSETS = [
     './assets/wallpapers/cosmic_galaxy.jpg',
     './assets/wallpapers/sunflower_sanctuary.jpg',
     './assets/wallpapers/cyber_neon_hive.jpg',
-    './assets/wallpapers/mythic_golden_hive.jpg'
+    './assets/wallpapers/mythic_golden_hive.jpg',
+    './fonts/fonts.css',
+    './fonts/outfit-latin-ext.woff2',
+    './fonts/outfit-latin.woff2',
+    './fonts/plus-jakarta-sans-italic-latin-ext.woff2',
+    './fonts/plus-jakarta-sans-italic-latin.woff2',
+    './fonts/plus-jakarta-sans-latin-ext.woff2',
+    './fonts/plus-jakarta-sans-latin.woff2'
 ];
 
 // Install: Cache all core assets and wait for user update or auto-activate

@@ -1,10 +1,20 @@
 // App Versioning & Change History
-const APP_VERSION = "v1.5.7";
+const APP_VERSION = "v1.5.8";
 
 const VERSION_HISTORY = [
     {
-        version: "v1.5.7",
+        version: "v1.5.8",
         date: "Latest Release",
+        badge: "Privacy",
+        title: "Self-Hosted Fonts",
+        highlights: [
+            "Fonts now load from Spell Bee itself instead of Google Fonts, so your browser no longer contacts Google",
+            "Fonts are cached with the rest of the app for offline play"
+        ]
+    },
+    {
+        version: "v1.5.7",
+        date: "Previous Release",
         badge: "100% Stickers",
         title: "Complete Sticker Album & Offline Asset Caching",
         highlights: [
